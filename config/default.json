@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://aasirvalji:AV0729lol@onlinelibrary-hk1ru.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "SPM3227"
+}
