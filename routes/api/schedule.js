@@ -187,17 +187,17 @@ router.delete("/:schedule_id", auth, async (req, res) => {
   }
 });
 
-// @route    GET api/schedule/:schedule_id/:roomKey
-// @desc     Add user to schedule
+// @route    POST api/schedule/check/:schedule_id
+// @desc     Check roomKey match
 // @access   Private
-router.get("/partial/:schedule_id/", auth, async (req, res) => {
+router.post("/check/:schedule_id", auth, async (req, res) => {
+  var verifiedRoomKey = false;
   try {
     const schedule = await Schedule.findById(req.params.schedule_id);
-    const partialSchedule = {
-      id: schedule._id,
-      scheduleName: schedule.scheduleName,
-    };
-    res.json(partialSchedule);
+    if (schedule.roomKey.toString() === req.body.roomKey.toString()) {
+      verifiedRoomKey = true;
+    }
+    res.json({ verifiedRoomKey });
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server error");

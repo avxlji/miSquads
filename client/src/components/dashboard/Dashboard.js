@@ -18,22 +18,31 @@ const Dashboard = ({
     url: "",
   });
 
+  const [roomKeyInput, setRoomKeyInput] = useState({
+    roomKey: "",
+  });
+
+  const [verifiedEntry, setVerifiedEntry] = useState(false);
+
   const { url } = urlInput;
+  const { roomKey } = roomKeyInput;
 
   const onUrlInputChange = (e) => {
     setUrlInput({ url: e.target.value });
   };
 
-  const onUrlInputSubmit = () => {
-    var scheduleId = null;
-    var roomKey = null;
-    if (url !== "") {
+  const onRoomKeyInputChange = (e) => {
+    setRoomKeyInput({ roomKey: e.target.value });
+  };
+
+  const onScheduleInputSubmit = () => {
+    if (url !== "" && roomKey !== "") {
       var urlInput = url.split("/");
       var scheduleIdEntry = urlInput[urlInput.length - 1];
-      axios.get(`/api/schedule/partial/${scheduleIdEntry}`).then((res) => {
-        console.log(res.data);
-        roomKey = res.data.roomKey;
-        scheduleId = res.data.scheduleId;
+      const body = { roomKey };
+      axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
+        setVerifiedEntry(res.data.verifiedRoomKey);
+        console.log(verifiedEntry); //this part is buggy, seemd to be laggy..
       });
     } else {
       console.log("rip");
@@ -58,13 +67,24 @@ const Dashboard = ({
               linkToSchedule={sched.schedule_id}
             />
           ))}
-          Add schedule by url
-          <input
-            type="text"
-            style={{ border: "2px solid black" }}
-            onChange={(e) => onUrlInputChange(e)}
-          />
-          <button onClick={() => onUrlInputSubmit()}>Add Schedule</button>
+
+          <div>
+            Add schedule by url
+            <input
+              type="text"
+              style={{ border: "2px solid black" }}
+              onChange={(e) => onUrlInputChange(e)}
+            />
+            Then enter room key
+            <input
+              type="text"
+              style={{ border: "2px solid black" }}
+              onChange={(e) => onRoomKeyInputChange(e)}
+            />
+            <button onClick={() => onScheduleInputSubmit()}>
+              Add Schedule
+            </button>
+          </div>
           <button type="button" onClick={logout}>
             Log out
           </button>
