@@ -1,4 +1,9 @@
-import { GET_SCHEDULE, UPDATE_NAME, ADD_EVENT } from "./types";
+import {
+  GET_SCHEDULE,
+  ADD_EVENT,
+  UPDATE_SCHEDULE,
+  SCHEDULE_ERROR,
+} from "./types";
 import axios from "axios";
 
 export const getSchedule = (id) => (dispatch) => {
@@ -28,7 +33,7 @@ export const changeScheduleName = (schedule_id, data) => (dispatch) => {
       res //getting back data
     ) =>
       dispatch({
-        type: UPDATE_NAME,
+        type: UPDATE_SCHEDULE,
         payload: res.data, //sending as payload to reducer
       })
     )
@@ -53,4 +58,23 @@ export const addEvent = (schedule_id, data) => (dispatch) => {
       })
     )
     .catch((err) => console.log(err.message));
+};
+
+//Delete experience
+export const deleteEvent = (schedule_id, event_id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/schedule/${schedule_id}/${event_id}`);
+    console.log("reached dE");
+    dispatch({
+      type: UPDATE_SCHEDULE,
+      payload: res.data, //returns schedule post deletion
+    });
+
+    // dispatch(setAlert("Event Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: SCHEDULE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };

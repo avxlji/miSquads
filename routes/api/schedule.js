@@ -29,11 +29,10 @@ router.get("/:schedule_id", async (req, res) => {
 });
 
 // @route    PUT api/schedule/:schedule_id
-// @desc     UPDATE schedule by id
+// @desc     UPDATE schedule name by id
 // @access   Private
 router.put("/:schedule_id", async (req, res) => {
   try {
-    console.log(req.body.name);
     let schedule = await Schedule.findOneAndUpdate({
       scheduleName: req.body.name,
     });
@@ -92,7 +91,7 @@ router.post(
 // @route    DELETE api/schedule/:schedule_id/:event_id
 // @desc     Delete event from schedule
 // @access   Private
-router.delete("/event/:schedule_id/:event_id", auth, async (req, res) => {
+router.delete("/:schedule_id/:event_id", auth, async (req, res) => {
   try {
     const foundSchedule = await Schedule.findById(req.params.schedule_id);
 
@@ -188,7 +187,24 @@ router.delete("/:schedule_id", auth, async (req, res) => {
   }
 });
 
-// @route    PUT api/schedule/:schedule_id/:roomKey
+// @route    GET api/schedule/:schedule_id/:roomKey
+// @desc     Add user to schedule
+// @access   Private
+router.get("/partial/:schedule_id/", auth, async (req, res) => {
+  try {
+    const schedule = await Schedule.findById(req.params.schedule_id);
+    const partialSchedule = {
+      id: schedule._id,
+      scheduleName: schedule.scheduleName,
+    };
+    res.json(partialSchedule);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route    GET api/schedule/:schedule_id/:roomKey
 // @desc     Add user to schedule
 // @access   Private
 router.put("/:schedule_id/:roomKey", auth, async (req, res) => {

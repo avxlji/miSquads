@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getSchedule, changeScheduleName, addEvent } from "../actions/schedule";
+import {
+  getSchedule,
+  changeScheduleName,
+  addEvent,
+  deleteEvent,
+} from "../../actions/schedule";
 import PropTypes from "prop-types"; //required as prop validation
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "../styles/Schedule.css";
+import "../../styles/Schedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Redirect } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -35,11 +41,12 @@ class sched extends Component {
       },
       currentSchedule: null,
       color: "",
+      nameChange: null,
     };
   }
 
   componentDidMount() {
-    this.props.getSchedule("5ec31beeb4c0631d2cb890c8");
+    this.props.getSchedule(this.props.match.params.id);
   }
 
   evaluateObjectChange(oldProps, newProps) {
@@ -94,18 +101,19 @@ class sched extends Component {
       case 1:
       case 4:
         var formattedProp = nextProps.schedule.schedule;
-
-        for (var i = 0; i < formattedProp.events.length; i++) {
-          const { _id, start, title, allDay, end } = formattedProp.events[i];
-          formattedProp.events[i] = {
-            id: _id,
-            title: title,
-            allDay: allDay,
-            start: new Date(start),
-            end: new Date(end),
-            startString: start,
-            endString: end,
-          };
+        if (formattedProp !== null) {
+          for (var i = 0; i < formattedProp.events.length; i++) {
+            const { _id, start, title, allDay, end } = formattedProp.events[i];
+            formattedProp.events[i] = {
+              id: _id,
+              title: title,
+              allDay: allDay,
+              start: new Date(start),
+              end: new Date(end),
+              startString: start,
+              endString: end,
+            };
+          }
         }
         this.setState(
           {
@@ -181,11 +189,19 @@ class sched extends Component {
     // });
   }
 
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
   changeName = () => {
-    let data = {
-      name: "yeet",
-    };
-    this.props.changeScheduleName("5ec31beeb4c0631d2cb890c8", data);
+    if (this.state.nameChange !== null) {
+      let data = {
+        name: this.state.nameChange,
+      };
+      this.props.changeScheduleName("5ec414365edbdb12971208d8", data);
+    }
   };
   addEvent = () => {
     let data = {
@@ -195,9 +211,18 @@ class sched extends Component {
       allDay: this.state.dummyObject1.events[0].allDay,
     };
     console.log("add event called from component");
-    this.props.addEvent("5ec31beeb4c0631d2cb890c8", data);
+    this.props.addEvent("5ec414365edbdb12971208d8", data);
+  };
+
+  deleteEvent = (event_id) => {
+    if (this.state.currentSchedule !== null) {
+      this.props.deleteEvent(this.state.currentSchedule._id, event_id);
+    }
   };
   render() {
+    // if (!this.props.auth.isAuthenticated) {
+    //   return <Redirect to="/" />;
+    // }
     return (
       <>
         <div>
@@ -207,25 +232,40 @@ class sched extends Component {
             {this.state.model}
             from {this.state.year}.
           </p>
+          <input
+            name="nameChange"
+            onChange={(e) => {
+              this.handleChange(e);
+            }}
+          />
           <button type="button" onClick={this.changeName}>
-            Change name
+            Change schedule name
           </button>
           <button type="button" onClick={this.addEvent}>
-            add event
+            Add event to schedule
+          </button>
+          <button
+            type="button"
+            onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
+          >
+            Delete event from schedule
           </button>
         </div>
 
         <div className="calendar-container">
           {this.state.currentSchedule !== null && (
-            <Calendar
-              localizer={localizer}
-              events={this.state.currentSchedule.events}
-              onSelectEvent={this.toggle}
-              defaultView="week"
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: 1000, marginBottom: "3rem" }}
-            />
+            <>
+              <h1>{this.state.currentSchedule.scheduleName}</h1>
+              <Calendar
+                localizer={localizer}
+                events={this.state.currentSchedule.events}
+                onSelectEvent={this.toggle}
+                defaultView="week"
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 1000, marginBottom: "3rem" }}
+              />
+            </>
           )}
         </div>
       </>
@@ -238,15 +278,19 @@ sched.propTypes = {
   getSchedule: PropTypes.func,
   changeScheduleName: PropTypes.func,
   addEvent: PropTypes.func,
+  deleteEvent: PropTypes.func,
+  auth: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   schedule: state.schedule, //accessing item from main reducer
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getSchedule,
   changeScheduleName,
   addEvent,
+  deleteEvent,
 })(sched);
 //connect takes in x and any actions that we would like to use as arguments

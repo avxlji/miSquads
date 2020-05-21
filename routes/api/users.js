@@ -101,6 +101,8 @@ router.delete("/", auth, async (req, res) => {
     for (var i = 0; i < schedules.length; i++) {
       var usersArray = [];
       usersArray = schedules[i].users;
+      var abandonedSchedule = false;
+      if (usersArray.length <= 1) abandonedSchedule = true; //TT if current schedule has 1 or less users
       // add argument to the filter function | element
       var alter = function (element) {
         // console.log(typeof element.schedule_id.toString());
@@ -113,9 +115,10 @@ router.delete("/", auth, async (req, res) => {
       var filter = usersArray.filter(alter);
       schedules[i].users = filter;
       schedules[i].save();
+      if (abandonedSchedule) schedules[i].remove(); //TT remove schedule from db as no users have access to it
     }
 
-    //Remove profile
+    //Remove user
     await user.remove();
     res.json({ msg: "User deleted" });
   } catch (err) {
