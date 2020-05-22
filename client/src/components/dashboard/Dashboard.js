@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteAccount } from "../../actions/auth";
+import { addUserToSchedule } from "../../actions/schedule";
 import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect } from "react-router-dom";
@@ -13,6 +14,7 @@ const Dashboard = ({
   deleteAccount,
   auth: { user, isAuthenticated },
   logout,
+  addUserToSchedule,
 }) => {
   const [urlInput, setUrlInput] = useState({
     url: "",
@@ -21,8 +23,6 @@ const Dashboard = ({
   const [roomKeyInput, setRoomKeyInput] = useState({
     roomKey: "",
   });
-
-  const [verifiedEntry, setVerifiedEntry] = useState(false);
 
   const { url } = urlInput;
   const { roomKey } = roomKeyInput;
@@ -41,8 +41,11 @@ const Dashboard = ({
       var scheduleIdEntry = urlInput[urlInput.length - 1];
       const body = { roomKey };
       axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
-        setVerifiedEntry(res.data.verifiedRoomKey);
-        console.log(verifiedEntry); //this part is buggy, seemd to be laggy..
+        const { verifiedRoomKey } = res.data;
+        console.log(verifiedRoomKey);
+        if (verifiedRoomKey) {
+          addUserToSchedule(scheduleIdEntry, roomKey);
+        }
       });
     } else {
       console.log("rip");
@@ -52,10 +55,10 @@ const Dashboard = ({
   if (!isAuthenticated) {
     return <Redirect to="/" />;
   }
-  if (user !== null && user.schedules.length > 0) {
-    console.log(user.schedules);
-    console.log(user);
-  }
+  // if (user !== null && user.schedules.length > 0) {
+  //   console.log(user.schedules);
+  //   console.log(user);
+  // }
   return (
     <>
       {user !== null && user.schedules.length > 0 ? (
@@ -103,10 +106,15 @@ Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   deleteAccount: PropTypes.func,
   logout: PropTypes.func,
+  addUserToSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deleteAccount, logout })(Dashboard);
+export default connect(mapStateToProps, {
+  deleteAccount,
+  logout,
+  addUserToSchedule,
+})(Dashboard);

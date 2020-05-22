@@ -20,6 +20,23 @@ export const getSchedule = (id) => (dispatch) => {
     .catch((err) => console.log(err.message));
 };
 
+export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/schedule/${schedule_id}/${roomKey}`);
+    console.log("reached aUTS");
+    dispatch({
+      type: UPDATE_SCHEDULE,
+      payload: res.data, //returns schedule post deletion
+    });
+    // dispatch(setAlert("Event Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: SCHEDULE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 export const changeScheduleName = (schedule_id, data) => (dispatch) => {
   console.log("action called");
   const config = {
@@ -64,7 +81,6 @@ export const addEvent = (schedule_id, data) => (dispatch) => {
 export const deleteEvent = (schedule_id, event_id) => async (dispatch) => {
   try {
     const res = await axios.delete(`/api/schedule/${schedule_id}/${event_id}`);
-    console.log("reached dE");
     dispatch({
       type: UPDATE_SCHEDULE,
       payload: res.data, //returns schedule post deletion

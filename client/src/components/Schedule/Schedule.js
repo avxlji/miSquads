@@ -5,6 +5,7 @@ import {
   changeScheduleName,
   addEvent,
   deleteEvent,
+  addUserToSchedule,
 } from "../../actions/schedule";
 import PropTypes from "prop-types"; //required as prop validation
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -42,6 +43,7 @@ class sched extends Component {
       currentSchedule: null,
       color: "",
       nameChange: null,
+      roomKeyChange: null,
     };
   }
 
@@ -93,7 +95,12 @@ class sched extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.schedule.schedule === null) {
+      //if no change in props
+      console.log();
+    }
     var objectCase = this.evaluateObjectChange(
+      //otherwise, evaluate incoming props
       this.props.schedule.schedule,
       nextProps.schedule.schedule
     );
@@ -203,6 +210,7 @@ class sched extends Component {
       this.props.changeScheduleName("5ec414365edbdb12971208d8", data);
     }
   };
+
   addEvent = () => {
     let data = {
       title: this.state.dummyObject1.events[0].title,
@@ -219,10 +227,18 @@ class sched extends Component {
       this.props.deleteEvent(this.state.currentSchedule._id, event_id);
     }
   };
+
+  verifyAccess = () => {
+    this.props.addUserToSchedule(
+      this.props.match.params.id,
+      this.state.roomKeyChange
+    );
+  };
+
   render() {
-    // if (!this.props.auth.isAuthenticated) {
-    //   return <Redirect to="/" />;
-    // }
+    if (this.props.auth.isAuthenticated == false) {
+      return <Redirect to="/" />;
+    }
     return (
       <>
         <div>
@@ -253,7 +269,7 @@ class sched extends Component {
         </div>
 
         <div className="calendar-container">
-          {this.state.currentSchedule !== null && (
+          {this.state.currentSchedule !== null ? (
             <>
               <h1>{this.state.currentSchedule.scheduleName}</h1>
               <Calendar
@@ -265,6 +281,18 @@ class sched extends Component {
                 endAccessor="end"
                 style={{ height: 1000, marginBottom: "3rem" }}
               />
+            </>
+          ) : (
+            <>
+              <input
+                name="roomKeyChange"
+                onChange={(e) => {
+                  this.handleChange(e);
+                }}
+              />
+              <button type="button" onClick={this.verifyAccess}>
+                Enter room key
+              </button>
             </>
           )}
         </div>
@@ -280,6 +308,7 @@ sched.propTypes = {
   addEvent: PropTypes.func,
   deleteEvent: PropTypes.func,
   auth: PropTypes.object,
+  addUserToSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -292,5 +321,6 @@ export default connect(mapStateToProps, {
   changeScheduleName,
   addEvent,
   deleteEvent,
+  addUserToSchedule,
 })(sched);
 //connect takes in x and any actions that we would like to use as arguments

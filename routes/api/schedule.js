@@ -13,15 +13,24 @@ const User = require("../../models/User");
 // @route    GET api/schedule/:schedule_id
 // @desc     Get schedule by id
 // @access   Private
-router.get("/:schedule_id", async (req, res) => {
+router.get("/:schedule_id", auth, async (req, res) => {
   try {
     const schedule = await Schedule.findById(req.params.schedule_id);
 
     if (!schedule) {
       return res.status(400).json({ msg: "This schedule no longer exists" });
     }
-
-    res.json(schedule);
+    var verifiedUser = false;
+    schedule.users.forEach((user) => {
+      if (user.user_id.toString() === req.user.id.toString()) {
+        verifiedUser = true;
+      }
+    });
+    if (verifiedUser) {
+      res.json(schedule);
+    } else {
+      console.log("unverified");
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -197,7 +206,8 @@ router.post("/check/:schedule_id", auth, async (req, res) => {
     if (schedule.roomKey.toString() === req.body.roomKey.toString()) {
       verifiedRoomKey = true;
     }
-    res.json({ verifiedRoomKey });
+    console.log(verifiedRoomKey);
+    res.send({ verifiedRoomKey });
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server error");
@@ -214,7 +224,7 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
     console.log(user);
     if (schedule.roomKey === req.params.roomKey) {
       if (!schedule.users.includes(req.user.id)) {
-        schedule.users.unshift(req.user.id); //add at the beginning of the array to keep the most recent elements at the start
+        schedule.users.unshift({ user_id: req.user.id }); //add at the beginning of the array to keep the most recent elements at the start
         user.schedules.unshift({
           roomKey: req.params.roomKey,
           schedule_id: schedule._id,
