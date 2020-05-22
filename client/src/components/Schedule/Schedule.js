@@ -13,6 +13,7 @@ import moment from "moment";
 import "../../styles/Schedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Redirect } from "react-router-dom";
+import AddEvent from "./AddEvent";
 
 const localizer = momentLocalizer(moment);
 
@@ -21,27 +22,31 @@ class sched extends Component {
     //temp addition ...
     super(props);
     this.state = {
-      dummyObject1: {
-        scheduleName: "Test schedule 1",
-        events: [
-          {
-            _id: "5ebe05ef1f5670631aaeaa9b",
-            title: "7:40pm",
-            start: "May 6, 2020 08:00:00",
-            allDay: false,
-            end: "May 6, 2020 18:00:00",
-          },
-          {
-            _id: "5ebe05e51f5670631aaeaa9a",
-            title: "test1",
-            start: "today",
-            allDay: true,
-            end: "",
-          },
-        ],
-      },
+      // dummyObject1: {
+      //   scheduleName: "Test schedule 1",
+      //   events: [
+      //     {
+      //       _id: "5ebe05ef1f5670631aaeaa9b",
+      //       title: "7:40pm",
+      //       start: "May 6, 2020 08:00:00",
+      //       allDay: false,
+      //       end: "May 6, 2020 18:00:00",
+      //     },
+      //     {
+      //       _id: "5ebe05e51f5670631aaeaa9a",
+      //       title: "test1",
+      //       start: "today",
+      //       allDay: true,
+      //       end: "",
+      //     },
+      //   ],
+      // },
       currentSchedule: null,
-      color: "",
+      _id: null,
+      title: null,
+      start: null,
+      allDay: false,
+      end: null,
       nameChange: null,
       roomKeyChange: null,
     };
@@ -257,15 +262,23 @@ class sched extends Component {
           <button type="button" onClick={this.changeName}>
             Change schedule name
           </button>
+
+          <br />
+
           <button type="button" onClick={this.addEvent}>
             Add event to schedule
           </button>
+
+          <br />
+
           <button
             type="button"
             onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
           >
             Delete event from schedule
           </button>
+
+          <br />
         </div>
 
         <div className="calendar-container">
@@ -281,6 +294,7 @@ class sched extends Component {
                 endAccessor="end"
                 style={{ height: 1000, marginBottom: "3rem" }}
               />
+              <AddEvent scheduleId={this.state.currentSchedule._id} />
             </>
           ) : (
             <>
