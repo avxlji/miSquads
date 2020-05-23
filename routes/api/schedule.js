@@ -20,12 +20,14 @@ router.get("/:schedule_id", auth, async (req, res) => {
     if (!schedule) {
       return res.status(400).json({ msg: "This schedule no longer exists" });
     }
-    var verifiedUser = true;
-    // schedule.users.forEach((user) => {
-    //   if (user.user_id.toString() === req.user.id.toString()) {
-    //     verifiedUser = true;
-    //   }
-    // });
+    var verifiedUser = false;
+    for (var i = 0; i < schedule.users.length; i++) {
+      if (schedule.users[i].user_id.toString() === req.user.id) {
+        verifiedUser = true;
+        break;
+      }
+    }
+
     if (verifiedUser) {
       res.json(schedule);
     } else {
@@ -40,7 +42,7 @@ router.get("/:schedule_id", auth, async (req, res) => {
 // @route    PUT api/schedule/:schedule_id
 // @desc     UPDATE schedule name by id
 // @access   Private
-router.put("/:schedule_id", async (req, res) => {
+router.put("/:schedule_id", auth, async (req, res) => {
   try {
     let schedule = await Schedule.findOneAndUpdate({
       scheduleName: req.body.name,
@@ -123,6 +125,7 @@ router.delete("/:schedule_id/:event_id", auth, async (req, res) => {
 router.put(
   "/event/:schedule_id",
   [
+    auth,
     [
       check("title", "Title is required").not().isEmpty(),
       check("start", "Start is required").not().isEmpty(),
@@ -221,9 +224,21 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
   try {
     const schedule = await Schedule.findById(req.params.schedule_id);
     const user = await User.findById(req.user.id);
-    console.log(user);
+
     if (schedule.roomKey === req.params.roomKey) {
-      if (!schedule.users.includes(req.user.id)) {
+      //check to see if user is already apart of schedule users
+      var uniqueUser = true;
+      for (var i = 0; i < schedule.users.length; i++) {
+        if (schedule.users[i].user_id.toString() === req.user.id) {
+          console.log(schedule.users[i].user_id.toString());
+          console.log(req.user.id);
+          console.log(req.params.schedule_id);
+          uniqueUser = false;
+          break;
+        }
+      }
+
+      if (uniqueUser) {
         schedule.users.unshift({ user_id: req.user.id }); //add at the beginning of the array to keep the most recent elements at the start
         user.schedules.unshift({
           roomKey: req.params.roomKey,
@@ -234,8 +249,6 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
         await user.save();
         res.json(schedule);
       }
-    } else {
-      throw err;
     }
   } catch (err) {
     console.log(err.message);

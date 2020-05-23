@@ -1,3 +1,44 @@
 * {
   font-family: "Montserrat Alternates", sans-serif;
 }
+
+/* set alert styling */
+
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: black;
+  color: #fff;
+}
+
+.alert-primary {
+  background: black;
+  color: #fff;
+}
+
+.alert-light {
+  background: black;
+  color: #fff;
+}
+
+.alert-dark {
+  background: black;
+  color: #fff;
+}
+
+.alert-danger {
+  background: black;
+  color: #fff;
+}
+
+.alert-success {
+  background: black;
+  color: #fff;
+}
+
+.alert-white {
+  background: black;
+  color: #333;
+  border: #ccc solid 1px;
+}

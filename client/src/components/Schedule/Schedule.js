@@ -6,6 +6,7 @@ import {
   addEvent,
   deleteEvent,
   addUserToSchedule,
+  deleteSchedule,
 } from "../../actions/schedule";
 import PropTypes from "prop-types"; //required as prop validation
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -17,7 +18,7 @@ import AddEvent from "./AddEvent";
 
 const localizer = momentLocalizer(moment);
 
-class sched extends Component {
+class Schedule extends Component {
   constructor(props) {
     //temp addition ...
     super(props);
@@ -240,10 +241,16 @@ class sched extends Component {
     );
   };
 
-  render() {
-    if (this.props.auth.isAuthenticated == false) {
-      return <Redirect to="/" />;
+  deleteCurrentSchedule = () => {
+    if (this.state.currentSchedule !== null) {
+      console.log(this.state.currentSchedule._id);
+      if (this.state.currentSchedule._id.length > 5) {
+        this.props.deleteSchedule(this.state.currentSchedule._id);
+      }
     }
+  };
+
+  render() {
     return (
       <>
         <div>
@@ -279,6 +286,10 @@ class sched extends Component {
           </button>
 
           <br />
+
+          <button type="button" onClick={() => this.deleteCurrentSchedule()}>
+            Delete event from schedule
+          </button>
         </div>
 
         <div className="calendar-container">
@@ -315,7 +326,7 @@ class sched extends Component {
   }
 }
 
-sched.propTypes = {
+Schedule.propTypes = {
   schedule: PropTypes.object.isRequired,
   getSchedule: PropTypes.func,
   changeScheduleName: PropTypes.func,
@@ -323,6 +334,7 @@ sched.propTypes = {
   deleteEvent: PropTypes.func,
   auth: PropTypes.object,
   addUserToSchedule: PropTypes.func,
+  deleteSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -336,5 +348,6 @@ export default connect(mapStateToProps, {
   addEvent,
   deleteEvent,
   addUserToSchedule,
-})(sched);
+  deleteSchedule,
+})(Schedule);
 //connect takes in x and any actions that we would like to use as arguments

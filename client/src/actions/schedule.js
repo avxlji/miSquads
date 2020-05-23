@@ -3,7 +3,9 @@ import {
   ADD_EVENT,
   UPDATE_SCHEDULE,
   SCHEDULE_ERROR,
+  CLEAR_SCHEDULE,
 } from "./types";
+import { setAlert } from "./alert";
 import axios from "axios";
 
 export const getSchedule = (id) => (dispatch) => {
@@ -22,6 +24,7 @@ export const getSchedule = (id) => (dispatch) => {
 
 export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {
   try {
+    console.log("reached 2");
     const res = await axios.put(`/api/schedule/${schedule_id}/${roomKey}`);
     console.log("reached aUTS");
     dispatch({
@@ -57,6 +60,23 @@ export const changeScheduleName = (schedule_id, data) => (dispatch) => {
     .catch((err) => console.log(err.message));
 };
 
+export const deleteSchedule = (schedule_id) => async (dispatch) => {
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    try {
+      await axios.delete(`/api/schedule/${schedule_id}`);
+
+      dispatch({
+        type: CLEAR_SCHEDULE,
+      });
+    } catch (err) {
+      dispatch({
+        type: SCHEDULE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
+
 export const addEvent = (schedule_id, data) => (dispatch) => {
   const config = {
     headers: {
@@ -66,13 +86,17 @@ export const addEvent = (schedule_id, data) => (dispatch) => {
   console.log("add event action called");
   axios //making request to backend
     .put(`/api/schedule/event/${schedule_id}`, data, config)
-    .then((
-      res //getting back data
-    ) =>
-      dispatch({
-        type: ADD_EVENT,
-        payload: res.data, //sending as payload to reducer
-      })
+    .then(
+      (
+        res //getting back data
+      ) => {
+        dispatch({
+          type: ADD_EVENT,
+          payload: res.data, //sending as payload to reducer
+        });
+        console.log("alert in schedule reducer");
+        dispatch(setAlert("Event Removed", "success"));
+      }
     )
     .catch((err) => console.log(err.message));
 };

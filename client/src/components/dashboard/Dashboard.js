@@ -7,7 +7,7 @@ import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect } from "react-router-dom";
 // import { DashboardActions } from "./DashboardActions";
-import ScheduleItem from "../Schedule/ScheduleItem";
+import ScheduleItem from "./ScheduleItem";
 import axios from "axios";
 
 const Dashboard = ({
@@ -35,6 +35,20 @@ const Dashboard = ({
     setRoomKeyInput({ roomKey: e.target.value });
   };
 
+  const validateNewSchedule = (newScheduleId) => {
+    if (user !== null) {
+      var uniqueSchedule = true;
+      if (user.schedules.length > 0) {
+        for (var i = 0; i < user.schedules.length; i++) {
+          if (user.schedules[i].schedule_id.toString() === newScheduleId) {
+            uniqueSchedule = false;
+          }
+        }
+      }
+      return uniqueSchedule;
+    }
+  };
+
   const onScheduleInputSubmit = () => {
     if (url !== "" && roomKey !== "") {
       var urlInput = url.split("/");
@@ -43,8 +57,11 @@ const Dashboard = ({
       axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
         const { verifiedRoomKey } = res.data;
         console.log(verifiedRoomKey);
-        if (verifiedRoomKey) {
+        if (verifiedRoomKey && validateNewSchedule(scheduleIdEntry) === true) {
           addUserToSchedule(scheduleIdEntry, roomKey);
+          window.location.reload();
+        } else {
+          console.log("failed");
         }
       });
     } else {
@@ -52,13 +69,10 @@ const Dashboard = ({
     }
   };
 
-  if (!isAuthenticated) {
-    return <Redirect to="/" />;
-  }
-  // if (user !== null && user.schedules.length > 0) {
-  //   console.log(user.schedules);
-  //   console.log(user);
+  // if (!isAuthenticated) {
+  //   return <Redirect to="/" />;
   // }
+
   return (
     <>
       {user !== null && user.schedules.length > 0 ? (
@@ -70,34 +84,33 @@ const Dashboard = ({
               linkToSchedule={sched.schedule_id}
             />
           ))}
-
-          <div>
-            Add schedule by url
-            <input
-              type="text"
-              style={{ border: "2px solid black" }}
-              onChange={(e) => onUrlInputChange(e)}
-            />
-            Then enter room key
-            <input
-              type="text"
-              style={{ border: "2px solid black" }}
-              onChange={(e) => onRoomKeyInputChange(e)}
-            />
-            <button onClick={() => onScheduleInputSubmit()}>
-              Add Schedule
-            </button>
-          </div>
-          <button type="button" onClick={logout}>
-            Log out
-          </button>
-          <button type="button" onClick={deleteAccount}>
-            Delete Account
-          </button>
         </>
       ) : (
         "You're not apart of any groups yet"
       )}
+      <>
+        <div>
+          Add schedule by url
+          <input
+            type="text"
+            style={{ border: "2px solid black" }}
+            onChange={(e) => onUrlInputChange(e)}
+          />
+          Then enter room key
+          <input
+            type="text"
+            style={{ border: "2px solid black" }}
+            onChange={(e) => onRoomKeyInputChange(e)}
+          />
+          <button onClick={() => onScheduleInputSubmit()}>Add Schedule</button>
+        </div>
+        <button type="button" onClick={logout}>
+          Log out
+        </button>
+        <button type="button" onClick={deleteAccount}>
+          Delete Account
+        </button>
+      </>
     </>
   );
 };
