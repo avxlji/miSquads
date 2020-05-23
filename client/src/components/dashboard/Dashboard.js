@@ -93,6 +93,7 @@ const Dashboard = ({
         scheduleName: newScheduleName,
       };
       createSchedule(data);
+      window.location.reload();
     }
   };
 
