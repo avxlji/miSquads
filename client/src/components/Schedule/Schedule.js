@@ -13,7 +13,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "../../styles/Schedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import AddEvent from "./AddEvent";
 
 const localizer = momentLocalizer(moment);
@@ -101,105 +101,99 @@ class Schedule extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.state.currentSchedule);
+    console.log(nextProps);
     if (nextProps.schedule.schedule === null) {
       //if no change in props
       console.log();
     }
-    var objectCase = this.evaluateObjectChange(
-      //otherwise, evaluate incoming props
-      this.props.schedule.schedule,
-      nextProps.schedule.schedule
-    );
-    switch (objectCase) {
-      case 1:
-      case 4:
-        var formattedProp = nextProps.schedule.schedule;
-        if (formattedProp !== null) {
-          for (var i = 0; i < formattedProp.events.length; i++) {
-            const { _id, start, title, allDay, end } = formattedProp.events[i];
-            formattedProp.events[i] = {
-              id: _id,
-              title: title,
-              allDay: allDay,
-              start: new Date(start),
-              end: new Date(end),
-              startString: start,
-              endString: end,
-            };
+    if (nextProps.schedule.schedule !== null) {
+      //if incoming props has a value
+      var objectCase = this.evaluateObjectChange(
+        //otherwise, evaluate incoming props
+        this.props.schedule.schedule,
+        nextProps.schedule.schedule
+      );
+      switch (objectCase) {
+        case 1:
+        case 4:
+          var formattedProp = nextProps.schedule.schedule;
+          if (formattedProp !== null) {
+            for (var i = 0; i < formattedProp.events.length; i++) {
+              const { _id, start, title, allDay, end } = formattedProp.events[
+                i
+              ];
+              formattedProp.events[i] = {
+                id: _id,
+                title: title,
+                allDay: allDay,
+                start: new Date(start),
+                end: new Date(end),
+                startString: start,
+                endString: end,
+              };
+            }
           }
-        }
-        this.setState(
-          {
-            currentSchedule: formattedProp,
-          },
-          () => console.log(this.state.currentSchedule)
-        );
-        break;
-      case 2:
-        this.setState((prevState) => ({
-          currentSchedule: {
-            ...prevState.currentSchedule,
-            scheduleName: nextProps.schedule.schedule.scheduleName,
-          },
-        }));
-        // setTimeout(() => {
-        //   console.log(this.state.currentSchedule.scheduleName);
-        // }, 2000);
-        break;
-      case 3:
-        const {
-          _id,
-          title,
-          allDay,
-          start,
-          end,
-        } = nextProps.schedule.schedule.events[0];
-        const newformattedEvent = {
-          id: _id,
-          title: title,
-          allDay: allDay,
-          start: new Date(start),
-          end: new Date(end),
-          startString: start,
-          endString: end,
-        };
-        this.setState(
-          (prevState) => ({
+          this.setState(
+            {
+              currentSchedule: formattedProp,
+            },
+            () => console.log(this.state.currentSchedule)
+          );
+          break;
+        case 2:
+          this.setState((prevState) => ({
             currentSchedule: {
               ...prevState.currentSchedule,
-              events: [newformattedEvent, ...prevState.currentSchedule.events],
+              scheduleName: nextProps.schedule.schedule.scheduleName,
             },
-          }),
-          () => console.log(this.state.currentSchedule)
-        );
-        break;
-      case 5:
-        return;
-      default:
-        return;
+          }));
+          // setTimeout(() => {
+          //   console.log(this.state.currentSchedule.scheduleName);
+          // }, 2000);
+          break;
+        case 3:
+          const {
+            _id,
+            title,
+            allDay,
+            start,
+            end,
+          } = nextProps.schedule.schedule.events[0];
+          const newformattedEvent = {
+            id: _id,
+            title: title,
+            allDay: allDay,
+            start: new Date(start),
+            end: new Date(end),
+            startString: start,
+            endString: end,
+          };
+          this.setState(
+            (prevState) => ({
+              currentSchedule: {
+                ...prevState.currentSchedule,
+                events: [
+                  newformattedEvent,
+                  ...prevState.currentSchedule.events,
+                ],
+              },
+            }),
+            () => console.log(this.state.currentSchedule)
+          );
+          break;
+        case 5:
+          return;
+        default:
+          return;
+      }
+    } else {
+      //if schedule has been deleted (no longer exists) set component state to null
+      this.props.history.push("/dashboard");
+      this.setState({
+        currentSchedule: null,
+      });
     }
-    // this.setState((prevState) => ({
-    //   currentSchedule: {
-    //     // object that we want to update
-    //     ...prevState.currentSchedule, // keep all other key-value pairs
-    //     scheduleName: nextProps.schedule.schedule.scheduleName, // update the value of specific key
-    //   },
-    // }));
-    // var updatedEvents = nextProps.schedule.schedule.events;
-    // var newEventsState = [];
-    // updatedEvents.forEach((event) => {
-    //   var updatedEvent = {
-    //     id: event._id,
-    //     title: event.title,
-    //     allDay: event.allDay,
-    //     // start: new Date(start),
-    //     // end: new Date(end),
-    //     startString: event.start,
-    //     endString: event.end,
-    //   };
-    //   newEventsState.push(updatedEvent);
-    //   console.log(newEventsState);
-    // });
   }
 
   handleChange(e) {
@@ -234,7 +228,10 @@ class Schedule extends Component {
     if (this.state.currentSchedule !== null) {
       console.log(this.state.currentSchedule._id);
       if (this.state.currentSchedule._id.length > 5) {
-        this.props.deleteSchedule(this.state.currentSchedule._id);
+        this.props.deleteSchedule(
+          this.state.currentSchedule._id,
+          this.props.history
+        );
       }
     }
   };
@@ -332,5 +329,5 @@ export default connect(mapStateToProps, {
   deleteEvent,
   addUserToSchedule,
   deleteSchedule,
-})(Schedule);
+})(withRouter(Schedule));
 //connect takes in x and any actions that we would like to use as arguments

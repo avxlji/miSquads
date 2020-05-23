@@ -84,14 +84,14 @@ export const changeScheduleName = (schedule_id, data) => (dispatch) => {
     .catch((err) => console.log(err.message));
 };
 
-export const deleteSchedule = (schedule_id) => async (dispatch) => {
+export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
     try {
       await axios.delete(`/api/schedule/${schedule_id}`);
-
       dispatch({
         type: CLEAR_SCHEDULE,
       });
+      // history.push("/dashboard");
     } catch (err) {
       dispatch({
         type: SCHEDULE_ERROR,

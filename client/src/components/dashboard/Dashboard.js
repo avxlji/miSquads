@@ -103,6 +103,7 @@ const Dashboard = ({
 
   return (
     <>
+      {user !== null && <h1>Hello {user.name}</h1>}
       {user !== null && user.schedules.length > 0 ? (
         <>
           {user.schedules.map((sched) => (
