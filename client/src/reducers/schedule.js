@@ -4,6 +4,7 @@ import {
   ADD_EVENT,
   CLEAR_SCHEDULE,
   UPDATE_SCHEDULE,
+  CREATE_SCHEDULE,
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +19,7 @@ export default function (state = initialState, action) {
     case UPDATE_SCHEDULE:
     case GET_SCHEDULE:
     case ADD_EVENT:
+    case CREATE_SCHEDULE:
       return {
         ...state,
         schedule: payload,

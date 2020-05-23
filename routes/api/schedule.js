@@ -60,7 +60,7 @@ router.put("/:schedule_id", auth, async (req, res) => {
 // @desc     Create a schedule
 // @access   Private
 router.post(
-  "/:roomKey",
+  "/",
   [auth, [check("scheduleName", "scheduleName is required").not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
@@ -69,19 +69,19 @@ router.post(
     }
     try {
       // const user = await User.findById(req.user.id).select("-password");
-      if (req.params.roomKey == null || req.params.roomKey.length == 0) {
+      if (req.body.roomKey === null || req.body.roomKey.length === 0) {
         throw err;
       }
       const newSchedule = new Schedule({
         //name, user and avatar are fetched from db using req token
-        roomKey: req.params.roomKey,
+        roomKey: req.body.roomKey,
         scheduleName: req.body.scheduleName,
         users: [{ user_id: req.user.id }],
       });
       newSchedule.save().then((schedule) => {
         User.findById(req.user.id).then((user) => {
           user.schedules.unshift({
-            roomKey: req.params.roomKey,
+            roomKey: req.body.roomKey,
             schedule_id: schedule._id,
             scheduleName: schedule.scheduleName,
           });

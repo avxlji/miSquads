@@ -4,9 +4,11 @@ import {
   UPDATE_SCHEDULE,
   SCHEDULE_ERROR,
   CLEAR_SCHEDULE,
+  CREATE_SCHEDULE,
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
+import { body } from "express-validator";
 
 export const getSchedule = (id) => (dispatch) => {
   axios //making request to backend
@@ -20,6 +22,28 @@ export const getSchedule = (id) => (dispatch) => {
       })
     )
     .catch((err) => console.log(err.message));
+};
+
+export const createSchedule = (data) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const res = await axios.post(`/api/schedule`, data, config);
+    console.log("create schedule action");
+    dispatch({
+      type: CREATE_SCHEDULE,
+      payload: res.data,
+    });
+    dispatch(setAlert("Schedule Created", "success"));
+  } catch (err) {
+    dispatch({
+      type: SCHEDULE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };
 
 export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {

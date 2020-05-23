@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteAccount } from "../../actions/auth";
-import { addUserToSchedule } from "../../actions/schedule";
+import { addUserToSchedule, createSchedule } from "../../actions/schedule";
 import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect } from "react-router-dom";
@@ -15,9 +15,15 @@ const Dashboard = ({
   auth: { user, isAuthenticated },
   logout,
   addUserToSchedule,
+  createSchedule,
 }) => {
   const [urlInput, setUrlInput] = useState({
     url: "",
+  });
+
+  const [createScheduleInput, setCreateScheduleInput] = useState({
+    newScheduleName: "",
+    newScheduleRoomKey: "",
   });
 
   const [roomKeyInput, setRoomKeyInput] = useState({
@@ -26,6 +32,8 @@ const Dashboard = ({
 
   const { url } = urlInput;
   const { roomKey } = roomKeyInput;
+  const { newScheduleName } = createScheduleInput;
+  const { newScheduleRoomKey } = createScheduleInput;
 
   const onUrlInputChange = (e) => {
     setUrlInput({ url: e.target.value });
@@ -33,6 +41,13 @@ const Dashboard = ({
 
   const onRoomKeyInputChange = (e) => {
     setRoomKeyInput({ roomKey: e.target.value });
+  };
+
+  const onCreateScheduleInputChange = (e) => {
+    setCreateScheduleInput({
+      ...createScheduleInput,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const validateNewSchedule = (newScheduleId) => {
@@ -66,6 +81,18 @@ const Dashboard = ({
       });
     } else {
       console.log("rip");
+    }
+  };
+
+  const onCreateScheduleInputSubmit = () => {
+    console.log(newScheduleName);
+    console.log(newScheduleRoomKey);
+    if (newScheduleName.length > 0 && newScheduleRoomKey.length > 0) {
+      let data = {
+        roomKey: newScheduleRoomKey,
+        scheduleName: newScheduleName,
+      };
+      createSchedule(data);
     }
   };
 
@@ -104,6 +131,24 @@ const Dashboard = ({
           />
           <button onClick={() => onScheduleInputSubmit()}>Add Schedule</button>
         </div>
+        <br />
+
+        <input
+          type="text"
+          style={{ border: "2px solid black" }}
+          onChange={(e) => onCreateScheduleInputChange(e)}
+          name="newScheduleName"
+        />
+        <input
+          type="text"
+          style={{ border: "2px solid black" }}
+          onChange={(e) => onCreateScheduleInputChange(e)}
+          name="newScheduleRoomKey"
+        />
+        <button onClick={() => onCreateScheduleInputSubmit()}>
+          Create Schedule
+        </button>
+
         <button type="button" onClick={logout}>
           Log out
         </button>
@@ -120,6 +165,7 @@ Dashboard.propTypes = {
   deleteAccount: PropTypes.func,
   logout: PropTypes.func,
   addUserToSchedule: PropTypes.func,
+  createSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -130,4 +176,5 @@ export default connect(mapStateToProps, {
   deleteAccount,
   logout,
   addUserToSchedule,
+  createSchedule,
 })(Dashboard);

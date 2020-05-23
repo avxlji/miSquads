@@ -217,17 +217,6 @@ class Schedule extends Component {
     }
   };
 
-  addEvent = () => {
-    let data = {
-      title: this.state.dummyObject1.events[0].title,
-      start: this.state.dummyObject1.events[0].start,
-      end: this.state.dummyObject1.events[0].end,
-      allDay: this.state.dummyObject1.events[0].allDay,
-    };
-    console.log("add event called from component");
-    this.props.addEvent("5ec414365edbdb12971208d8", data);
-  };
-
   deleteEvent = (event_id) => {
     if (this.state.currentSchedule !== null) {
       this.props.deleteEvent(this.state.currentSchedule._id, event_id);
@@ -272,12 +261,6 @@ class Schedule extends Component {
 
           <br />
 
-          <button type="button" onClick={this.addEvent}>
-            Add event to schedule
-          </button>
-
-          <br />
-
           <button
             type="button"
             onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
@@ -288,7 +271,7 @@ class Schedule extends Component {
           <br />
 
           <button type="button" onClick={() => this.deleteCurrentSchedule()}>
-            Delete event from schedule
+            Delete schedule
           </button>
         </div>
 
