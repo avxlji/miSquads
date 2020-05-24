@@ -10,7 +10,7 @@ import { setAlert } from "./alert";
 import axios from "axios";
 import { body } from "express-validator";
 
-export const getSchedule = (id) => (dispatch, history) => {
+export const getSchedule = (id) => (dispatch) => {
   axios //making request to backend
     .get(`/api/schedule/${id}`)
     .then((
@@ -22,7 +22,6 @@ export const getSchedule = (id) => (dispatch, history) => {
       })
     )
     .catch((err) => {
-      history.push("/dashboard");
       console.log(err.message);
     });
 };
@@ -67,7 +66,9 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
     });
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
+    console.log("reached 1");
     history.push("/dashboard");
+    console.log("reached 2");
     dispatch(setAlert("This schedule no longer exists.", "success"));
     dispatch({
       type: SCHEDULE_ERROR,

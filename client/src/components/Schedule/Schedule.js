@@ -54,7 +54,7 @@ class Schedule extends Component {
   }
 
   componentDidMount() {
-    this.props.getSchedule(this.props.match.params.id, this.props.history);
+    this.props.getSchedule(this.props.match.params.id);
   }
 
   evaluateObjectChange(oldProps, newProps) {
@@ -189,6 +189,7 @@ class Schedule extends Component {
       }
     } else {
       //if schedule has been deleted (no longer exists) set component state to null
+      // this.props.history.push("/dashboard");
       // this.setState({
       //   currentSchedule: null,
       // });
