@@ -5,7 +5,7 @@ import { deleteAccount } from "../../actions/auth";
 import { addUserToSchedule, createSchedule } from "../../actions/schedule";
 import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 // import { DashboardActions } from "./DashboardActions";
 import ScheduleItem from "./ScheduleItem";
 import axios from "axios";
@@ -16,6 +16,7 @@ const Dashboard = ({
   logout,
   addUserToSchedule,
   createSchedule,
+  history,
 }) => {
   const [urlInput, setUrlInput] = useState({
     url: "",
@@ -73,7 +74,7 @@ const Dashboard = ({
         const { verifiedRoomKey } = res.data;
         console.log(verifiedRoomKey);
         if (verifiedRoomKey && validateNewSchedule(scheduleIdEntry) === true) {
-          addUserToSchedule(scheduleIdEntry, roomKey);
+          addUserToSchedule(scheduleIdEntry, roomKey, history);
           window.location.reload();
         } else {
           console.log("failed");
@@ -179,4 +180,4 @@ export default connect(mapStateToProps, {
   logout,
   addUserToSchedule,
   createSchedule,
-})(Dashboard);
+})(withRouter(Dashboard));

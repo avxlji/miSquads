@@ -9,12 +9,12 @@ import Login from "../auth/Login";
 import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import { NotFound } from "../layout/NotFound";
-import Alert from "../layout/Alert";
+import DynamicAlert from "../layout/Alert";
 
 const Routes = () => {
   return (
     <>
-      <Alert />
+      <DynamicAlert />
       <Switch>
         <Route exact path="/" component={Landing} />
         {/* <Route exact path="/schedule" component={Schedule} /> */}

@@ -21,7 +21,10 @@ export const getSchedule = (id) => (dispatch) => {
         payload: res.data, //sending as payload to reducer
       })
     )
-    .catch((err) => console.log(err.message));
+    .catch((err) => {
+      // history.push('/dashboard')
+      console.log(err.message);
+    });
 };
 
 export const createSchedule = (data) => async (dispatch) => {
@@ -37,8 +40,13 @@ export const createSchedule = (data) => async (dispatch) => {
       type: CREATE_SCHEDULE,
       payload: res.data,
     });
-    dispatch(setAlert("Schedule Created", "success"));
   } catch (err) {
+    dispatch(
+      setAlert(
+        "Sorry, there was a problem creating your schedule. Please try again later",
+        "success"
+      )
+    );
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -46,7 +54,9 @@ export const createSchedule = (data) => async (dispatch) => {
   }
 };
 
-export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {
+export const addUserToSchedule = (schedule_id, roomKey, history) => async (
+  dispatch
+) => {
   try {
     console.log("reached 2");
     const res = await axios.put(`/api/schedule/${schedule_id}/${roomKey}`);
@@ -57,6 +67,8 @@ export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {
     });
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
+    history.push("/dashboard");
+    dispatch(setAlert("This schedule no longer exists.", "success"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -64,24 +76,29 @@ export const addUserToSchedule = (schedule_id, roomKey) => async (dispatch) => {
   }
 };
 
-export const changeScheduleName = (schedule_id, data) => (dispatch) => {
+export const changeScheduleName = (schedule_id, data, history) => async (
+  dispatch
+) => {
   console.log("action called");
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  axios //making request to backend
-    .put(`/api/schedule/${schedule_id}`, data, config)
-    .then((
-      res //getting back data
-    ) =>
-      dispatch({
-        type: UPDATE_SCHEDULE,
-        payload: res.data, //sending as payload to reducer
-      })
-    )
-    .catch((err) => console.log(err.message));
+  try {
+    const res = await axios.put(`/api/schedule/${schedule_id}`, data, config);
+    dispatch({
+      type: UPDATE_SCHEDULE,
+      payload: res.data, //sending as payload to reducer
+    });
+  } catch (err) {
+    history.push("/dashboard");
+    dispatch(setAlert("This schedule no longer exists.", "success"));
+    dispatch({
+      type: SCHEDULE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };
 
 export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
@@ -91,8 +108,11 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
       dispatch({
         type: CLEAR_SCHEDULE,
       });
-      // history.push("/dashboard");
+      history.push("/dashboard");
+      window.location.reload();
     } catch (err) {
+      history.push("/dashboard");
+      dispatch(setAlert("This schedule no longer exists.", "success"));
       dispatch({
         type: SCHEDULE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
@@ -101,14 +121,14 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
   }
 };
 
-export const addEvent = (schedule_id, data) => (dispatch) => {
+export const addEvent = (schedule_id, data, history) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
   console.log("add event action called");
-  axios //making request to backend
+  const res = axios
     .put(`/api/schedule/event/${schedule_id}`, data, config)
     .then(
       (
@@ -126,7 +146,9 @@ export const addEvent = (schedule_id, data) => (dispatch) => {
 };
 
 //Delete experience
-export const deleteEvent = (schedule_id, event_id) => async (dispatch) => {
+export const deleteEvent = (schedule_id, event_id, history) => async (
+  dispatch
+) => {
   try {
     const res = await axios.delete(`/api/schedule/${schedule_id}/${event_id}`);
     dispatch({
@@ -136,6 +158,8 @@ export const deleteEvent = (schedule_id, event_id) => async (dispatch) => {
 
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
+    history.push("/dashboard");
+    dispatch(setAlert("This schedule no longer exists.", "success"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

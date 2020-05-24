@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { addEvent } from "../../actions/schedule";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 class AddEvent extends Component {
   state = {
@@ -265,7 +266,11 @@ class AddEvent extends Component {
                   };
 
                   //add item via addEvent action
-                  this.props.addEvent(this.props.scheduleId, newItem);
+                  this.props.addEvent(
+                    this.props.scheduleId,
+                    newItem,
+                    this.props.history
+                  );
 
                   //closes modal
                   this.toggle();
@@ -304,7 +309,11 @@ class AddEvent extends Component {
           };
 
           //add item via addEvent action
-          this.props.addEvent(this.props.scheduleId, newItem);
+          this.props.addEvent(
+            this.props.scheduleId,
+            newItem,
+            this.props.history
+          );
 
           //closes modal
           this.toggle();
@@ -484,4 +493,4 @@ const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading,
 });
 
-export default connect(mapStateToProps, { addEvent })(AddEvent);
+export default connect(mapStateToProps, { addEvent })(withRouter(AddEvent));

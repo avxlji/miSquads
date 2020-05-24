@@ -103,10 +103,10 @@ class Schedule extends Component {
   componentWillReceiveProps(nextProps) {
     console.log(this.state.currentSchedule);
     console.log(nextProps);
-    if (nextProps.schedule.schedule === null) {
-      //if no change in props
-      console.log();
-    }
+    // if (nextProps.schedule.schedule === null) {
+    //   //if no change in props
+    //   console.log();
+    // }
     if (nextProps.schedule.schedule !== null) {
       //if incoming props has a value
       var objectCase = this.evaluateObjectChange(
@@ -189,10 +189,9 @@ class Schedule extends Component {
       }
     } else {
       //if schedule has been deleted (no longer exists) set component state to null
-      this.props.history.push("/dashboard");
-      this.setState({
-        currentSchedule: null,
-      });
+      // this.setState({
+      //   currentSchedule: null,
+      // });
     }
   }
 
@@ -207,13 +206,21 @@ class Schedule extends Component {
       let data = {
         name: this.state.nameChange,
       };
-      this.props.changeScheduleName("5ec414365edbdb12971208d8", data);
+      this.props.changeScheduleName(
+        this.state.currentSchedule._id,
+        data,
+        this.props.history
+      );
     }
   };
 
   deleteEvent = (event_id) => {
     if (this.state.currentSchedule !== null) {
-      this.props.deleteEvent(this.state.currentSchedule._id, event_id);
+      this.props.deleteEvent(
+        this.state.currentSchedule._id,
+        event_id,
+        this.props.history
+      );
     }
   };
 
