@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteAccount } from "../../actions/auth";
-import { addUserToSchedule, createSchedule } from "../../actions/schedule";
+import {
+  addUserToSchedule,
+  createSchedule,
+  clearSchedule,
+} from "../../actions/schedule";
 import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect, withRouter } from "react-router-dom";
 // import { DashboardActions } from "./DashboardActions";
 import ScheduleItem from "./ScheduleItem";
+import "../../styles/Dashboard.css";
 import axios from "axios";
 
 const Dashboard = ({
@@ -17,7 +22,12 @@ const Dashboard = ({
   addUserToSchedule,
   createSchedule,
   history,
+  clearSchedule,
 }) => {
+  useEffect(() => {
+    clearSchedule();
+  }, [clearSchedule]);
+
   const [urlInput, setUrlInput] = useState({
     url: "",
   });
@@ -104,20 +114,34 @@ const Dashboard = ({
 
   return (
     <>
-      {user !== null && <h1>Hello {user.name}</h1>}
+      {user !== null && (
+        <div id="dashboard-headers">
+          <h1 id="hello-header">Hello</h1>
+          <h1 id="user-name-header"> {user.name}</h1>
+        </div>
+      )}
+      {/* <div id="dashboard-divider"></div> */}
       {user !== null && user.schedules.length > 0 ? (
         <>
-          {user.schedules.map((sched) => (
-            <ScheduleItem
-              key={sched.schedule_id}
-              roomKey={sched.roomKey}
-              linkToSchedule={sched.schedule_id}
-            />
-          ))}
+          <div id="schedule-items">
+            <h1 id="schedule-items-header">Your Teams</h1>
+            <div id="schedule-items-container">
+              {user.schedules.map((sched) => (
+                <>
+                  <ScheduleItem
+                    key={sched.schedule_id}
+                    scheduleName={sched.scheduleName}
+                    linkToSchedule={sched.schedule_id}
+                  />
+                </>
+              ))}
+            </div>
+          </div>
         </>
       ) : (
         "You're not apart of any groups yet"
       )}
+
       <>
         <div>
           Add schedule by url
@@ -169,6 +193,7 @@ Dashboard.propTypes = {
   logout: PropTypes.func,
   addUserToSchedule: PropTypes.func,
   createSchedule: PropTypes.func,
+  clearSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -180,4 +205,5 @@ export default connect(mapStateToProps, {
   logout,
   addUserToSchedule,
   createSchedule,
+  clearSchedule,
 })(withRouter(Dashboard));

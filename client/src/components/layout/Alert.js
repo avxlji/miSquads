@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Alert from "@material-ui/lab/Alert";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const DynamicAlert = ({ alerts }) => {
   return (
     alerts !== null &&
     alerts.length > 0 &&
-    alerts.map((alert) => <Alert severity={alert.alertType}>{alert.msg}</Alert>)
+    alerts.map((alert) => (
+      <MuiAlert severity={alert.alertType} elevation={6} variant="filled">
+        {alert.msg}
+      </MuiAlert>
+    ))
   );
 };
 

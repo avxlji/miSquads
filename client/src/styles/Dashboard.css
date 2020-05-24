@@ -1,0 +1,75 @@
+/* #dashboard-divider {
+  margin: auto;
+  width: 25%;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 1000px;
+} */
+
+#schedule-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#schedule-items-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+
+  width: 60%;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  padding: 2rem;
+  margin: 2rem 0 4rem 0;
+}
+
+#dashboard-headers {
+  margin-top: 2rem;
+  margin-left: 1.5rem;
+}
+
+#hello-header {
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+}
+
+#user-name-header {
+  font-size: 4rem;
+}
+
+.card {
+  justify-self: center; /* centers card in grid column */
+  align-self: center;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  width: 10rem;
+  margin-bottom: 1rem;
+}
+
+/* start responsive grid conditions */
+
+@media (max-width: 1200px) {
+  #schedule-items-container {
+    grid-template-columns: 33% 33% 33%;
+  }
+}
+
+@media (max-width: 900px) {
+  #schedule-items-container {
+    width: 50%;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  #schedule-items-container {
+    width: 40%;
+    grid-template-columns: 100%;
+  }
+}
+
+/* end responsive grid conditions */

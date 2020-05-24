@@ -169,3 +169,11 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
     });
   }
 };
+
+export const clearSchedule = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_SCHEDULE,
+    });
+  } catch (err) {}
+};
