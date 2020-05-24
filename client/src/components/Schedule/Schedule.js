@@ -54,7 +54,7 @@ class Schedule extends Component {
   }
 
   componentDidMount() {
-    this.props.getSchedule(this.props.match.params.id);
+    this.props.getSchedule(this.props.match.params.id, this.props.history);
   }
 
   evaluateObjectChange(oldProps, newProps) {

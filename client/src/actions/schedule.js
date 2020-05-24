@@ -10,7 +10,7 @@ import { setAlert } from "./alert";
 import axios from "axios";
 import { body } from "express-validator";
 
-export const getSchedule = (id) => (dispatch) => {
+export const getSchedule = (id) => (dispatch, history) => {
   axios //making request to backend
     .get(`/api/schedule/${id}`)
     .then((
@@ -22,7 +22,7 @@ export const getSchedule = (id) => (dispatch) => {
       })
     )
     .catch((err) => {
-      // history.push('/dashboard')
+      history.push("/dashboard");
       console.log(err.message);
     });
 };
