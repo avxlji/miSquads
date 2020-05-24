@@ -2,6 +2,9 @@ import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import "../../styles/Landing.css";
+import landingImage from "../assets/miTeamsLanding.png";
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
@@ -9,13 +12,36 @@ const Landing = ({ isAuthenticated }) => {
   }
   return (
     <>
-      <div className="buttons">
-        <Link to="/register" className="btn btn-primary">
-          Sign Up
-        </Link>
-        <Link to="/login" className="btn btn-light">
-          Login
-        </Link>
+      <div id="landing">
+        <div id="landing-container">
+          <img src={landingImage} id="landing-image"></img>
+
+          <div className="landing-buttons">
+            <div className="meetings-button">
+              <Link to="/login">
+                <Button variant="contained" size="large" color="primary">
+                  Login
+                </Button>
+              </Link>
+            </div>
+
+            <div className="groups-button">
+              <Link to="/register">
+                <Button variant="contained" size="large" color="primary">
+                  Register
+                </Button>
+              </Link>
+            </div>
+
+            <div className="messages-button">
+              <Link to="/about">
+                <Button variant="contained" size="large" color="primary">
+                  About
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

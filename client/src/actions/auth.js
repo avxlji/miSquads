@@ -11,7 +11,7 @@ import {
   USER_ERROR,
   CLEAR_SCHEDULE,
 } from "./types";
-// import { setAlert } from "./alert";
+import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
 export const loadUser = () => async (dispatch) => {
@@ -59,6 +59,11 @@ export const register = (name, email, password) => async (dispatch) => {
       //   errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
 
+    dispatch(
+      setAlert("Incorrect email or password, please try again", "error")
+    );
+    console.log("nigee");
+
     dispatch({
       type: REGISTER_FAIL,
     });
@@ -89,6 +94,11 @@ export const login = (email, password) => async (dispatch) => {
       console.log(errors);
       //   errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
+
+    dispatch(
+      setAlert("Incorrect email or password, please try again", "error")
+    );
+    console.log("nigee");
 
     dispatch({
       type: LOGIN_FAIL,

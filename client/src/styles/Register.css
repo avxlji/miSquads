@@ -1,0 +1,28 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#register-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#register-header {
+  font-size: 3rem;
+}
+
+#register-header,
+#register-summary {
+  margin-bottom: 0.7rem;
+}
+
+.form > div {
+  margin-bottom: 0.7rem;
+}
+
+#register-button {
+  margin-bottom: 0.5rem;
+}

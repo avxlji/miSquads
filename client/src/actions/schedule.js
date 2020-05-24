@@ -9,6 +9,7 @@ import {
 import { setAlert } from "./alert";
 import axios from "axios";
 import { body } from "express-validator";
+import { loadUser } from "./auth";
 
 export const getSchedule = (id) => (dispatch) => {
   axios //making request to backend
@@ -39,11 +40,13 @@ export const createSchedule = (data) => async (dispatch) => {
       type: CREATE_SCHEDULE,
       payload: res.data,
     });
+    dispatch(loadUser());
+    dispatch(setAlert("yeeee", "success"));
   } catch (err) {
     dispatch(
       setAlert(
         "Sorry, there was a problem creating your schedule. Please try again later",
-        "success"
+        "error"
       )
     );
     dispatch({
@@ -64,12 +67,10 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
       type: UPDATE_SCHEDULE,
       payload: res.data, //returns schedule post deletion
     });
+    dispatch(setAlert("User added to schedule", "success"));
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
-    console.log("reached 1");
-    history.push("/dashboard");
-    console.log("reached 2");
-    dispatch(setAlert("This schedule no longer exists.", "success"));
+    dispatch(setAlert("This schedule no longer exists", "success"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -92,6 +93,7 @@ export const changeScheduleName = (schedule_id, data, history) => async (
       type: UPDATE_SCHEDULE,
       payload: res.data, //sending as payload to reducer
     });
+    dispatch(setAlert("Schedule name updated", "success"));
   } catch (err) {
     history.push("/dashboard");
     dispatch(setAlert("This schedule no longer exists.", "success"));
@@ -111,6 +113,7 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
       });
       history.push("/dashboard");
       window.location.reload();
+      dispatch(setAlert("Schedule deleted", "error"));
     } catch (err) {
       history.push("/dashboard");
       dispatch(setAlert("This schedule no longer exists.", "success"));
@@ -140,7 +143,7 @@ export const addEvent = (schedule_id, data, history) => async (dispatch) => {
           payload: res.data, //sending as payload to reducer
         });
         console.log("alert in schedule reducer");
-        dispatch(setAlert("Event Removed", "success"));
+        dispatch(setAlert("Event added", "success"));
       }
     )
     .catch((err) => console.log(err.message));
@@ -156,8 +159,7 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
       type: UPDATE_SCHEDULE,
       payload: res.data, //returns schedule post deletion
     });
-
-    // dispatch(setAlert("Event Removed", "success"));
+    dispatch(setAlert("Event removed", "error"));
   } catch (err) {
     history.push("/dashboard");
     dispatch(setAlert("This schedule no longer exists.", "success"));

@@ -3,6 +3,9 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import TextField from "@material-ui/core/TextField";
+import "../../styles/LogIn.css";
+import Button from "@material-ui/core/Button";
 
 const Login = ({ isAuthenticated, login }) => {
   const [formData, setFormData] = useState({
@@ -26,34 +29,50 @@ const Login = ({ isAuthenticated, login }) => {
 
   return (
     <>
-      <h1>Sign In</h1>
-      <p>Sign Into Your Account</p>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <div>
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            minLength="2"
-            value={password}
-            onChange={(e) => onChange(e)}
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
-      <p>
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
+      <div id="sign-in-container">
+        <h1 id="sign-in-header">Sign In</h1>
+        <p id="sign-in-summary">Sign Into Your Account</p>
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
+          <div>
+            <TextField
+              id="outlined-basic"
+              type="email"
+              placeholder="Email Address"
+              name="email"
+              value={email}
+              onChange={(e) => onChange(e)}
+              label="Email"
+              fullWidth
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              type="password"
+              placeholder="Password"
+              name="password"
+              minLength="2"
+              value={password}
+              fullWidth
+              onChange={(e) => onChange(e)}
+            />
+          </div>
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            type="submit"
+            id="sign-in-button"
+          >
+            Login
+          </Button>
+        </form>
+        <p>
+          Don't have an account? <Link to="/register">Sign Up</Link>
+        </p>
+      </div>
     </>
   );
 };

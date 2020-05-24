@@ -6,7 +6,7 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case SET_ALERT:
-      if (state.length < 4) {
+      if (state.length < 3) {
         //current under evaluation
         return [...state, payload];
       }
