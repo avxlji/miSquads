@@ -16,6 +16,11 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Redirect, withRouter } from "react-router-dom";
 import AddEvent from "./AddEvent";
 
+//materialUI imports
+import TextField from "@material-ui/core/TextField";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+
 const localizer = momentLocalizer(moment);
 
 class Schedule extends Component {
@@ -50,6 +55,8 @@ class Schedule extends Component {
       end: null,
       nameChange: null,
       roomKeyChange: null,
+      addEvent: false,
+      changeSchedName: false,
     };
   }
 
@@ -244,16 +251,42 @@ class Schedule extends Component {
     }
   };
 
+  /* start button bar conditional form trigger */
+
+  onAddEventClick = () => {
+    if (this.state.addEvent === true) {
+      this.setState({
+        addEvent: false,
+        changeSchedName: false,
+      });
+    } else {
+      this.setState({
+        addEvent: true,
+        changeSchedName: false,
+      });
+    }
+  };
+
+  onChangeScheduleNameClick = () => {
+    if (this.state.changeSchedName === true) {
+      this.setState({
+        addEvent: false,
+        changeSchedName: false,
+      });
+    } else {
+      this.setState({
+        addEvent: false,
+        changeSchedName: true,
+      });
+    }
+  };
+
+  /* end button bar conditional form trigger */
+
   render() {
     return (
       <>
         <div>
-          <h1>My {this.state.brand}</h1>
-          <p>
-            It is a {this.state.color}
-            {this.state.model}
-            from {this.state.year}.
-          </p>
           <input
             name="nameChange"
             onChange={(e) => {
@@ -283,17 +316,69 @@ class Schedule extends Component {
         <div className="calendar-container">
           {this.state.currentSchedule !== null ? (
             <>
-              <h1>{this.state.currentSchedule.scheduleName}</h1>
-              <Calendar
-                localizer={localizer}
-                events={this.state.currentSchedule.events}
-                onSelectEvent={this.toggle}
-                defaultView="week"
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 1000, marginBottom: "3rem" }}
-              />
-              <AddEvent scheduleId={this.state.currentSchedule._id} />
+              <h1 id="current-schedule-name-responsive">
+                {this.state.currentSchedule.scheduleName}
+              </h1>
+              {/* start non-mobile display */}
+              <div className="team-calendar-container">
+                <h1 id="current-schedule-name">
+                  {this.state.currentSchedule.scheduleName}
+                </h1>
+                {/* start schedule form select */}
+                <div>
+                  <ButtonGroup
+                    variant="contained"
+                    color="primary"
+                    aria-label="contained primary button group"
+                  >
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      onClick={this.onAddEventClick}
+                    >
+                      Add Plan
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      onClick={this.onChangeScheduleNameClick}
+                    >
+                      Change Schedule Name
+                    </Button>
+                  </ButtonGroup>
+                </div>
+                {/* end schedule form select */}
+                {/* start conditional form render */}
+                {this.state.addEvent && (
+                  <AddEvent scheduleId={this.state.currentSchedule._id} />
+                )}
+                {this.state.changeSchedName && (
+                  <div>
+                    <input
+                      name="nameChange"
+                      onChange={(e) => {
+                        this.handleChange(e);
+                      }}
+                    />
+                    <button type="button" onClick={this.changeName}>
+                      Change schedule name
+                    </button>
+                  </div>
+                )}
+                {/* end conditional form render */}
+
+                <Calendar
+                  localizer={localizer}
+                  events={this.state.currentSchedule.events}
+                  onSelectEvent={this.toggle}
+                  defaultView="week"
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: 1000, marginBottom: "3rem" }}
+                />
+              </div>
             </>
           ) : (
             <>

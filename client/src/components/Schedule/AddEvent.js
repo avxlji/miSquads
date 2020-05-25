@@ -1,18 +1,16 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  Form,
-} from "reactstrap";
+import { Input, Label, Form } from "reactstrap";
 import { connect } from "react-redux";
 import { addEvent } from "../../actions/schedule";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+
+//materialUI imports
+import TextField from "@material-ui/core/TextField";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 class AddEvent extends Component {
   state = {
@@ -376,27 +374,14 @@ class AddEvent extends Component {
       <div>
         {this.props.isAuthenticated ? (
           <div>
-            <button
-              color="primary"
-              style={{ marginBottom: "2rem", marginLeft: "1rem" }}
-              onClick={this.toggle}
-            >
-              Add Meeting
-            </button>
-
-            <button
-              color="primary"
-              style={{ float: "right", marginRight: "1rem" }}
-              onClick={this.refreshPage}
-            >
-              <i class="fas fa-redo-alt"></i>
-            </button>
+            {/* <button color="primary" onClick={this.refreshPage}>
+              Refresh
+            </button> */}
 
             <form onSubmit={this.onSubmit}>
-              <label for="item" style={{ marginTop: "0rem" }}>
-                Meeting Name
-              </label>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Plan Name"
                 type="text"
                 name="name"
                 placeholder="Ex. Doctors Appointment, Movie Date, etc..."
@@ -404,10 +389,9 @@ class AddEvent extends Component {
                 required
               />
 
-              <label for="item" style={{ marginTop: ".8rem" }}>
-                Year
-              </label>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Year"
                 type="text"
                 name="year"
                 placeholder="Ex. 20XX"
@@ -418,7 +402,7 @@ class AddEvent extends Component {
               <label for="item" style={{ marginTop: ".8rem" }}>
                 Month
               </label>
-              <Input
+              <Select
                 type="select"
                 name="month"
                 placeholder="Ex. Jan, Feb, etc..."
@@ -428,7 +412,7 @@ class AddEvent extends Component {
                 {months.map((month) => {
                   return <option value={month}>{month}</option>;
                 })}
-              </Input>
+              </Select>
 
               <label for="item" style={{ marginTop: ".8rem" }}>
                 Day
@@ -444,18 +428,15 @@ class AddEvent extends Component {
                   return <option value={num}>{num}</option>;
                 })}
               </Input>
-
-              <hr></hr>
-
+              {/* 
               <label for="item" style={{ marginTop: ".2rem" }}>
                 Leave Both the Start Time and End Time empty if the booking is a
                 full day event
-              </label>
+              </label> */}
 
-              <label for="item" style={{ marginTop: ".4rem" }}>
-                Start Time
-              </label>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Start Time"
                 type="text"
                 name="starttime"
                 placeholder="Ex. 8:00am, 9:30pm"
@@ -463,10 +444,9 @@ class AddEvent extends Component {
                 //required
               />
 
-              <label for="item" style={{ marginTop: ".8rem" }}>
-                End Time
-              </label>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="End Time"
                 type="text"
                 name="endtime"
                 placeholder="Ex. 6am, 8pm, 9:30pm"
@@ -474,9 +454,15 @@ class AddEvent extends Component {
                 //required
               />
 
-              <button color="primary" style={{ marginTop: "2rem" }} block>
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                style={{ marginTop: "2rem" }}
+                block
+              >
                 Add Meeting
-              </button>
+              </Button>
             </form>
           </div>
         ) : (
