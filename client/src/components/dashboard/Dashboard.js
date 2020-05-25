@@ -15,6 +15,11 @@ import ScheduleItem from "./ScheduleItem";
 import "../../styles/Dashboard.css";
 import axios from "axios";
 
+//materialUI imports
+import TextField from "@material-ui/core/TextField";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+
 const Dashboard = ({
   deleteAccount,
   auth: { user, isAuthenticated },
@@ -25,9 +30,11 @@ const Dashboard = ({
   clearSchedule,
 }) => {
   useEffect(() => {
+    //clear schedule upon entering/returning to dashboard to prevent state lag
     clearSchedule();
   }, [clearSchedule]);
 
+  /* start hooks */
   const [urlInput, setUrlInput] = useState({
     url: "",
   });
@@ -41,11 +48,22 @@ const Dashboard = ({
     roomKey: "",
   });
 
+  const [scheduleFormSelection, setScheduleFormSelection] = useState({
+    createTeam: false,
+    joinTeam: false,
+  });
+  /* end hooks */
+
+  /* start destructuring hooks */
   const { url } = urlInput;
   const { roomKey } = roomKeyInput;
   const { newScheduleName } = createScheduleInput;
   const { newScheduleRoomKey } = createScheduleInput;
+  const { createTeam } = scheduleFormSelection;
+  const { joinTeam } = scheduleFormSelection;
+  /* end destructuring hooks */
 
+  /* start trigger functions */
   const onUrlInputChange = (e) => {
     setUrlInput({ url: e.target.value });
   };
@@ -59,6 +77,34 @@ const Dashboard = ({
       ...createScheduleInput,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const onCreateTeamClick = () => {
+    if (createTeam === true) {
+      setScheduleFormSelection({
+        createTeam: false,
+        joinTeam: false,
+      });
+    } else {
+      setScheduleFormSelection({
+        createTeam: true,
+        joinTeam: false,
+      });
+    }
+  };
+
+  const onJoinTeamClick = () => {
+    if (joinTeam === true) {
+      setScheduleFormSelection({
+        createTeam: false,
+        joinTeam: false,
+      });
+    } else {
+      setScheduleFormSelection({
+        createTeam: false,
+        joinTeam: true,
+      });
+    }
   };
 
   const validateNewSchedule = (newScheduleId) => {
@@ -80,6 +126,7 @@ const Dashboard = ({
       var urlInput = url.split("/");
       var scheduleIdEntry = urlInput[urlInput.length - 1];
       const body = { roomKey };
+      console.log(body);
       axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
         const { verifiedRoomKey } = res.data;
         console.log(verifiedRoomKey);
@@ -108,19 +155,20 @@ const Dashboard = ({
     }
   };
 
-  // if (!isAuthenticated) {
-  //   return <Redirect to="/" />;
-  // }
+  /* end trigger functions */
 
   return (
     <>
+      {/* start dashboard header(s) */}
       {user !== null && (
         <div id="dashboard-headers">
           <h1 id="hello-header">Hello</h1>
           <h1 id="user-name-header"> {user.name}</h1>
         </div>
       )}
+      {/* end dashboard headers */}
       {/* <div id="dashboard-divider"></div> */}
+      {/* start schedules display */}
       {user !== null && user.schedules.length > 0 ? (
         <>
           <div id="schedule-items">
@@ -139,49 +187,115 @@ const Dashboard = ({
           </div>
         </>
       ) : (
-        "You're not apart of any groups yet"
+        <h1 style={{ marginLeft: "2rem" }}>
+          You're not apart of any groups yet
+        </h1>
       )}
-
+      {/* end schedules display*/}
+      {/* Start form selection panel */}
+      <div id="dashboard-form-panel-lg">
+        <ButtonGroup
+          variant="contained"
+          color="primary"
+          aria-label="contained primary button group"
+        >
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            onClick={() => onCreateTeamClick()}
+          >
+            Create Team
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            onClick={() => onJoinTeamClick()}
+          >
+            Join Team
+          </Button>
+        </ButtonGroup>
+      </div>
+      {/* End form selection panel */}
+      {/* Start condition form display*/}
       <>
-        <div>
-          Add schedule by url
-          <input
-            type="text"
-            style={{ border: "2px solid black" }}
-            onChange={(e) => onUrlInputChange(e)}
-          />
-          Then enter room key
-          <input
-            type="text"
-            style={{ border: "2px solid black" }}
-            onChange={(e) => onRoomKeyInputChange(e)}
-          />
-          <button onClick={() => onScheduleInputSubmit()}>Add Schedule</button>
+        {joinTeam && (
+          <div id="add-schedule-container">
+            <TextField
+              id="outlined-basic"
+              label="Team Id"
+              type="text"
+              className="add-schedule-inputs"
+              onChange={(e) => onUrlInputChange(e)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Team Key"
+              type="text"
+              className="add-schedule-inputs"
+              onChange={(e) => onRoomKeyInputChange(e)}
+            />
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={() => onScheduleInputSubmit()}
+            >
+              Join Team
+            </Button>
+          </div>
+        )}
+
+        {createTeam && (
+          <div id="add-schedule-container">
+            <TextField
+              id="outlined-basic"
+              label="Team Name"
+              type="text"
+              onChange={(e) => onCreateScheduleInputChange(e)}
+              name="newScheduleName"
+            />
+            <TextField
+              id="outlined-basic"
+              label="Team Key"
+              type="text"
+              onChange={(e) => onCreateScheduleInputChange(e)}
+              name="newScheduleRoomKey"
+            />
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={() => onCreateScheduleInputSubmit()}
+            >
+              Create Team
+            </Button>
+          </div>
+        )}
+        {/* End conditional form display */}
+
+        {/* Start management buttons */}
+        <div className="dashboard-management-buttons">
+          <Button
+            variant="contained"
+            type="button"
+            id="logOut"
+            onClick={logout}
+          >
+            Log out
+          </Button>
+          <Button
+            variant="contained"
+            type="button"
+            color="secondary"
+            onClick={deleteAccount}
+            id="deleteAccount"
+          >
+            Delete Account
+          </Button>
         </div>
-        <br />
-
-        <input
-          type="text"
-          style={{ border: "2px solid black" }}
-          onChange={(e) => onCreateScheduleInputChange(e)}
-          name="newScheduleName"
-        />
-        <input
-          type="text"
-          style={{ border: "2px solid black" }}
-          onChange={(e) => onCreateScheduleInputChange(e)}
-          name="newScheduleRoomKey"
-        />
-        <button onClick={() => onCreateScheduleInputSubmit()}>
-          Create Schedule
-        </button>
-
-        <button type="button" onClick={logout}>
-          Log out
-        </button>
-        <button type="button" onClick={deleteAccount}>
-          Delete Account
-        </button>
+        {/* End management buttons */}
       </>
     </>
   );
