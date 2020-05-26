@@ -87,6 +87,7 @@ export const changeScheduleName = (schedule_id, data, history) => async (
       "Content-Type": "application/json",
     },
   };
+  console.log(schedule_id);
   try {
     const res = await axios.put(`/api/schedule/${schedule_id}`, data, config);
     //Request is being made to schedule with incorrect id

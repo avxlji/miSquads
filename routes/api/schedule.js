@@ -44,12 +44,10 @@ router.get("/:schedule_id", auth, async (req, res) => {
 // @access   Private
 router.put("/:schedule_id", auth, async (req, res) => {
   try {
-    let schedule = await Schedule.findOneAndUpdate({
-      scheduleName: req.body.name,
-    });
-    let updatedSchedule = await schedule;
-    updatedSchedule.scheduleName = req.body.name;
-    res.json(updatedSchedule);
+    let schedule = await Schedule.findById(req.params.schedule_id);
+    schedule.scheduleName = req.body.name;
+    schedule.save();
+    res.json(schedule);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
