@@ -15,11 +15,18 @@ import "../../styles/Schedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Redirect, withRouter } from "react-router-dom";
 import AddEvent from "./AddEvent";
+// import EventDialog from "./EventDialog";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+//materialUI imports
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 
 const localizer = momentLocalizer(moment);
 
@@ -57,7 +64,8 @@ class Schedule extends Component {
       roomKeyChange: null,
       addEvent: false,
       changeSchedName: false,
-      tempName: null,
+      selectedEvent: null,
+      eventDetailsOpen: false,
     };
   }
 
@@ -69,7 +77,6 @@ class Schedule extends Component {
     if (this.state.currentSchedule !== null) {
       if (this.state.currentSchedule.scheduleName !== null) {
         console.log(prevProps);
-        console.log(this.state.tempName);
       }
     }
   }
@@ -160,9 +167,6 @@ class Schedule extends Component {
           );
           break;
         case 2:
-          this.setState({
-            tempName: nextProps.schedule.schedule.scheduleName,
-          });
           console.log("name changed");
           console.log(this.state.currentSchedule.scheduleName);
           console.log(nextProps.schedule.schedule.scheduleName);
@@ -287,6 +291,42 @@ class Schedule extends Component {
     }
   };
 
+  toggleSelectedEvent = (e) => {
+    const { _id, title, allDay, start, end } = e;
+    var splitDateString = start.toString().split(" ").slice(0, 5);
+    var formattedStartString = this.convertMilitaryToStandard(
+      splitDateString[4]
+    );
+    console.log(formattedStartString);
+    const newformattedEvent = {
+      id: _id,
+      title: title,
+      allDay: allDay,
+      start: new Date(start),
+      end: new Date(end),
+      startString: start,
+      endString: end,
+    };
+
+    if (this.state.eventDetailsOpen === false) {
+      this.setState({
+        selectedEvent: newformattedEvent,
+        eventDetailsOpen: !this.state.eventDetailsOpen,
+      });
+    } else {
+      this.setState({
+        eventDetailsOpen: !this.state.eventDetailsOpen,
+        selectedEvent: null,
+      });
+    }
+    console.log(e);
+    console.log(this.state.selectedEvent);
+  };
+
+  convertMilitaryToStandard = (dateString) => {
+    return dateString;
+  };
+
   onChangeScheduleNameClick = () => {
     if (this.state.changeSchedName === true) {
       this.setState({
@@ -310,8 +350,7 @@ class Schedule extends Component {
           {this.state.currentSchedule !== null ? (
             <>
               <h1 id="current-schedule-name-responsive">
-                {/* {this.state.currentSchedule.scheduleName} */}
-                {console.log(this.state.currentSchedule)}
+                {this.state.currentSchedule.scheduleName}
               </h1>
               {/* start non-mobile display */}
               <div className="team-calendar-container">
@@ -370,15 +409,46 @@ class Schedule extends Component {
                   </div>
                 )}
                 {/* end conditional form render */}
-
+                {/* start event/plan details modal */}
+                {this.state.selectedEvent !== null ? (
+                  <Dialog
+                    aria-labelledby="simple-dialog-title"
+                    open={this.state.eventDetailsOpen}
+                  >
+                    <DialogTitle id="simple-dialog-title">
+                      {this.state.selectedEvent.title}
+                    </DialogTitle>
+                    <List>
+                      <ListItem>
+                        Start Time:{" "}
+                        {this.state.selectedEvent.startString.toString()}
+                      </ListItem>
+                      <ListItem>yeet</ListItem>
+                    </List>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                      block
+                      onClick={this.toggleSelectedEvent}
+                    >
+                      Change schedule name
+                    </Button>
+                  </Dialog>
+                ) : (
+                  "Sorry, there was an error getting this plans details"
+                )}
+                {/* <Link to={`/schedule/${linkToSchedule}`}>{roomKey}</Link>
+      <br /> */}
+                {/* end event/plan details modal */}
                 <Calendar
                   localizer={localizer}
                   events={this.state.currentSchedule.events}
-                  onSelectEvent={this.toggle}
+                  onSelectEvent={this.toggleSelectedEvent}
                   defaultView="week"
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 1000, marginBottom: "3rem" }}
+                  style={{ height: 500, marginBottom: "3rem" }}
                 />
                 {/* start misc buttons */}
                 <div>
