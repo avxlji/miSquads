@@ -11,6 +11,20 @@
 
 #current-schedule-name {
   font-size: 3rem;
+  padding: 2rem 0rem 0rem 0rem;
+}
+
+#schedule-button-group {
+  padding: 2rem 0;
+}
+
+#change-schedule-name-container {
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 2rem 2rem 0;
+  width: 50%;
 }
 
 @media only screen and (max-width: 767px) {

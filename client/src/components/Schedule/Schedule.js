@@ -57,11 +57,21 @@ class Schedule extends Component {
       roomKeyChange: null,
       addEvent: false,
       changeSchedName: false,
+      tempName: null,
     };
   }
 
   componentDidMount() {
     this.props.getSchedule(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.state.currentSchedule !== null) {
+      if (this.state.currentSchedule.scheduleName !== null) {
+        console.log(prevProps);
+        console.log(this.state.tempName);
+      }
+    }
   }
 
   evaluateObjectChange(oldProps, newProps) {
@@ -70,6 +80,7 @@ class Schedule extends Component {
     }
 
     if (oldProps.scheduleName !== newProps.scheduleName) {
+      console.log("name changed called");
       return 2;
     }
 
@@ -149,12 +160,19 @@ class Schedule extends Component {
           );
           break;
         case 2:
+          this.setState({
+            tempName: nextProps.schedule.schedule.scheduleName,
+          });
+          console.log("name changed");
+          console.log(this.state.currentSchedule.scheduleName);
+          console.log(nextProps.schedule.schedule.scheduleName);
           this.setState((prevState) => ({
             currentSchedule: {
               ...prevState.currentSchedule,
               scheduleName: nextProps.schedule.schedule.scheduleName,
             },
           }));
+          console.log(this.state.currentSchedule);
           // setTimeout(() => {
           //   console.log(this.state.currentSchedule.scheduleName);
           // }, 2000);
@@ -214,8 +232,10 @@ class Schedule extends Component {
       let data = {
         name: this.state.nameChange,
       };
+      console.log(this.state.nameChange);
+      console.log(this.props.match.params.id);
       this.props.changeScheduleName(
-        this.state.currentSchedule._id,
+        this.props.match.params.id,
         data,
         this.props.history
       );
@@ -286,38 +306,12 @@ class Schedule extends Component {
   render() {
     return (
       <>
-        <div>
-          <input
-            name="nameChange"
-            onChange={(e) => {
-              this.handleChange(e);
-            }}
-          />
-          <button type="button" onClick={this.changeName}>
-            Change schedule name
-          </button>
-
-          <br />
-
-          <button
-            type="button"
-            onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
-          >
-            Delete event from schedule
-          </button>
-
-          <br />
-
-          <button type="button" onClick={() => this.deleteCurrentSchedule()}>
-            Delete schedule
-          </button>
-        </div>
-
         <div className="calendar-container">
           {this.state.currentSchedule !== null ? (
             <>
               <h1 id="current-schedule-name-responsive">
-                {this.state.currentSchedule.scheduleName}
+                {/* {this.state.currentSchedule.scheduleName} */}
+                {console.log(this.state.currentSchedule)}
               </h1>
               {/* start non-mobile display */}
               <div className="team-calendar-container">
@@ -325,7 +319,7 @@ class Schedule extends Component {
                   {this.state.currentSchedule.scheduleName}
                 </h1>
                 {/* start schedule form select */}
-                <div>
+                <div id="schedule-button-group">
                   <ButtonGroup
                     variant="contained"
                     color="primary"
@@ -355,16 +349,24 @@ class Schedule extends Component {
                   <AddEvent scheduleId={this.state.currentSchedule._id} />
                 )}
                 {this.state.changeSchedName && (
-                  <div>
-                    <input
+                  <div id="change-schedule-name-container">
+                    <TextField
+                      id="outlined-basic"
+                      label="Schedule Name"
                       name="nameChange"
                       onChange={(e) => {
                         this.handleChange(e);
                       }}
                     />
-                    <button type="button" onClick={this.changeName}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                      block
+                      onClick={this.changeName}
+                    >
                       Change schedule name
-                    </button>
+                    </Button>
                   </div>
                 )}
                 {/* end conditional form render */}
@@ -378,6 +380,48 @@ class Schedule extends Component {
                   endAccessor="end"
                   style={{ height: 1000, marginBottom: "3rem" }}
                 />
+                {/* start misc buttons */}
+                <div>
+                  <input
+                    name="nameChange"
+                    onChange={(e) => {
+                      this.handleChange(e);
+                    }}
+                  />
+                  <button type="button" onClick={this.changeName}>
+                    Change schedule name
+                  </button>
+
+                  <br />
+
+                  <button
+                    type="button"
+                    onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
+                  >
+                    Delete event from schedule
+                  </button>
+
+                  <br />
+
+                  <button
+                    type="button"
+                    onClick={() => this.deleteCurrentSchedule()}
+                  >
+                    Delete schedule
+                  </button>
+                </div>
+                {/* end misc buttons */}
+                <div id="delete-schedule-container">
+                  <Button
+                    variant="contained"
+                    type="button"
+                    color="secondary"
+                    size="medium"
+                    onClick={() => this.deleteCurrentSchedule()}
+                  >
+                    Delete schedule
+                  </Button>
+                </div>
               </div>
             </>
           ) : (
@@ -388,9 +432,14 @@ class Schedule extends Component {
                   this.handleChange(e);
                 }}
               />
-              <button type="button" onClick={this.verifyAccess}>
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                onClick={this.verifyAccess}
+              >
                 Enter room key
-              </button>
+              </Button>
             </>
           )}
         </div>

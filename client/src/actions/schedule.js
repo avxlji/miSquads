@@ -89,6 +89,8 @@ export const changeScheduleName = (schedule_id, data, history) => async (
   };
   try {
     const res = await axios.put(`/api/schedule/${schedule_id}`, data, config);
+    //Request is being made to schedule with incorrect id
+    console.log(res.data);
     dispatch({
       type: UPDATE_SCHEDULE,
       payload: res.data, //sending as payload to reducer

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addEvent } from "../../actions/schedule";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import "../../styles/AddEvent.css";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -50,15 +51,9 @@ class AddEvent extends Component {
   };
 
   onOptionChange = (e) => {
-    var index = e.nativeEvent.target.selectedIndex;
-    var result = e.nativeEvent.target[index].text;
-
     this.setState({
-      [e.target.name]: result,
+      [e.target.name]: e.target.value,
     });
-
-    console.log(e.target.name);
-    console.log(e.target.value);
   };
 
   isValidDate(year, month, day) {
@@ -205,7 +200,7 @@ class AddEvent extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-
+    console.log("onSubmit called");
     if (this.checkYearFormat(this.state.year) == "20") {
       if (
         this.isValidDate(
@@ -379,90 +374,102 @@ class AddEvent extends Component {
             </button> */}
 
             <form onSubmit={this.onSubmit}>
-              <TextField
-                id="outlined-basic"
-                label="Plan Name"
-                type="text"
-                name="name"
-                placeholder="Ex. Doctors Appointment, Movie Date, etc..."
-                onChange={this.onChange}
-                required
-              />
+              <div id="add-event-container">
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Plan Name"
+                    type="text"
+                    name="name"
+                    placeholder="Ex. Doctors Appointment, Movie Date, etc..."
+                    onChange={this.onChange}
+                    required
+                  />
+                </div>
 
-              <TextField
-                id="outlined-basic"
-                label="Year"
-                type="text"
-                name="year"
-                placeholder="Ex. 20XX"
-                onChange={this.onChange}
-                required
-              />
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Year"
+                    type="text"
+                    name="year"
+                    placeholder="Ex. 20XX"
+                    onChange={this.onChange}
+                    required
+                  />
+                </div>
 
-              <label for="item" style={{ marginTop: ".8rem" }}>
-                Month
-              </label>
-              <Select
-                type="select"
-                name="month"
-                placeholder="Ex. Jan, Feb, etc..."
-                onChange={this.onOptionChange}
-                required
-              >
-                {months.map((month) => {
-                  return <option value={month}>{month}</option>;
-                })}
-              </Select>
+                <div id="month-select-container">
+                  {/* <label for="item">Month</label> */}
+                  <Select
+                    type="select"
+                    name="month"
+                    value={this.state.month}
+                    onChange={this.onOptionChange}
+                    required
+                  >
+                    {months.map((month) => {
+                      return <MenuItem value={month}>{month}</MenuItem>;
+                    })}
+                  </Select>
+                </div>
 
-              <label for="item" style={{ marginTop: ".8rem" }}>
-                Day
-              </label>
-              <Input
-                type="select"
-                name="day"
-                placeholder="Ex. (07, 29, ...)"
-                onChange={this.onOptionChange}
-                required
-              >
-                {numDays.map((num) => {
-                  return <option value={num}>{num}</option>;
-                })}
-              </Input>
-              {/* 
+                <div id="day-select-container">
+                  {/* <label for="item">Day</label> */}
+                  <Select
+                    type="select"
+                    name="day"
+                    value={this.state.day}
+                    onChange={this.onOptionChange}
+                    required
+                  >
+                    {numDays.map((num) => {
+                      return <MenuItem value={num}>{num}</MenuItem>;
+                    })}
+                  </Select>
+                </div>
+                {/* 
               <label for="item" style={{ marginTop: ".2rem" }}>
                 Leave Both the Start Time and End Time empty if the booking is a
                 full day event
               </label> */}
 
-              <TextField
-                id="outlined-basic"
-                label="Start Time"
-                type="text"
-                name="starttime"
-                placeholder="Ex. 8:00am, 9:30pm"
-                onChange={this.onChange}
-                //required
-              />
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Start Time"
+                    type="text"
+                    name="starttime"
+                    placeholder="Ex. 8:00am, 9:30pm"
+                    onChange={this.onChange}
+                    //required
+                  />
+                </div>
 
-              <TextField
-                id="outlined-basic"
-                label="End Time"
-                type="text"
-                name="endtime"
-                placeholder="Ex. 6am, 8pm, 9:30pm"
-                onChange={this.onChange}
-                //required
-              />
+                <div id="yeet">
+                  <TextField
+                    id="outlined-basic"
+                    label="End Time"
+                    type="text"
+                    name="endtime"
+                    placeholder="Ex. 6am, 8pm, 9:30pm"
+                    onChange={this.onChange}
+                    //required
+                  />
+                </div>
 
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                style={{ marginTop: "2rem" }}
-                block
-              >
-                Add Meeting
-              </Button>
+                <div>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                    block
+                  >
+                    Add Meeting
+                  </Button>
+                </div>
+              </div>
             </form>
           </div>
         ) : (
