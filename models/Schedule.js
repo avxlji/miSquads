@@ -23,6 +23,10 @@ const ScheduleSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      memo: {
+        type: String,
+        required: false,
+      },
       allDay: {
         type: Boolean,
         required: true,

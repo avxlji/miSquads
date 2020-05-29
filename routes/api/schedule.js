@@ -144,7 +144,7 @@ router.put(
     auth,
     [
       check("title", "Title is required").not().isEmpty(),
-      check("start", "Start is required").not().isEmpty(),
+      // check("start", "Start is required").not().isEmpty(),
       check("allDay", "All day is required").not().isEmpty(),
     ],
   ],
@@ -154,10 +154,11 @@ router.put(
       return res.status(400).json({ errors: errors.array() }); //checks request for specified validation
     }
     console.log("add event called in api");
-    const { title, start, allDay, end } = req.body;
+    const { title, memo, start, allDay, end } = req.body;
 
     const newEvent = {
       title,
+      memo,
       start,
       allDay,
       end,
@@ -318,13 +319,14 @@ router.post("/:schedule_id/:event_id", auth, async (req, res) => {
 
     // console.log(req.body);
 
-    const { title, start, allDay, end } = req.body;
+    const { title, memo, start, allDay, end } = req.body;
 
     for (var i = 0; i < schedule.events.length; i++) {
       if (
         schedule.events[i]._id.toString() === req.params.event_id.toString()
       ) {
         schedule.events[i].title = title;
+        schedule.events[i].title = memo;
         schedule.events[i].start = start;
         schedule.events[i].end = end;
         schedule.events[i].allDay = allDay;
