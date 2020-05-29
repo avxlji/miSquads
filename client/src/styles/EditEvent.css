@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#edit-event-container {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 2rem 2rem 2rem 0;
+}
+
+#edit-event-container > div {
+  margin: 0rem 2rem 2rem 0;
+}
+
+#edit-event-container > div:last-child {
+  margin: 0rem 2rem 2rem 0;
+}
+
+#month-select-container,
+#day-select-container {
+  transform: translateY(0.55rem);
+}

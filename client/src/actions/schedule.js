@@ -40,8 +40,7 @@ export const createSchedule = (data) => async (dispatch) => {
       type: CREATE_SCHEDULE,
       payload: res.data,
     });
-    dispatch(loadUser());
-    dispatch(setAlert("yeeee", "success"));
+    dispatch(setAlert("Your schedule was created successfully", "success"));
   } catch (err) {
     dispatch(
       setAlert(
@@ -70,7 +69,7 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
     dispatch(setAlert("User added to schedule", "success"));
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
-    dispatch(setAlert("This schedule no longer exists", "success"));
+    dispatch(setAlert("This schedule no longer exists", "danger"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -115,7 +114,7 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
         type: CLEAR_SCHEDULE,
       });
       history.push("/dashboard");
-      window.location.reload();
+      // window.location.reload();
       dispatch(setAlert("Schedule deleted", "error"));
     } catch (err) {
       history.push("/dashboard");
@@ -152,6 +151,32 @@ export const addEvent = (schedule_id, data, history) => async (dispatch) => {
     .catch((err) => console.log(err.message));
 };
 
+export const updateEvent = (schedule_id, event_id, data, history) => async (
+  dispatch
+) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  console.log("update event action called");
+  const res = axios
+    .post(`/api/schedule/${schedule_id}/${event_id}`, data, config)
+    .then(
+      (
+        res //getting back data
+      ) => {
+        dispatch({
+          type: UPDATE_SCHEDULE,
+          payload: res.data, //sending as payload to reducer
+        });
+        console.log("alert in schedule reducer");
+        dispatch(setAlert("Event updated", "success"));
+      }
+    )
+    .catch((err) => console.log(err.message));
+};
+
 //Delete experience
 export const deleteEvent = (schedule_id, event_id, history) => async (
   dispatch
@@ -165,7 +190,7 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
     dispatch(setAlert("Event removed", "error"));
   } catch (err) {
     history.push("/dashboard");
-    dispatch(setAlert("This schedule no longer exists.", "success"));
+    dispatch(setAlert("This schedule no longer exists.", "danger"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

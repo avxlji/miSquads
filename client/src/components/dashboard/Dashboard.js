@@ -7,6 +7,7 @@ import {
   createSchedule,
   clearSchedule,
 } from "../../actions/schedule";
+import { loadUser } from "../../actions/auth";
 import { logout } from "../../actions/auth";
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect, withRouter } from "react-router-dom";
@@ -28,11 +29,13 @@ const Dashboard = ({
   createSchedule,
   history,
   clearSchedule,
+  loadUser,
 }) => {
   useEffect(() => {
     //clear schedule upon entering/returning to dashboard to prevent state lag
     clearSchedule();
-  }, [clearSchedule]);
+    loadUser(); //testing performance (reloads user data into dashboard)
+  }, [clearSchedule, loadUser]);
 
   /* start hooks */
   const [urlInput, setUrlInput] = useState({
@@ -241,6 +244,7 @@ const Dashboard = ({
               size="small"
               color="primary"
               onClick={() => onScheduleInputSubmit()}
+              className="add-schedule-inputs"
             >
               Join Team
             </Button>
@@ -255,6 +259,7 @@ const Dashboard = ({
               type="text"
               onChange={(e) => onCreateScheduleInputChange(e)}
               name="newScheduleName"
+              className="add-schedule-inputs"
             />
             <TextField
               id="outlined-basic"
@@ -262,12 +267,14 @@ const Dashboard = ({
               type="text"
               onChange={(e) => onCreateScheduleInputChange(e)}
               name="newScheduleRoomKey"
+              className="add-schedule-inputs"
             />
             <Button
               variant="contained"
               size="small"
               color="primary"
               onClick={() => onCreateScheduleInputSubmit()}
+              className="add-schedule-inputs"
             >
               Create Team
             </Button>
@@ -308,6 +315,7 @@ Dashboard.propTypes = {
   addUserToSchedule: PropTypes.func,
   createSchedule: PropTypes.func,
   clearSchedule: PropTypes.func,
+  loadUser: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -320,4 +328,5 @@ export default connect(mapStateToProps, {
   addUserToSchedule,
   createSchedule,
   clearSchedule,
+  loadUser,
 })(withRouter(Dashboard));

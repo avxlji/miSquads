@@ -16,6 +16,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Redirect, withRouter } from "react-router-dom";
 import AddEvent from "./AddEvent";
 // import EventDialog from "./EventDialog";
+import EditEvent from "./EditEvent";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -27,6 +28,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const localizer = momentLocalizer(moment);
 
@@ -66,7 +68,15 @@ class Schedule extends Component {
       changeSchedName: false,
       selectedEvent: null,
       eventDetailsOpen: false,
+      editEventDetailsOpen: false,
+      editEventTitle: null,
+      editEventStart: null,
+      editEventEnd: null,
+      editEventAllDay: false,
+      editEventPrefill: null,
     };
+    //bind function to current component context
+    this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
   }
 
   componentDidMount() {
@@ -292,39 +302,131 @@ class Schedule extends Component {
   };
 
   toggleSelectedEvent = (e) => {
-    const { _id, title, allDay, start, end } = e;
-    var splitDateString = start.toString().split(" ").slice(0, 5);
+    console.log(e);
+    const { id, title, allDay, start, end } = e;
+    var splitStartDateString = start.toString().split(" ").slice(0, 5);
+    var splitEndDateString = end.toString().split(" ").slice(0, 5);
+    console.log(splitEndDateString[4]);
     var formattedStartString = this.convertMilitaryToStandard(
-      splitDateString[4]
+      splitStartDateString[4]
     );
-    console.log(formattedStartString);
+    var formattedEndString = this.convertMilitaryToStandard(
+      splitEndDateString[4]
+    );
+    console.log(start);
+    console.log(end);
     const newformattedEvent = {
-      id: _id,
+      id: id,
       title: title,
       allDay: allDay,
       start: new Date(start),
       end: new Date(end),
-      startString: start,
-      endString: end,
+      startString: formattedStartString,
+      endString: formattedEndString,
     };
-
     if (this.state.eventDetailsOpen === false) {
       this.setState({
         selectedEvent: newformattedEvent,
         eventDetailsOpen: !this.state.eventDetailsOpen,
+        /* edit modal prefill data */
+        editEventTitle: title,
+        editEventStart: start,
+        editEventEnd: end,
+        editEventAllDay: allDay,
+        editEventPrefill: newformattedEvent,
       });
     } else {
       this.setState({
         eventDetailsOpen: !this.state.eventDetailsOpen,
         selectedEvent: null,
+        editEventTitle: null,
+        editEventStart: null,
+        editEventEnd: null,
+        editEventAllDay: null,
+        editEventPrefill: null,
       });
     }
-    console.log(e);
-    console.log(this.state.selectedEvent);
+  };
+
+  closeSelectedEvent = () => {
+    this.setState({
+      eventDetailsOpen: false,
+      selectedEvent: null,
+    });
+  };
+
+  deleteSelectedEvent = () => {
+    if (this.state.currentSchedule !== null) {
+      if (this.state.selectedEvent !== null) {
+        if (
+          window.confirm(
+            "Are you sure you sure about that? This action cannot be undone"
+          )
+        ) {
+          console.log(this.state.currentSchedule._id);
+          console.log(this.state.selectedEvent.id);
+          var selectedEventId = this.state.selectedEvent.id;
+          this.props.deleteEvent(
+            this.state.currentSchedule._id,
+            this.state.selectedEvent.id,
+            this.props.history
+          );
+          /* option 1, refetch schedule */
+          // window.location.reload();
+
+          /* option 2, filter out deleted event from frontend */
+          var filteredArray = this.state.currentSchedule.events.filter(
+            (event) => event.id !== selectedEventId
+          );
+          // console.log(filteredArray);
+          this.setState((prevState) => ({
+            currentSchedule: {
+              // object that we want to update
+              ...prevState.currentSchedule, // keep all other key-value pairs
+              events: filteredArray, // update the value of specific key
+            },
+            selectedEvent: null,
+            eventDetailsOpen: false,
+          }));
+        }
+      }
+    }
   };
 
   convertMilitaryToStandard = (dateString) => {
-    return dateString;
+    var amOrPm = "am";
+    var hoursMinutes = dateString.split(":").slice(0, 2);
+    if (
+      hoursMinutes[0].charAt(0) === "0" &&
+      hoursMinutes[0].charAt(1) === "0"
+    ) {
+      //covers case 00
+      hoursMinutes[0] = "12";
+    } else if (
+      hoursMinutes[0].charAt(0) === "0" &&
+      hoursMinutes[0].charAt(1) !== "0"
+    ) {
+      //covers cases 01 to 09
+      hoursMinutes[0] = hoursMinutes[0].replace("0", "");
+    }
+    //cases 10 to 11 are covered by default
+    // else if (
+    //   hoursMinutes[0].charAt(0) === "1" &&
+    //   hoursMinutes[0].charAt(1) !== "2"
+    // ) {
+    //   //covers cases 01 to 09
+    //   hoursMinutes[0] = "12";
+    //   amOrPm = "pm";
+    // }
+    else if (parseInt(hoursMinutes[0]) > 12) {
+      //covers cases 13 to 23
+      //covers cases 13 to 23
+      amOrPm = "pm";
+      hoursMinutes[0] = (parseInt(hoursMinutes[0]) - 12).toString();
+    }
+    var standardTime = hoursMinutes[0] + ":" + hoursMinutes[1] + amOrPm;
+    console.log(hoursMinutes);
+    return standardTime;
   };
 
   onChangeScheduleNameClick = () => {
@@ -340,6 +442,51 @@ class Schedule extends Component {
       });
     }
   };
+
+  toggleEditEventModal = () => {
+    if (
+      this.state.editEventDetailsOpen === false &&
+      this.state.eventDetailsOpen === true
+    ) {
+      this.setState({
+        editEventDetailsOpen: true,
+        eventDetailsOpen: false,
+      });
+    }
+    if (this.state.editEventDetailsOpen === true) {
+      this.setState({
+        editEventDetailsOpen: false,
+        eventDetailsOpen: false,
+      });
+    }
+  };
+
+  getUpdatedEventData(updatedEvent) {
+    // do not forget to bind getUpdatedEventData in constructor
+    if (this.state.currentSchedule !== null) {
+      const { title, allDay, start, end } = updatedEvent;
+      for (var i = 0; i < this.state.currentSchedule.events.length; i++) {
+        if (
+          this.state.currentSchedule.events[i].id.toString() ===
+          this.state.selectedEvent.id.toString()
+        ) {
+          this.state.currentSchedule.events[i].title = title;
+          this.state.currentSchedule.events[i].allDay = allDay;
+          this.state.currentSchedule.events[i].start = new Date(start);
+          this.state.currentSchedule.events[i].end = new Date(end);
+          this.state.currentSchedule.events[i].startString = start;
+          this.state.currentSchedule.events[i].endString = end;
+          break;
+        }
+      }
+      // console.log(currentSchedule);
+    }
+    this.setState({
+      editEventDetailsOpen: false,
+      eventDetailsOpen: false,
+    });
+    //window.location.reload();
+  }
 
   /* end button bar conditional form trigger */
 
@@ -410,33 +557,143 @@ class Schedule extends Component {
                 )}
                 {/* end conditional form render */}
                 {/* start event/plan details modal */}
-                {this.state.selectedEvent !== null ? (
-                  <Dialog
-                    aria-labelledby="simple-dialog-title"
-                    open={this.state.eventDetailsOpen}
-                  >
-                    <DialogTitle id="simple-dialog-title">
-                      {this.state.selectedEvent.title}
-                    </DialogTitle>
-                    <List>
-                      <ListItem>
-                        Start Time:{" "}
-                        {this.state.selectedEvent.startString.toString()}
-                      </ListItem>
-                      <ListItem>yeet</ListItem>
-                    </List>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      color="primary"
-                      block
-                      onClick={this.toggleSelectedEvent}
-                    >
-                      Change schedule name
-                    </Button>
-                  </Dialog>
-                ) : (
-                  "Sorry, there was an error getting this plans details"
+                {this.state.selectedEvent !== null && (
+                  <>
+                    <div id="event-dialog-container">
+                      <Dialog
+                        maxWidth="lg"
+                        aria-labelledby="simple-dialog-title"
+                        open={this.state.eventDetailsOpen}
+                        id="event-dialog-container"
+                      >
+                        <div id="event-content-container">
+                          <DialogTitle id="simple-dialog-title">
+                            <h1>{this.state.selectedEvent.title}</h1>
+                          </DialogTitle>
+                          <List>
+                            <ListItem>
+                              Start Time: {this.state.selectedEvent.startString}
+                            </ListItem>
+                            <ListItem>
+                              End Time: {this.state.selectedEvent.endString}
+                            </ListItem>
+                          </List>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            id="close-selected-event-button"
+                            style={{ marginLeft: ".95rem" }}
+                            block
+                            onClick={this.toggleEditEventModal}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            id="close-selected-event-button"
+                            style={{ marginLeft: ".95rem" }}
+                            block
+                            onClick={this.deleteSelectedEvent}
+                          >
+                            Delete
+                          </Button>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            id="close-selected-event-button"
+                            style={{ marginLeft: ".95rem" }}
+                            block
+                            onClick={this.closeSelectedEvent}
+                          >
+                            Close
+                          </Button>
+                        </div>
+                      </Dialog>
+                    </div>
+
+                    {this.state.editEventDetailsOpen && (
+                      <div id="edit-event-dialog-container">
+                        <Dialog
+                          maxWidth="sm"
+                          aria-labelledby="simple-dialog-title"
+                          open={this.state.editEventDetailsOpen}
+                          id="event-dialog-container"
+                        >
+                          <div id="event-content-container">
+                            <DialogTitle id="simple-dialog-title">
+                              <h1>Edit</h1>
+                            </DialogTitle>
+                            <List>
+                              {/* <TextField
+                                id="outlined-basic"
+                                label="Schedule Name"
+                                name="editEventTitle"
+                                onChange={(e) => {
+                                  this.handleChange(e);
+                                }}
+                              />
+
+                              <Checkbox
+                                checked={this.state.editEventAllDay}
+                                color="primary"
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
+                                onClick={() =>
+                                  this.setState({
+                                    editEventAllDay: !this.state
+                                      .editEventAllDay,
+                                  })
+                                }
+                              />
+                              {!this.state.editEventAllDay && (
+                                <>
+                                  <TextField
+                                    id="outlined-basic"
+                                    label="Schedule Name"
+                                    name="editEventStart"
+                                    value={this.state.editEventStart}
+                                    onChange={(e) => {
+                                      this.handleChange(e);
+                                    }}
+                                  />
+                                  <TextField
+                                    id="outlined-basic"
+                                    label="Schedule Name"
+                                    name="editEventEnd"
+                                    onChange={(e) => {
+                                      this.handleChange(e);
+                                    }}
+                                  />
+                                </>
+                              )}
+                              <Button
+                              variant="contained"
+                              size="small"
+                              color="primary"
+                              id="close-selected-event-button"
+                              style={{ marginLeft: ".95rem" }}
+                              block
+                              onClick={this.toggleEditEventModal}
+                            >
+                              Edit
+                            </Button> */}
+                              <EditEvent
+                                scheduleId={this.state.currentSchedule._id}
+                                eventId={this.state.selectedEvent.id}
+                                editEventPrefill={this.state.editEventPrefill}
+                                sendData={this.getUpdatedEventData}
+                              />
+                            </List>
+                          </div>
+                        </Dialog>
+                      </div>
+                    )}
+                  </>
                 )}
                 {/* <Link to={`/schedule/${linkToSchedule}`}>{roomKey}</Link>
       <br /> */}
@@ -451,7 +708,7 @@ class Schedule extends Component {
                   style={{ height: 500, marginBottom: "3rem" }}
                 />
                 {/* start misc buttons */}
-                <div>
+                {/* <div>
                   <input
                     name="nameChange"
                     onChange={(e) => {
@@ -479,7 +736,7 @@ class Schedule extends Component {
                   >
                     Delete schedule
                   </button>
-                </div>
+                </div> */}
                 {/* end misc buttons */}
                 <div id="delete-schedule-container">
                   <Button

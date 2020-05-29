@@ -36,6 +36,17 @@
   }
 }
 
-#test {
-  color: blue;
+#event-content-container {
+  padding: 2rem;
+}
+
+#simple-dialog-title {
+  font-size: 4rem;
+}
+
+#close-selected-event-button {
+  margin: 1rem 0 2rem 0;
+
+  padding: 10px 25px;
+  margin: auto;
 }
