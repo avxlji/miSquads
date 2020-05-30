@@ -326,7 +326,7 @@ router.post("/:schedule_id/:event_id", auth, async (req, res) => {
         schedule.events[i]._id.toString() === req.params.event_id.toString()
       ) {
         schedule.events[i].title = title;
-        schedule.events[i].title = memo;
+        schedule.events[i].memo = memo;
         schedule.events[i].start = start;
         schedule.events[i].end = end;
         schedule.events[i].allDay = allDay;

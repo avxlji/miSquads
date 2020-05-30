@@ -24,6 +24,7 @@ class AddEvent extends Component {
     modal: false,
     submitting: false,
     error: false,
+    memo: "",
   };
 
   static propTypes = {
@@ -256,6 +257,7 @@ class AddEvent extends Component {
                     allDay: false,
                     start: formattedStartTime,
                     end: formattedEndTime,
+                    memo: this.state.memo,
                   };
 
                   //add item via addEvent action
@@ -446,12 +448,26 @@ class AddEvent extends Component {
                   />
                 </div>
 
-                <div id="yeet">
+                <div>
                   <TextField
                     id="outlined-basic"
                     label="End Time"
                     type="text"
                     name="endtime"
+                    placeholder="Ex. 6am, 8pm, 9:30pm"
+                    onChange={this.onChange}
+                    //required
+                  />
+                </div>
+
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Additional Notes?"
+                    multiline
+                    rowsMax={4}
+                    type="text"
+                    name="memo"
                     placeholder="Ex. 6am, 8pm, 9:30pm"
                     onChange={this.onChange}
                     //required

@@ -28,6 +28,7 @@ class EditEvent extends Component {
       submitting: false,
       error: false,
       scheduleId: this.props.scheduleId,
+      memo: this.props.editEventPrefill.memo,
     };
   }
 
@@ -243,6 +244,7 @@ class EditEvent extends Component {
                     allDay: false,
                     start: formattedStartTime,
                     end: formattedEndTime,
+                    memo: this.state.memo,
                   };
                   console.log(this.props.scheduleId);
                   console.log(this.props.eventId);
@@ -451,6 +453,21 @@ class EditEvent extends Component {
                     placeholder="Ex. 6am, 8pm, 9:30pm"
                     onChange={this.onChange}
                     required
+                  />
+                </div>
+
+                <div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Additional Notes?"
+                    multiline
+                    rowsMax={4}
+                    value={this.state.memo}
+                    type="text"
+                    name="memo"
+                    placeholder="Ex. 6am, 8pm, 9:30pm"
+                    onChange={this.onChange}
+                    //required
                   />
                 </div>
 

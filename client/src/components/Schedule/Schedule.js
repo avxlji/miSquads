@@ -58,6 +58,7 @@ class Schedule extends Component {
       // },
       currentSchedule: null,
       _id: null,
+      memo: null,
       title: null,
       start: null,
       allDay: false,
@@ -109,13 +110,17 @@ class Schedule extends Component {
     if (oldProps.events.length === newProps.events.length) {
       for (var i = 0; i < newProps.length; i++) {
         if (oldProps.events[i].title === newProps.events[i].title) {
-          if (oldProps.events[i].start === newProps.events[i].start) {
-            if (oldProps.events[i].end === newProps.events[i].end) {
-              if (oldProps.events[i].allDay === newProps.events[i].allDay) {
-                //default case (no change)
-                return 5;
+          if (oldProps.events[i].memo === newProps.events[i].memo) {
+            if (oldProps.events[i].start === newProps.events[i].start) {
+              if (oldProps.events[i].end === newProps.events[i].end) {
+                if (oldProps.events[i].allDay === newProps.events[i].allDay) {
+                  //default case (no change)
+                  return 5;
+                } else {
+                  //if change has occured
+                  return 4;
+                }
               } else {
-                //if change has occured
                 return 4;
               }
             } else {
@@ -155,9 +160,14 @@ class Schedule extends Component {
           var formattedProp = nextProps.schedule.schedule;
           if (formattedProp !== null) {
             for (var i = 0; i < formattedProp.events.length; i++) {
-              const { _id, start, title, allDay, end } = formattedProp.events[
-                i
-              ];
+              const {
+                _id,
+                start,
+                title,
+                allDay,
+                end,
+                memo,
+              } = formattedProp.events[i];
               formattedProp.events[i] = {
                 id: _id,
                 title: title,
@@ -166,6 +176,7 @@ class Schedule extends Component {
                 end: new Date(end),
                 startString: start,
                 endString: end,
+                memo: memo,
               };
             }
           }
@@ -198,6 +209,7 @@ class Schedule extends Component {
             allDay,
             start,
             end,
+            memo,
           } = nextProps.schedule.schedule.events[0];
           const newformattedEvent = {
             id: _id,
@@ -207,6 +219,7 @@ class Schedule extends Component {
             end: new Date(end),
             startString: start,
             endString: end,
+            memo: memo,
           };
           this.setState(
             (prevState) => ({
@@ -303,7 +316,7 @@ class Schedule extends Component {
 
   toggleSelectedEvent = (e) => {
     console.log(e);
-    const { id, title, allDay, start, end } = e;
+    const { id, title, allDay, start, memo, end } = e;
     var splitStartDateString = start.toString().split(" ").slice(0, 5);
     var splitEndDateString = end.toString().split(" ").slice(0, 5);
     console.log(splitEndDateString[4]);
@@ -323,27 +336,28 @@ class Schedule extends Component {
       end: new Date(end),
       startString: formattedStartString,
       endString: formattedEndString,
+      memo: memo,
     };
     if (this.state.eventDetailsOpen === false) {
       this.setState({
         selectedEvent: newformattedEvent,
         eventDetailsOpen: !this.state.eventDetailsOpen,
         /* edit modal prefill data */
-        editEventTitle: title,
-        editEventStart: start,
-        editEventEnd: end,
-        editEventAllDay: allDay,
-        editEventPrefill: newformattedEvent,
+        // editEventTitle: title,
+        // editEventStart: start,
+        // editEventEnd: end,
+        // editEventAllDay: allDay,
+        // editEventPrefill: newformattedEvent,
       });
     } else {
       this.setState({
         eventDetailsOpen: !this.state.eventDetailsOpen,
         selectedEvent: null,
-        editEventTitle: null,
-        editEventStart: null,
-        editEventEnd: null,
-        editEventAllDay: null,
-        editEventPrefill: null,
+        // editEventTitle: null,
+        // editEventStart: null,
+        // editEventEnd: null,
+        // editEventAllDay: null,
+        // editEventPrefill: null,
       });
     }
   };
@@ -464,13 +478,14 @@ class Schedule extends Component {
   getUpdatedEventData(updatedEvent) {
     // do not forget to bind getUpdatedEventData in constructor
     if (this.state.currentSchedule !== null) {
-      const { title, allDay, start, end } = updatedEvent;
+      const { title, allDay, start, end, memo } = updatedEvent;
       for (var i = 0; i < this.state.currentSchedule.events.length; i++) {
         if (
           this.state.currentSchedule.events[i].id.toString() ===
           this.state.selectedEvent.id.toString()
         ) {
           this.state.currentSchedule.events[i].title = title;
+          this.state.currentSchedule.events[i].memo = memo;
           this.state.currentSchedule.events[i].allDay = allDay;
           this.state.currentSchedule.events[i].start = new Date(start);
           this.state.currentSchedule.events[i].end = new Date(end);
@@ -685,7 +700,7 @@ class Schedule extends Component {
                               <EditEvent
                                 scheduleId={this.state.currentSchedule._id}
                                 eventId={this.state.selectedEvent.id}
-                                editEventPrefill={this.state.editEventPrefill}
+                                editEventPrefill={this.state.selectedEvent}
                                 sendData={this.getUpdatedEventData}
                               />
                             </List>

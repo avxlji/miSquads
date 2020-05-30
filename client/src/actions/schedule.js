@@ -160,6 +160,7 @@ export const updateEvent = (schedule_id, event_id, data, history) => async (
     },
   };
   console.log("update event action called");
+  console.log(data);
   const res = axios
     .post(`/api/schedule/${schedule_id}/${event_id}`, data, config)
     .then(
