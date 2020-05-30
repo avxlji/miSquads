@@ -27,6 +27,32 @@
   width: 50%;
 }
 
+#room-key-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#room-key-container #room-key-button {
+  margin: 0rem 0rem 0rem 2rem;
+}
+
+@media only screen and (max-width: 767px) {
+  #room-key-container {
+    flex-direction: column;
+  }
+
+  #room-key-container #room-key-button {
+    margin: 1rem 0rem 0rem 1rem;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   #current-schedule-name-responsive {
     display: block;

@@ -17,6 +17,7 @@ import { Redirect, withRouter } from "react-router-dom";
 import AddEvent from "./AddEvent";
 // import EventDialog from "./EventDialog";
 import EditEvent from "./EditEvent";
+import Spinner from "../layout/Spinner";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -29,6 +30,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LockIcon from "@material-ui/icons/Lock";
 
 const localizer = momentLocalizer(moment);
 
@@ -78,6 +81,7 @@ class Schedule extends Component {
     };
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
+    this.setEventDetailsModal = this.setEventDetailsModal.bind(this);
   }
 
   componentDidMount() {
@@ -503,11 +507,24 @@ class Schedule extends Component {
     //window.location.reload();
   }
 
+  setEventDetailsModal() {
+    this.setState({
+      editEventDetailsOpen: false,
+      eventDetailsOpen: true,
+    });
+  }
+
   /* end button bar conditional form trigger */
 
   render() {
     return (
       <>
+        {/* {this.props.schedule.loading && this.state.currentSchedule == null ? (
+          //If loading and no schedule loaded into state, show spinner
+          <div>
+            <Spinner />
+          </div>
+        ) : ( */}
         <div className="calendar-container">
           {this.state.currentSchedule !== null ? (
             <>
@@ -702,6 +719,7 @@ class Schedule extends Component {
                                 eventId={this.state.selectedEvent.id}
                                 editEventPrefill={this.state.selectedEvent}
                                 sendData={this.getUpdatedEventData}
+                                setEventDetailsModal={this.setEventDetailsModal}
                               />
                             </List>
                           </div>
@@ -768,23 +786,38 @@ class Schedule extends Component {
             </>
           ) : (
             <>
-              <input
-                name="roomKeyChange"
-                onChange={(e) => {
-                  this.handleChange(e);
-                }}
-              />
-              <Button
-                variant="contained"
-                size="medium"
-                color="primary"
-                onClick={this.verifyAccess}
-              >
-                Enter room key
-              </Button>
+              <div id="room-key-container">
+                <div>
+                  <LockIcon
+                    color="primary"
+                    fontSize={"large"}
+                    style={{ marginTop: "1rem" }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Room Key"
+                    name="roomKeyChange"
+                    onChange={(e) => {
+                      this.handleChange(e);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    color="primary"
+                    id="room-key-button"
+                    onClick={this.verifyAccess}
+                  >
+                    Enter room key
+                  </Button>
+                </div>
+              </div>
             </>
           )}
         </div>
+        {/* )} */}
       </>
     );
   }

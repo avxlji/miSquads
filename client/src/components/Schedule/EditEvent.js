@@ -314,6 +314,10 @@ class EditEvent extends Component {
     this.props.sendData(updatedEvent);
   }
 
+  setEventDetailsModal() {
+    this.props.setEventDetailsModal();
+  }
+
   render() {
     var numDays = [
       1,
@@ -472,6 +476,16 @@ class EditEvent extends Component {
                 </div>
 
                 <div>
+                  <Button
+                    onClick={() => this.setEventDetailsModal()}
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                    block
+                  >
+                    Go Back
+                  </Button>
+
                   <Button
                     type="submit"
                     // onClick={() => this.demoMethod()}

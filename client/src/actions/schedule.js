@@ -61,7 +61,7 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
   try {
     console.log("reached 2");
     const res = await axios.put(`/api/schedule/${schedule_id}/${roomKey}`);
-    console.log("reached aUTS");
+    console.log(res.data);
     dispatch({
       type: UPDATE_SCHEDULE,
       payload: res.data, //returns schedule post deletion
@@ -98,7 +98,7 @@ export const changeScheduleName = (schedule_id, data, history) => async (
     dispatch(setAlert("Schedule name updated", "success"));
   } catch (err) {
     history.push("/dashboard");
-    dispatch(setAlert("This schedule no longer exists.", "success"));
+    dispatch(setAlert("This schedule no longer exists.", "danger"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -118,7 +118,7 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
       dispatch(setAlert("Schedule deleted", "error"));
     } catch (err) {
       history.push("/dashboard");
-      dispatch(setAlert("This schedule no longer exists.", "success"));
+      dispatch(setAlert("This schedule no longer exists.", "danger"));
       dispatch({
         type: SCHEDULE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
