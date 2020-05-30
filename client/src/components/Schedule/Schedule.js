@@ -740,37 +740,7 @@ class Schedule extends Component {
                   endAccessor="end"
                   style={{ height: 500, marginBottom: "3rem" }}
                 />
-                {/* start misc buttons */}
-                {/* <div>
-                  <input
-                    name="nameChange"
-                    onChange={(e) => {
-                      this.handleChange(e);
-                    }}
-                  />
-                  <button type="button" onClick={this.changeName}>
-                    Change schedule name
-                  </button>
 
-                  <br />
-
-                  <button
-                    type="button"
-                    onClick={() => this.deleteEvent("5ec5cbd4877f842b3c81a96d")}
-                  >
-                    Delete event from schedule
-                  </button>
-
-                  <br />
-
-                  <button
-                    type="button"
-                    onClick={() => this.deleteCurrentSchedule()}
-                  >
-                    Delete schedule
-                  </button>
-                </div> */}
-                {/* end misc buttons */}
                 <div id="delete-schedule-container">
                   <Button
                     variant="contained"
