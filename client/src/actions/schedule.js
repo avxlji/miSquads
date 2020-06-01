@@ -148,7 +148,10 @@ export const addEvent = (schedule_id, data, history) => async (dispatch) => {
         dispatch(setAlert("Event added", "success"));
       }
     )
-    .catch((err) => console.log(err.message));
+    .catch((err) => {
+      console.log(err.message);
+      dispatch(setAlert("This schedule no longer exists", "danger"));
+    });
 };
 
 export const updateEvent = (schedule_id, event_id, data, history) => async (
@@ -190,7 +193,7 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
     });
     dispatch(setAlert("Event removed", "error"));
   } catch (err) {
-    history.push("/dashboard");
+    // history.push("/dashboard");
     dispatch(setAlert("This schedule no longer exists.", "danger"));
     dispatch({
       type: SCHEDULE_ERROR,

@@ -5,7 +5,11 @@
   overflow-y: hidden;
 }
 
-#current-schedule-name-responsive {
+.schedule-event-card {
+  margin: 1rem;
+}
+
+#events-list-container {
   display: none;
 }
 
@@ -54,11 +58,12 @@
 }
 
 @media only screen and (max-width: 767px) {
-  #current-schedule-name-responsive {
-    display: block;
-  }
-  .team-calendar-container {
+  #large-display-calendar-container {
     display: none;
+  }
+
+  #events-list-container {
+    display: block;
   }
 }
 

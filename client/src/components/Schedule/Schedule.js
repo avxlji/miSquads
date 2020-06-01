@@ -18,6 +18,7 @@ import AddEvent from "./AddEvent";
 // import EventDialog from "./EventDialog";
 import EditEvent from "./EditEvent";
 import Spinner from "../layout/Spinner";
+import ScheduleTest from "./ScheduleTest";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -82,6 +83,7 @@ class Schedule extends Component {
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
     this.setEventDetailsModal = this.setEventDetailsModal.bind(this);
+    this.deleteTriggeredEvent = this.deleteTriggeredEvent.bind(this);
   }
 
   componentDidMount() {
@@ -374,6 +376,7 @@ class Schedule extends Component {
   };
 
   deleteSelectedEvent = () => {
+    //removes deleted event from frontend when triggered by a call inside the scope of this component
     if (this.state.currentSchedule !== null) {
       if (this.state.selectedEvent !== null) {
         if (
@@ -409,6 +412,21 @@ class Schedule extends Component {
         }
       }
     }
+  };
+
+  deleteTriggeredEvent = (deletedEventId) => {
+    //removes deleted event from frontend when triggered by a call outside the scope of this component
+
+    var filteredArray = this.state.currentSchedule.events.filter(
+      (event) => event.id !== deletedEventId
+    );
+    this.setState((prevState) => ({
+      currentSchedule: {
+        // object that we want to update
+        ...prevState.currentSchedule, // keep all other key-value pairs
+        events: filteredArray, // update the value of specific key
+      },
+    }));
   };
 
   convertMilitaryToStandard = (dateString) => {
@@ -528,9 +546,6 @@ class Schedule extends Component {
         <div className="calendar-container">
           {this.state.currentSchedule !== null ? (
             <>
-              <h1 id="current-schedule-name-responsive">
-                {this.state.currentSchedule.scheduleName}
-              </h1>
               {/* start non-mobile display */}
               <div className="team-calendar-container">
                 <h1 id="current-schedule-name">
@@ -731,15 +746,36 @@ class Schedule extends Component {
                 {/* <Link to={`/schedule/${linkToSchedule}`}>{roomKey}</Link>
       <br /> */}
                 {/* end event/plan details modal */}
-                <Calendar
-                  localizer={localizer}
-                  events={this.state.currentSchedule.events}
-                  onSelectEvent={this.toggleSelectedEvent}
-                  defaultView="week"
-                  startAccessor="start"
-                  endAccessor="end"
-                  style={{ height: 500, marginBottom: "3rem" }}
-                />
+
+                {/* start render display based on device size */}
+                <div id="large-display-calendar-container">
+                  <Calendar
+                    localizer={localizer}
+                    events={this.state.currentSchedule.events}
+                    onSelectEvent={this.toggleSelectedEvent}
+                    defaultView="week"
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ height: 500, marginBottom: "3rem" }}
+                  />
+                </div>
+
+                <div id="events-list-container">
+                  {this.state.currentSchedule.events.map(
+                    (currentEvent, index) => (
+                      <ScheduleTest
+                        key={index}
+                        currentIndex={index}
+                        event={currentEvent}
+                        deleteEventFromDisplay={this.deleteTriggeredEvent}
+                        scheduleId={this.state.currentSchedule._id}
+                        sendData={this.getUpdatedEventData}
+                      />
+                    )
+                  )}
+                </div>
+
+                {/* end render display based on device size */}
 
                 <div id="delete-schedule-container">
                   <Button
