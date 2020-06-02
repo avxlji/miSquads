@@ -476,11 +476,25 @@ class EditEvent extends Component {
                 </div>
 
                 <div>
+                  {/* For devices smaller than an ipad */}
                   <Button
                     onClick={() => this.setEventDetailsModal()}
                     variant="contained"
                     size="small"
                     color="primary"
+                    id="edit-event-close-button"
+                    block
+                  >
+                    Close
+                  </Button>
+
+                  {/* For devices bigger than an ipad */}
+                  <Button
+                    onClick={() => this.setEventDetailsModal()}
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                    id="edit-event-go-back-button"
                     block
                   >
                     Go Back

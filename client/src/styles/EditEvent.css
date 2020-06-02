@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+#edit-event-close-button {
+  display: none;
+}
+
 #edit-event-container {
   width: 90%;
   display: flex;
@@ -23,4 +27,14 @@
 #month-select-container,
 #day-select-container {
   transform: translateY(0.55rem);
+}
+
+@media only screen and (max-width: 767px) {
+  #edit-event-close-button {
+    display: block;
+  }
+
+  #edit-event-go-back-button {
+    display: none;
+  }
 }

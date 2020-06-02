@@ -19,6 +19,7 @@ import AddEvent from "./AddEvent";
 import EditEvent from "./EditEvent";
 import Spinner from "../layout/Spinner";
 import ScheduleTest from "./ScheduleTest";
+import ScheduleInfo from "./ScheduleInfo";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -760,6 +761,17 @@ class Schedule extends Component {
                   />
                 </div>
 
+                {/* more info section for larger devices */}
+
+                <ScheduleInfo
+                  events={this.state.currentSchedule.events}
+                  users={this.state.currentSchedule.users}
+                  deleteEventFromDisplay={this.deleteTriggeredEvent}
+                  scheduleId={this.state.currentSchedule._id}
+                />
+                {/* need to display your events, schedule id, users (w number of users) */}
+
+                {/* events section for smaller devices */}
                 <div id="events-list-container">
                   {this.state.currentSchedule.events.map(
                     (currentEvent, index) => (
