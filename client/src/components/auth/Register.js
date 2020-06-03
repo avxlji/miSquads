@@ -3,9 +3,12 @@ import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../../actions/auth";
-import TextField from "@material-ui/core/TextField";
 import "../../styles/Register.css";
+
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const Register = ({ isAuthenticated, register }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +17,22 @@ const Register = ({ isAuthenticated, register }) => {
     password: "",
     password2: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [dynamicPasswordDisplay, setDynamicPasswordDisplay] = useState(
+    "password"
+  );
+
+  const handleShowPasswordTrigger = () => {
+    if (showPassword === false && dynamicPasswordDisplay === "password") {
+      setShowPassword(!showPassword);
+      setDynamicPasswordDisplay("text");
+    } else {
+      setShowPassword(!showPassword);
+      setDynamicPasswordDisplay("password");
+    }
+  };
 
   const { name, email, password, password2 } = formData;
 
@@ -74,7 +93,7 @@ const Register = ({ isAuthenticated, register }) => {
             <TextField
               id="outlined-basic"
               label="Password"
-              type="password"
+              type={dynamicPasswordDisplay}
               placeholder="Password"
               name="password"
               minLength="6"
@@ -94,6 +113,19 @@ const Register = ({ isAuthenticated, register }) => {
               onChange={(e) => onChange(e)}
             />
           </div>
+          {/* <div>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={() => handleShowPasswordTrigger()}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Show Password"
+            />
+          </div> */}
           <Button
             variant="contained"
             size="medium"

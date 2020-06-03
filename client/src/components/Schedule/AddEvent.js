@@ -5,6 +5,7 @@ import { addEvent } from "../../actions/schedule";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import "../../styles/AddEvent.css";
+import moment from "moment";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -176,26 +177,30 @@ class AddEvent extends Component {
   }
 
   convertToMilitaryTime = (time) => {
-    var hour;
-    var min;
-    var militaryTime;
+    // var hour;
+    // var min;
+    // var militaryTime;
 
-    time = time.toLowerCase();
+    // time = time.toLowerCase();
 
-    var isPm = time.includes("pm");
+    // var isPm = time.includes("pm");
 
-    var timeArray = time.split(":");
+    // var timeArray = time.split(":");
 
-    if (isPm) {
-      hour = 12 + parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("pm", "");
-    } else {
-      hour = parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("am", "");
-    }
+    // if (isPm) {
+    //   hour = 12 + parseInt(timeArray[0], 10);
+    //   min = timeArray[1].replace("pm", "");
+    // } else {
+    //   hour = parseInt(timeArray[0], 10);
+    //   min = timeArray[1].replace("am", "");
+    // }
 
-    militaryTime = hour.toString() + ":" + min + ":00";
+    // militaryTime = hour.toString() + ":" + min + ":00";
+    // console.log("military time: " + militaryTime);
+    // return militaryTime;
 
+    var militaryTime = moment(time, "hh:mm a").format("HH:mm") + ":00";
+    console.log(militaryTime);
     return militaryTime;
   };
 
@@ -284,7 +289,7 @@ class AddEvent extends Component {
             //3
             alert("Invalid start time format");
           }
-        } else if (this.state.starttime == "" && this.state.endtime == "") {
+        } else if (this.state.starttime === "" && this.state.endtime === "") {
           /* testing allDay feature */
 
           const formattedStartTime =
@@ -301,6 +306,7 @@ class AddEvent extends Component {
             allDay: true,
             start: formattedStartTime,
             end: formattedEndTime,
+            memo: this.state.memo,
           };
 
           //add item via addEvent action

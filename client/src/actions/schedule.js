@@ -40,6 +40,7 @@ export const createSchedule = (data) => async (dispatch) => {
       type: CREATE_SCHEDULE,
       payload: res.data,
     });
+    loadUser();
     dispatch(setAlert("Your schedule was created successfully", "success"));
   } catch (err) {
     dispatch(

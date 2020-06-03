@@ -47,6 +47,10 @@
   margin: 0rem 0rem 0rem 2rem;
 }
 
+#delete-schedule-container {
+  margin: 2rem 0rem;
+}
+
 @media only screen and (max-width: 767px) {
   #room-key-container {
     flex-direction: column;

@@ -88,11 +88,12 @@ router.post(
       if (req.body.roomKey === null || req.body.roomKey.length === 0) {
         throw err;
       }
+      const promptedUser = await User.findById(req.user.id);
       const newSchedule = new Schedule({
         //name, user and avatar are fetched from db using req token
         roomKey: req.body.roomKey,
         scheduleName: req.body.scheduleName,
-        users: [{ user_id: req.user.id }],
+        users: [{ user_id: req.user.id, user_name: promptedUser.name }],
       });
       newSchedule.save().then((schedule) => {
         User.findById(req.user.id).then((user) => {
@@ -256,7 +257,7 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
       }
 
       if (uniqueUser) {
-        schedule.users.unshift({ user_id: req.user.id }); //add at the beginning of the array to keep the most recent elements at the start
+        schedule.users.unshift({ user_id: req.user.id, user_name: user.name }); //add at the beginning of the array to keep the most recent elements at the start
         user.schedules.unshift({
           roomKey: req.params.roomKey,
           schedule_id: schedule._id,
@@ -341,167 +342,4 @@ router.post("/:schedule_id/:event_id", auth, async (req, res) => {
   }
 });
 
-// // @route    GET api/profile/user/:user_id
-// // @desc     Get profile by user id
-// // @access   Public
-// router.get("/user/:user_id", async (req, res) => {
-//   //we are searching for profiles by the USER ID, not profile id
-//   try {
-//     const profile = await Profile.findOne({
-//       user: req.params.user_id,
-//     }).populate("user", ["name", "avatar"]); //get all profiles WITH name and avatar from each user
-
-//     if (!profile) return res.status(400).json({ msg: "Profile not found" });
-
-//     res.json(profile);
-//   } catch (err) {
-//     console.error(err);
-//     if (err.message.includes("ObjectId")) {
-//       //err.kind == "ObjectId" returns undefined so check entirety of message
-//       return res.status(400).json({ msg: "Profile not found" });
-//     }
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-// // @route    DELETE api/profile
-// // @desc     Delete profile, user & posts
-// // @access   Private
-// router.delete("/", auth, async (req, res) => {
-//   //since our route is private, we have access to the jwt token
-//   //we are searching for profiles by the USER ID, not profile id
-//   try {
-//     //Remove users posts
-
-//     //Remove profile
-//     await Profile.findOneAndRemove({ user: req.user.id }); //user id explicity defined in Profile model
-
-//     //Remove user
-//     await User.findOneAndRemove({ _id: req.user.id }); //_id implicity defined in mongodb
-
-//     res.json({ msg: "User deleted" });
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-// // @route    DELETE api/profile/experience/:exp_id
-// // @desc     Delete experience from profile
-// // @access   Private
-// router.delete("/experience/:exp_id", auth, async (req, res) => {
-//   try {
-//     const foundProfile = await Profile.findOne({ user: req.user.id });
-
-//     // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
-//     foundProfile.experience = foundProfile.experience.filter(
-//       (exp) => exp._id.toString() !== req.params.exp_id
-//     );
-
-//     await foundProfile.save();
-//     return res.status(200).json(foundProfile);
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ msg: "Server error" });
-//   }
-// });
-
-// // @route    PUT api/profile/education
-// // @desc     Add profile education
-// // @access   Private
-// router.put(
-//   "/education",
-//   [
-//     auth,
-//     [
-//       check("school", "School is required").not().isEmpty(),
-//       check("degree", "Degree is required").not().isEmpty(),
-//       check("fieldofstudy", "Field of study is required").not().isEmpty(),
-//       check("from", "From date is required").not().isEmpty(),
-//     ],
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() }); //checks request for specified validation
-//     }
-
-//     const {
-//       school,
-//       degree,
-//       fieldofstudy,
-//       from,
-//       to,
-//       current,
-//       description,
-//     } = req.body;
-
-//     const newEdu = {
-//       school,
-//       degree,
-//       fieldofstudy,
-//       from,
-//       to,
-//       current,
-//       description,
-//     };
-
-//     try {
-//       const profile = await Profile.findOne({ user: req.user.id });
-//       profile.education.unshift(newEdu); //add at the beginning of the array to keep the most recent elements at the start
-//       await profile.save();
-//       res.json(profile);
-//     } catch (err) {
-//       console.err(err.message);
-//       res.status(500).send("Server error");
-//     }
-//   }
-// );
-
-// // @route    DELETE api/profile/education/:edu_id
-// // @desc     Delete education from profile
-// // @access   Private
-// router.delete("/education/:edu_id", auth, async (req, res) => {
-//   try {
-//     const foundProfile = await Profile.findOne({ user: req.user.id });
-//     const eduIds = foundProfile.education.map((edu) => edu._id.toString());
-//     // if i dont add .toString() it returns this weird mongoose coreArray and the ids are somehow objects and it still deletes anyway even if you put /education/5
-//     const removeIndex = eduIds.indexOf(req.params.edu_id);
-//     if (removeIndex === -1) {
-//       //if no id found
-//       return res.status(500).json({ msg: "Server error" });
-//     } else {
-//       foundProfile.education.splice(removeIndex, 1);
-//       await foundProfile.save();
-//       return res.status(200).json(foundProfile);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ msg: "Server error" });
-//   }
-// });
-
-// // @route    GET api/profile/github/:username
-// // @desc     Get user repos from Github
-// // @access   Public
-// router.get("/github/:username", async (req, res) => {
-//   try {
-//     const uri = encodeURI(
-//       `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
-//     );
-//     const headers = {
-//       "user-agent": "node.js",
-//       Authorization: `token ${process.env.GITHUB_TOKEN}`,
-//     };
-
-//     const gitHubResponse = await axios.get(uri, { headers });
-//     return res.json(gitHubResponse.data);
-//   } catch (err) {
-//     console.error(err.message);
-//     return res.status(404).json({ msg: "No Github profile found" });
-//   }
-// });
-
 module.exports = router;
-
-// //NEED TO ADD ROUTE TO UPDATE EXPERIENCE

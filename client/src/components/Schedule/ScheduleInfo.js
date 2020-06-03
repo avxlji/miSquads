@@ -80,7 +80,7 @@ const ScheduleInfo = ({
           id={`panel1bh-content`}
         >
           <Typography>
-            <h3>Your teams events</h3>
+            <h3>Your teams plans</h3>
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails id="expansion-events-panel">
@@ -90,12 +90,18 @@ const ScheduleInfo = ({
                 <Divider />
                 <Typography key={index} id="single-event-typography">
                   <p>{currentEvent.title}</p>
-                  <p>
-                    {formatTiming(
-                      currentEvent.startString,
-                      currentEvent.endString
-                    )}
-                  </p>
+                  {currentEvent.allDay ? (
+                    <p>
+                      This is event is scheduled for {currentEvent.startString}
+                    </p>
+                  ) : (
+                    <p>
+                      {formatTiming(
+                        currentEvent.startString,
+                        currentEvent.endString
+                      )}
+                    </p>
+                  )}
                   {currentEvent.memo !== null ? (
                     currentEvent.memo
                   ) : (
@@ -192,8 +198,15 @@ const ScheduleInfo = ({
             <h3>Team members</h3>
           </Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails id="expansion-users-panel">
           <Typography>Users: {users.length}</Typography>
+          <div id="schedule-users-container">
+            {users.map((user) => {
+              if (user.name !== null) {
+                return <Typography>- {user.user_name}</Typography>;
+              }
+            })}
+          </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
       {/* End schedule users information */}

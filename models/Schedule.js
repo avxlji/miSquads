@@ -15,6 +15,10 @@ const ScheduleSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       },
+      user_name: {
+        type: String,
+        required: false,
+      },
     },
   ],
   events: [

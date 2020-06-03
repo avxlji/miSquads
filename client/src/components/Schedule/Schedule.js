@@ -42,25 +42,25 @@ class Schedule extends Component {
     //temp addition ...
     super(props);
     this.state = {
-      // dummyObject1: {
-      //   scheduleName: "Test schedule 1",
-      //   events: [
-      //     {
-      //       _id: "5ebe05ef1f5670631aaeaa9b",
-      //       title: "7:40pm",
-      //       start: "May 6, 2020 08:00:00",
-      //       allDay: false,
-      //       end: "May 6, 2020 18:00:00",
-      //     },
-      //     {
-      //       _id: "5ebe05e51f5670631aaeaa9a",
-      //       title: "test1",
-      //       start: "today",
-      //       allDay: true,
-      //       end: "",
-      //     },
-      //   ],
-      // },
+      dummyObject1: {
+        scheduleName: "Test schedule 1",
+        events: [
+          {
+            _id: "5ebe05ef1f5670631aaeaa9b",
+            title: "7:40pm",
+            start: "May 6, 2020 08:00:00",
+            allDay: false,
+            end: "May 6, 2020 18:00:00",
+          },
+          {
+            _id: "5ebe05e51f5670631aaeaa9a",
+            title: "test1",
+            start: "today",
+            allDay: true,
+            end: "",
+          },
+        ],
+      },
       currentSchedule: null,
       _id: null,
       memo: null,
@@ -619,12 +619,19 @@ class Schedule extends Component {
                             <h1>{this.state.selectedEvent.title}</h1>
                           </DialogTitle>
                           <List>
-                            <ListItem>
-                              Start Time: {this.state.selectedEvent.startString}
-                            </ListItem>
-                            <ListItem>
-                              End Time: {this.state.selectedEvent.endString}
-                            </ListItem>
+                            {this.state.selectedEvent.allDay ? (
+                              <ListItem>This event runs all day.</ListItem>
+                            ) : (
+                              <>
+                                <ListItem>
+                                  Start Time:{" "}
+                                  {this.state.selectedEvent.startString}
+                                </ListItem>
+                                <ListItem>
+                                  End Time: {this.state.selectedEvent.endString}
+                                </ListItem>
+                              </>
+                            )}
                           </List>
                           <Button
                             variant="contained"
@@ -676,60 +683,6 @@ class Schedule extends Component {
                               <h1>Edit</h1>
                             </DialogTitle>
                             <List>
-                              {/* <TextField
-                                id="outlined-basic"
-                                label="Schedule Name"
-                                name="editEventTitle"
-                                onChange={(e) => {
-                                  this.handleChange(e);
-                                }}
-                              />
-
-                              <Checkbox
-                                checked={this.state.editEventAllDay}
-                                color="primary"
-                                inputProps={{
-                                  "aria-label": "secondary checkbox",
-                                }}
-                                onClick={() =>
-                                  this.setState({
-                                    editEventAllDay: !this.state
-                                      .editEventAllDay,
-                                  })
-                                }
-                              />
-                              {!this.state.editEventAllDay && (
-                                <>
-                                  <TextField
-                                    id="outlined-basic"
-                                    label="Schedule Name"
-                                    name="editEventStart"
-                                    value={this.state.editEventStart}
-                                    onChange={(e) => {
-                                      this.handleChange(e);
-                                    }}
-                                  />
-                                  <TextField
-                                    id="outlined-basic"
-                                    label="Schedule Name"
-                                    name="editEventEnd"
-                                    onChange={(e) => {
-                                      this.handleChange(e);
-                                    }}
-                                  />
-                                </>
-                              )}
-                              <Button
-                              variant="contained"
-                              size="small"
-                              color="primary"
-                              id="close-selected-event-button"
-                              style={{ marginLeft: ".95rem" }}
-                              block
-                              onClick={this.toggleEditEventModal}
-                            >
-                              Edit
-                            </Button> */}
                               <EditEvent
                                 scheduleId={this.state.currentSchedule._id}
                                 eventId={this.state.selectedEvent.id}
