@@ -21,10 +21,9 @@ class EditEvent extends Component {
     this.state = {
       //   id: this.props.eventId,
       name: this.props.editEventPrefill.title,
-      year: "",
-      // month: this.refactorObjectToAmPmTime(this.props.editEventPrefill.start),
-      month: "January",
-      day: "1",
+      year: this.props.editEventPrefill.start.getFullYear().toString(),
+      month: this.refactorDateToMonth(this.props.editEventPrefill.start),
+      day: this.props.editEventPrefill.start.getDate(),
       starttime: this.props.editEventPrefill.startString,
       endtime: this.props.editEventPrefill.endString,
       submitting: false,
@@ -35,13 +34,39 @@ class EditEvent extends Component {
   }
 
   /*This function is not currently in use */
-  refactorObjectToAmPmTime = (time) => {
-    var standardTime = moment(time, "ddd DD-MMM-YYYY, hh:mm A").format(
-      "hh:mm A"
-    );
-    console.log(standardTime);
-    return "January";
+  // refactorDateToAmPmTime = (time) => {
+  //   var standardTime = moment(time, "ddd DD-MMM-YYYY, hh:mm A").format(
+  //     "hh:mm A"
+  //   );
+  //   console.log(time);
+  //   return "January";
+  // };
+
+  refactorDateToMonth = (time) => {
+    var month = time.getMonth();
+    var months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    month = months[month];
+    console.log(time);
+    return month;
   };
+
+  // refactorDateToYear = (time) => {
+  //   var year = time.getFullYear();
+  //   return year.toString();
+  // };
 
   onChange = (e) => {
     this.setState({
@@ -419,6 +444,7 @@ class EditEvent extends Component {
                     type="text"
                     name="year"
                     placeholder="Ex. 20XX"
+                    value={this.state.year}
                     onChange={this.onChange}
                     required
                   />
