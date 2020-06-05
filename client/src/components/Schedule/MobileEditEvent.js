@@ -13,23 +13,22 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-class AdaptedEditEvent extends Component {
+class MobileEditEvent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       //   id: this.props.eventId,
-      id: this.props.eventId,
-      name: this.props.eventTitle,
+      name: this.props.editEventPrefill.title,
       year: "",
       month: "January",
       day: "1",
-      starttime: this.props.eventStartString,
-      endtime: this.props.eventEndString,
+      starttime: this.props.editEventPrefill.startString,
+      endtime: this.props.editEventPrefill.endString,
       submitting: false,
       error: false,
       scheduleId: this.props.scheduleId,
-      memo: this.props.eventMemo,
+      memo: this.props.editEventPrefill.memo,
     };
   }
 
@@ -241,7 +240,6 @@ class AdaptedEditEvent extends Component {
                   console.log(formattedEndTime);
 
                   const newItem = {
-                    id: this.state.id,
                     title: this.state.name,
                     allDay: false,
                     start: formattedStartTime,
@@ -287,14 +285,11 @@ class AdaptedEditEvent extends Component {
           console.log(formattedEndTime);
 
           const newItem = {
-            id: this.state.id,
             title: this.state.name,
             allDay: true,
             start: formattedStartTime,
             end: formattedEndTime,
           };
-
-          console.log(this.state.id);
 
           //add item via updateEvent action
           this.props.updateEvent(
@@ -319,8 +314,8 @@ class AdaptedEditEvent extends Component {
     this.props.sendData(updatedEvent);
   }
 
-  setEventDetailsModal() {
-    this.props.setEventDetailsModal();
+  setMobileEventDetailsModal() {
+    this.props.setMobileEventDetailsModal();
   }
 
   render() {
@@ -393,7 +388,7 @@ class AdaptedEditEvent extends Component {
                     required
                   />
                 </div>
-                {console.log(this.state.id)}
+
                 <div>
                   <TextField
                     id="outlined-basic"
@@ -483,7 +478,7 @@ class AdaptedEditEvent extends Component {
                 <div>
                   {/* For devices smaller than an ipad */}
                   <Button
-                    onClick={() => this.props.toggleEventDetailsModal()}
+                    onClick={() => this.setMobileEventDetailsModal()}
                     variant="contained"
                     size="small"
                     color="primary"
@@ -494,16 +489,6 @@ class AdaptedEditEvent extends Component {
                   </Button>
 
                   {/* For devices bigger than an ipad */}
-                  <Button
-                    onClick={() => this.setEventDetailsModal()}
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    id="edit-event-go-back-button"
-                    block
-                  >
-                    Go Back
-                  </Button>
 
                   <Button
                     type="submit"
@@ -534,5 +519,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { updateEvent })(
-  withRouter(AdaptedEditEvent)
+  withRouter(MobileEditEvent)
 );

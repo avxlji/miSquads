@@ -4,7 +4,6 @@
 }
 
 #add-event-container {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,4 +23,11 @@
 #month-select-container,
 #day-select-container {
   transform: translateY(0.55rem);
+}
+
+@media only screen and (max-width: 767px) {
+  #add-event-container {
+    width: 97%;
+    margin: auto;
+  }
 }

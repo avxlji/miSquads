@@ -50,29 +50,6 @@ const ScheduleTest = ({
     }
   };
 
-  const sendDataToParentComponent = (
-    id,
-    title,
-    start,
-    startString,
-    end,
-    endString,
-    memo,
-    allDay
-  ) => {
-    const formattedData = {
-      id,
-      title,
-      start,
-      startString,
-      end,
-      endString,
-      memo,
-      allDay,
-    };
-    sendData(formattedData);
-  };
-
   const updateEvent = () => {};
   return (
     <>
@@ -103,25 +80,16 @@ const ScheduleTest = ({
           </Typography>
           <br />
           <div id="expansion-button-container">
-            <Button
+            {/* <Button
               variant="contained"
               size="medium"
               color="primary"
-              onClick={() =>
-                sendDataToParentComponent(
-                  id,
-                  title,
-                  start,
-                  startString,
-                  end,
-                  endString,
-                  memo,
-                  allDay
-                )
+              onClick={(scheduleId, id, history) =>
+                deleteEvent(scheduleId, id, history)
               }
             >
               Edit Plan
-            </Button>{" "}
+            </Button>{" "} */}
             <Button
               variant="contained"
               size="medium"

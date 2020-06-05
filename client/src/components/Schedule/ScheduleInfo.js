@@ -102,7 +102,8 @@ const ScheduleInfo = ({
                       )}
                     </p>
                   )}
-                  {currentEvent.memo !== null ? (
+                  {currentEvent.memo !== null &&
+                  currentEvent.memo.length > 0 ? (
                     currentEvent.memo
                   ) : (
                     <p>There's no additional information about this event.</p>

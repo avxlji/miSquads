@@ -51,6 +51,14 @@
   margin: 2rem 0rem;
 }
 
+#mobile-your-plans-header {
+  display: none;
+}
+
+#mobile-schedule-info-header {
+  display: none;
+}
+
 @media only screen and (max-width: 767px) {
   #room-key-container {
     flex-direction: column;
@@ -59,15 +67,53 @@
   #room-key-container #room-key-button {
     margin: 1rem 0rem 0rem 1rem;
   }
-}
 
-@media only screen and (max-width: 767px) {
   #large-display-calendar-container {
     display: none;
   }
 
   #events-list-container {
     display: block;
+  }
+
+  #schedule-info-accordion {
+    margin-top: 2rem;
+  }
+
+  #mobile-your-plans-header {
+    display: contents;
+    margin-bottom: 2rem;
+  }
+
+  #mobile-schedule-info-header {
+    display: contents;
+    margin-bottom: 2rem;
+  }
+
+  #schedule-info-content {
+    margin-top: 1rem;
+  }
+
+  #events-list-content {
+    margin-top: 1rem;
+  }
+
+  #change-schedule-name-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 2rem 2rem 2rem 0;
+  }
+
+  #change-schedule-name-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 2rem 0rem;
+  }
+
+  #event-dialog-container {
+    display: none;
   }
 }
 

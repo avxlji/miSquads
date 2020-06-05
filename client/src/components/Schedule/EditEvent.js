@@ -5,6 +5,7 @@ import { updateEvent } from "../../actions/schedule";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import "../../styles/EditEvent.css";
+import moment from "moment";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -163,26 +164,30 @@ class EditEvent extends Component {
   }
 
   convertToMilitaryTime = (time) => {
-    var hour;
-    var min;
-    var militaryTime;
+    // var hour;
+    // var min;
+    // var militaryTime;
 
-    time = time.toLowerCase();
+    // time = time.toLowerCase();
 
-    var isPm = time.includes("pm");
+    // var isPm = time.includes("pm");
 
-    var timeArray = time.split(":");
+    // var timeArray = time.split(":");
 
-    if (isPm) {
-      hour = 12 + parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("pm", "");
-    } else {
-      hour = parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("am", "");
-    }
+    // if (isPm) {
+    //   hour = 12 + parseInt(timeArray[0], 10);
+    //   min = timeArray[1].replace("pm", "");
+    // } else {
+    //   hour = parseInt(timeArray[0], 10);
+    //   min = timeArray[1].replace("am", "");
+    // }
 
-    militaryTime = hour.toString() + ":" + min + ":00";
+    // militaryTime = hour.toString() + ":" + min + ":00";
+    // console.log("military time: " + militaryTime);
+    // return militaryTime;
 
+    var militaryTime = moment(time, "hh:mm a").format("HH:mm") + ":00";
+    console.log(militaryTime);
     return militaryTime;
   };
 
@@ -316,6 +321,10 @@ class EditEvent extends Component {
 
   setEventDetailsModal() {
     this.props.setEventDetailsModal();
+  }
+
+  closeEditModals() {
+    this.props.closeEditModals();
   }
 
   render() {
@@ -475,10 +484,10 @@ class EditEvent extends Component {
                   />
                 </div>
 
-                <div>
+                <div id="edit-event-buttons-container">
                   {/* For devices smaller than an ipad */}
                   <Button
-                    onClick={() => this.setEventDetailsModal()}
+                    onClick={() => this.closeEditModals()}
                     variant="contained"
                     size="small"
                     color="primary"
@@ -506,6 +515,7 @@ class EditEvent extends Component {
                     variant="contained"
                     size="small"
                     color="primary"
+                    id="edit-event-update-button"
                     block
                   >
                     Update Event

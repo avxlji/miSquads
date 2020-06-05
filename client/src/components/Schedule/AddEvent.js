@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Input, Label, Form } from "reactstrap";
 import { connect } from "react-redux";
 import { addEvent } from "../../actions/schedule";
+import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import "../../styles/AddEvent.css";
@@ -321,6 +322,9 @@ class AddEvent extends Component {
         } else {
           alert("Invalid Time Entry");
         }
+      } else {
+        console.log("reached target");
+        this.props.setAlert("invalid date", "error");
       }
     }
   };
@@ -508,4 +512,6 @@ const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading,
 });
 
-export default connect(mapStateToProps, { addEvent })(withRouter(AddEvent));
+export default connect(mapStateToProps, { addEvent, setAlert })(
+  withRouter(AddEvent)
+);

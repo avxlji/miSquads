@@ -18,7 +18,7 @@ import AddEvent from "./AddEvent";
 // import EventDialog from "./EventDialog";
 import EditEvent from "./EditEvent";
 import Spinner from "../layout/Spinner";
-import ScheduleTest from "./ScheduleTest";
+import ScheduleEvent from "./ScheduleEvent";
 import ScheduleInfo from "./ScheduleInfo";
 
 //materialUI imports
@@ -84,8 +84,8 @@ class Schedule extends Component {
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
     this.setEventDetailsModal = this.setEventDetailsModal.bind(this);
+    this.closeEditModals = this.closeEditModals.bind(this);
     this.deleteTriggeredEvent = this.deleteTriggeredEvent.bind(this);
-    this.togglePassedEvent = this.togglePassedEvent.bind(this);
   }
 
   componentDidMount() {
@@ -370,54 +370,6 @@ class Schedule extends Component {
     }
   };
 
-  togglePassedEvent = (grandChildEvent) => {
-    console.log(grandChildEvent);
-    // const { id, title, allDay, start, memo, end } = e;
-    // var splitStartDateString = start.toString().split(" ").slice(0, 5);
-    // var splitEndDateString = end.toString().split(" ").slice(0, 5);
-    // console.log(splitEndDateString[4]);
-    // var formattedStartString = this.convertMilitaryToStandard(
-    //   splitStartDateString[4]
-    // );
-    // var formattedEndString = this.convertMilitaryToStandard(
-    //   splitEndDateString[4]
-    // );
-    // console.log(start);
-    // console.log(end);
-    // const newformattedEvent = {
-    //   id: id,
-    //   title: title,
-    //   allDay: allDay,
-    //   start: new Date(start),
-    //   end: new Date(end),
-    //   startString: formattedStartString,
-    //   endString: formattedEndString,
-    //   memo: memo,
-    // };
-    // if (this.state.eventDetailsOpen === false) {
-    //   this.setState({
-    //     selectedEvent: newformattedEvent,
-    //     eventDetailsOpen: !this.state.eventDetailsOpen,
-    //     /* edit modal prefill data */
-    //     // editEventTitle: title,
-    //     // editEventStart: start,
-    //     // editEventEnd: end,
-    //     // editEventAllDay: allDay,
-    //     // editEventPrefill: newformattedEvent,
-    //   });
-    // } else {
-    //   this.setState({
-    //     eventDetailsOpen: !this.state.eventDetailsOpen,
-    //     selectedEvent: null,
-    //     // editEventTitle: null,
-    //     // editEventStart: null,
-    //     // editEventEnd: null,
-    //     // editEventAllDay: null,
-    //     // editEventPrefill: null,
-    //   });
-    // }
-  };
-
   closeSelectedEvent = () => {
     this.setState({
       eventDetailsOpen: false,
@@ -515,6 +467,16 @@ class Schedule extends Component {
     return standardTime;
   };
 
+  convertMilitaryToStandardMoment = (time) => {
+    var standardTime = moment(time, "HH:mm").format("hh:mm a");
+
+    if (standardTime.charAt(0) === "0") {
+      standardTime = standardTime.substr(1);
+      return standardTime;
+    }
+    return standardTime;
+  };
+
   onChangeScheduleNameClick = () => {
     if (this.state.changeSchedName === true) {
       this.setState({
@@ -582,6 +544,13 @@ class Schedule extends Component {
     });
   }
 
+  closeEditModals() {
+    this.setState({
+      editEventDetailsOpen: false,
+      eventDetailsOpen: false,
+    });
+  }
+
   /* end button bar conditional form trigger */
 
   render() {
@@ -645,6 +614,7 @@ class Schedule extends Component {
                       variant="contained"
                       size="small"
                       color="primary"
+                      id="change-schedule-name-button"
                       block
                       onClick={this.changeName}
                     >
@@ -674,10 +644,15 @@ class Schedule extends Component {
                               <>
                                 <ListItem>
                                   Start Time:{" "}
-                                  {this.state.selectedEvent.startString}
+                                  {this.convertMilitaryToStandardMoment(
+                                    this.state.selectedEvent.start
+                                  )}
                                 </ListItem>
                                 <ListItem>
-                                  End Time: {this.state.selectedEvent.endString}
+                                  End Time:{" "}
+                                  {this.convertMilitaryToStandardMoment(
+                                    this.state.selectedEvent.end
+                                  )}
                                 </ListItem>
                               </>
                             )}
@@ -738,6 +713,7 @@ class Schedule extends Component {
                                 editEventPrefill={this.state.selectedEvent}
                                 sendData={this.getUpdatedEventData}
                                 setEventDetailsModal={this.setEventDetailsModal}
+                                closeEditModals={this.closeEditModals}
                               />
                             </List>
                           </div>
@@ -765,31 +741,41 @@ class Schedule extends Component {
 
                 {/* more info section for larger devices */}
 
-                <ScheduleInfo
-                  events={this.state.currentSchedule.events}
-                  users={this.state.currentSchedule.users}
-                  deleteEventFromDisplay={this.deleteTriggeredEvent}
-                  scheduleId={this.state.currentSchedule._id}
-                />
                 {/* need to display your events, schedule id, users (w number of users) */}
 
                 {/* events section for smaller devices */}
                 <div id="events-list-container">
-                  {this.state.currentSchedule.events.map(
-                    (currentEvent, index) => (
-                      <ScheduleTest
-                        key={index}
-                        currentIndex={index}
-                        event={currentEvent}
-                        deleteEventFromDisplay={this.deleteTriggeredEvent}
-                        scheduleId={this.state.currentSchedule._id}
-                        sendData={this.togglePassedEvent}
-                      />
-                    )
-                  )}
+                  <h3 id="mobile-your-plans-header">Your Plans</h3>
+                  <div id="events-list-content">
+                    {this.state.currentSchedule.events.map(
+                      (currentEvent, index) => (
+                        <ScheduleEvent
+                          key={index}
+                          currentIndex={index}
+                          event={currentEvent}
+                          deleteEventFromDisplay={this.deleteTriggeredEvent}
+                          scheduleId={this.state.currentSchedule._id}
+                          sendData={this.getUpdatedEventData}
+                        />
+                      )
+                    )}
+                  </div>
                 </div>
 
                 {/* end render display based on device size */}
+
+                <div id="schedule-info-accordion">
+                  <h3 id="mobile-schedule-info-header">Schedule info</h3>
+                  <div id="schedule-info-content">
+                    {/* stops displaying events as an attached component on smaller devices */}
+                    <ScheduleInfo
+                      events={this.state.currentSchedule.events}
+                      users={this.state.currentSchedule.users}
+                      deleteEventFromDisplay={this.deleteTriggeredEvent}
+                      scheduleId={this.state.currentSchedule._id}
+                    />
+                  </div>
+                </div>
 
                 <div id="delete-schedule-container">
                   <Button
