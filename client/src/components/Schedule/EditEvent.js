@@ -22,6 +22,7 @@ class EditEvent extends Component {
       //   id: this.props.eventId,
       name: this.props.editEventPrefill.title,
       year: "",
+      // month: this.refactorObjectToAmPmTime(this.props.editEventPrefill.start),
       month: "January",
       day: "1",
       starttime: this.props.editEventPrefill.startString,
@@ -32,6 +33,15 @@ class EditEvent extends Component {
       memo: this.props.editEventPrefill.memo,
     };
   }
+
+  /*This function is not currently in use */
+  refactorObjectToAmPmTime = (time) => {
+    var standardTime = moment(time, "ddd DD-MMM-YYYY, hh:mm A").format(
+      "hh:mm A"
+    );
+    console.log(standardTime);
+    return "January";
+  };
 
   onChange = (e) => {
     this.setState({
@@ -205,70 +215,74 @@ class EditEvent extends Component {
         if (this.state.starttime) {
           if (this.isValidTime(this.state.starttime)) {
             if (this.state.endtime) {
-              if (this.isValidTime(this.state.endtime)) {
-                if (this.startTimeBeforeEndTime()) {
-                  if (this.state.name.includes("}}}")) {
-                    let newName = this.state.name.replace("}}}", "");
-                    this.setState({
-                      name: newName,
-                    });
+              if (this.state.endtime !== "12:00am") {
+                if (this.isValidTime(this.state.endtime)) {
+                  if (this.startTimeBeforeEndTime()) {
+                    if (this.state.name.includes("}}}")) {
+                      let newName = this.state.name.replace("}}}", "");
+                      this.setState({
+                        name: newName,
+                      });
+                    }
+
+                    //'April 06, 2020 06:00:00' Needed Date String Format
+
+                    const startTime = this.convertToMilitaryTime(
+                      this.state.starttime
+                    );
+                    const endTime = this.convertToMilitaryTime(
+                      this.state.endtime
+                    );
+
+                    const formattedStartTime =
+                      this.state.month +
+                      " " +
+                      this.state.day +
+                      ", " +
+                      this.state.year +
+                      " " +
+                      startTime;
+
+                    const formattedEndTime =
+                      this.state.month +
+                      " " +
+                      this.state.day +
+                      ", " +
+                      this.state.year +
+                      " " +
+                      endTime;
+
+                    console.log(formattedStartTime);
+                    console.log(formattedEndTime);
+
+                    const newItem = {
+                      title: this.state.name,
+                      allDay: false,
+                      start: formattedStartTime,
+                      end: formattedEndTime,
+                      memo: this.state.memo,
+                    };
+                    console.log(this.props.scheduleId);
+                    console.log(this.props.eventId);
+                    //add item via addEvent action
+                    this.props.updateEvent(
+                      this.props.scheduleId,
+                      this.props.eventId,
+                      newItem,
+                      this.props.history
+                    );
+
+                    this.demoMethod(newItem);
+                  } else {
+                    alert(
+                      "Please make sure your start time is before your end time"
+                    );
                   }
-
-                  //'April 06, 2020 06:00:00' Needed Date String Format
-
-                  const startTime = this.convertToMilitaryTime(
-                    this.state.starttime
-                  );
-                  const endTime = this.convertToMilitaryTime(
-                    this.state.endtime
-                  );
-
-                  const formattedStartTime =
-                    this.state.month +
-                    " " +
-                    this.state.day +
-                    ", " +
-                    this.state.year +
-                    " " +
-                    startTime;
-
-                  const formattedEndTime =
-                    this.state.month +
-                    " " +
-                    this.state.day +
-                    ", " +
-                    this.state.year +
-                    " " +
-                    endTime;
-
-                  console.log(formattedStartTime);
-                  console.log(formattedEndTime);
-
-                  const newItem = {
-                    title: this.state.name,
-                    allDay: false,
-                    start: formattedStartTime,
-                    end: formattedEndTime,
-                    memo: this.state.memo,
-                  };
-                  console.log(this.props.scheduleId);
-                  console.log(this.props.eventId);
-                  //add item via addEvent action
-                  this.props.updateEvent(
-                    this.props.scheduleId,
-                    this.props.eventId,
-                    newItem,
-                    this.props.history
-                  );
-
-                  this.demoMethod(newItem);
                 } else {
-                  alert(
-                    "Please make sure your start time is before your end time"
-                  );
+                  alert("Invalid end time format");
                 }
               } else {
-                alert("Invalid end time format");
+                alert("End time cannot be 12:00am");
               }
             } else {
               alert("Please enter a End Time");
@@ -382,6 +396,7 @@ class EditEvent extends Component {
             {/* <button color="primary" onClick={this.refreshPage}>
               Refresh
             </button> */}
+            {console.log(this.props.editEventPrefill.start.toString())}
 
             <form onSubmit={this.onSubmit}>
               <div id="edit-event-container">
@@ -397,7 +412,6 @@ class EditEvent extends Component {
                     required
                   />
                 </div>
-
                 <div>
                   <TextField
                     id="outlined-basic"

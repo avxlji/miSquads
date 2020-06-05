@@ -219,69 +219,73 @@ class AddEvent extends Component {
         if (this.state.starttime) {
           if (this.isValidTime(this.state.starttime)) {
             if (this.state.endtime) {
-              if (this.isValidTime(this.state.endtime)) {
-                if (this.startTimeBeforeEndTime()) {
-                  if (this.state.name.includes("}}}")) {
-                    let newName = this.state.name.replace("}}}", "");
-                    this.setState({
-                      name: newName,
-                    });
+              if (this.state.endtime !== "12:00am") {
+                if (this.isValidTime(this.state.endtime)) {
+                  if (this.startTimeBeforeEndTime()) {
+                    if (this.state.name.includes("}}}")) {
+                      let newName = this.state.name.replace("}}}", "");
+                      this.setState({
+                        name: newName,
+                      });
+                    }
+
+                    //'April 06, 2020 06:00:00' Needed Date String Format
+
+                    const startTime = this.convertToMilitaryTime(
+                      this.state.starttime
+                    );
+                    const endTime = this.convertToMilitaryTime(
+                      this.state.endtime
+                    );
+
+                    const formattedStartTime =
+                      this.state.month +
+                      " " +
+                      this.state.day +
+                      ", " +
+                      this.state.year +
+                      " " +
+                      startTime;
+
+                    const formattedEndTime =
+                      this.state.month +
+                      " " +
+                      this.state.day +
+                      ", " +
+                      this.state.year +
+                      " " +
+                      endTime;
+
+                    console.log(formattedStartTime);
+                    console.log(formattedEndTime);
+
+                    const newItem = {
+                      title: this.state.name,
+                      allDay: false,
+                      start: formattedStartTime,
+                      end: formattedEndTime,
+                      memo: this.state.memo,
+                    };
+
+                    //add item via addEvent action
+                    this.props.addEvent(
+                      this.props.scheduleId,
+                      newItem,
+                      this.props.history
+                    );
+
+                    //closes modal
+                    this.toggle();
+                  } else {
+                    alert(
+                      "Please make sure your start time is before your end time"
+                    );
                   }
-
-                  //'April 06, 2020 06:00:00' Needed Date String Format
-
-                  const startTime = this.convertToMilitaryTime(
-                    this.state.starttime
-                  );
-                  const endTime = this.convertToMilitaryTime(
-                    this.state.endtime
-                  );
-
-                  const formattedStartTime =
-                    this.state.month +
-                    " " +
-                    this.state.day +
-                    ", " +
-                    this.state.year +
-                    " " +
-                    startTime;
-
-                  const formattedEndTime =
-                    this.state.month +
-                    " " +
-                    this.state.day +
-                    ", " +
-                    this.state.year +
-                    " " +
-                    endTime;
-
-                  console.log(formattedStartTime);
-                  console.log(formattedEndTime);
-
-                  const newItem = {
-                    title: this.state.name,
-                    allDay: false,
-                    start: formattedStartTime,
-                    end: formattedEndTime,
-                    memo: this.state.memo,
-                  };
-
-                  //add item via addEvent action
-                  this.props.addEvent(
-                    this.props.scheduleId,
-                    newItem,
-                    this.props.history
-                  );
-
-                  //closes modal
-                  this.toggle();
                 } else {
-                  alert(
-                    "Please make sure your start time is before your end time"
-                  );
+                  alert("Invalid end time format");
                 }
               } else {
-                alert("Invalid end time format");
+                alert("End time cannot be 12:00am");
               }
             } else {
               alert("Please enter a End Time");
