@@ -50,6 +50,29 @@ const ScheduleTest = ({
     }
   };
 
+  const sendDataToParentComponent = (
+    id,
+    title,
+    start,
+    startString,
+    end,
+    endString,
+    memo,
+    allDay
+  ) => {
+    const formattedData = {
+      id,
+      title,
+      start,
+      startString,
+      end,
+      endString,
+      memo,
+      allDay,
+    };
+    sendData(formattedData);
+  };
+
   const updateEvent = () => {};
   return (
     <>
@@ -84,8 +107,17 @@ const ScheduleTest = ({
               variant="contained"
               size="medium"
               color="primary"
-              onClick={(scheduleId, id, history) =>
-                deleteEvent(scheduleId, id, history)
+              onClick={() =>
+                sendDataToParentComponent(
+                  id,
+                  title,
+                  start,
+                  startString,
+                  end,
+                  endString,
+                  memo,
+                  allDay
+                )
               }
             >
               Edit Plan

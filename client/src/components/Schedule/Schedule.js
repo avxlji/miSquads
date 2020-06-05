@@ -85,6 +85,7 @@ class Schedule extends Component {
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
     this.setEventDetailsModal = this.setEventDetailsModal.bind(this);
     this.deleteTriggeredEvent = this.deleteTriggeredEvent.bind(this);
+    this.togglePassedEvent = this.togglePassedEvent.bind(this);
   }
 
   componentDidMount() {
@@ -367,6 +368,54 @@ class Schedule extends Component {
         // editEventPrefill: null,
       });
     }
+  };
+
+  togglePassedEvent = (grandChildEvent) => {
+    console.log(grandChildEvent);
+    // const { id, title, allDay, start, memo, end } = e;
+    // var splitStartDateString = start.toString().split(" ").slice(0, 5);
+    // var splitEndDateString = end.toString().split(" ").slice(0, 5);
+    // console.log(splitEndDateString[4]);
+    // var formattedStartString = this.convertMilitaryToStandard(
+    //   splitStartDateString[4]
+    // );
+    // var formattedEndString = this.convertMilitaryToStandard(
+    //   splitEndDateString[4]
+    // );
+    // console.log(start);
+    // console.log(end);
+    // const newformattedEvent = {
+    //   id: id,
+    //   title: title,
+    //   allDay: allDay,
+    //   start: new Date(start),
+    //   end: new Date(end),
+    //   startString: formattedStartString,
+    //   endString: formattedEndString,
+    //   memo: memo,
+    // };
+    // if (this.state.eventDetailsOpen === false) {
+    //   this.setState({
+    //     selectedEvent: newformattedEvent,
+    //     eventDetailsOpen: !this.state.eventDetailsOpen,
+    //     /* edit modal prefill data */
+    //     // editEventTitle: title,
+    //     // editEventStart: start,
+    //     // editEventEnd: end,
+    //     // editEventAllDay: allDay,
+    //     // editEventPrefill: newformattedEvent,
+    //   });
+    // } else {
+    //   this.setState({
+    //     eventDetailsOpen: !this.state.eventDetailsOpen,
+    //     selectedEvent: null,
+    //     // editEventTitle: null,
+    //     // editEventStart: null,
+    //     // editEventEnd: null,
+    //     // editEventAllDay: null,
+    //     // editEventPrefill: null,
+    //   });
+    // }
   };
 
   closeSelectedEvent = () => {
@@ -734,7 +783,7 @@ class Schedule extends Component {
                         event={currentEvent}
                         deleteEventFromDisplay={this.deleteTriggeredEvent}
                         scheduleId={this.state.currentSchedule._id}
-                        sendData={this.getUpdatedEventData}
+                        sendData={this.togglePassedEvent}
                       />
                     )
                   )}
