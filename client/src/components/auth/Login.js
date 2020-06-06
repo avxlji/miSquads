@@ -77,6 +77,7 @@ const Login = ({ isAuthenticated, login }) => {
               value={password}
               fullWidth
               onChange={(e) => onChange(e)}
+              required
             />
           </div>
           <div>

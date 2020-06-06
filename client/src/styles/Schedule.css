@@ -98,6 +98,10 @@
     margin-top: 1rem;
   }
 
+  #mobile-your-plans-alt {
+    margin-top: 0.4rem;
+  }
+
   #change-schedule-name-container {
     display: flex;
     flex-direction: column;

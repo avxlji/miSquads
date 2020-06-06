@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../../actions/auth";
+import { setAlert } from "../../actions/alert";
 import "../../styles/Register.css";
 
 import TextField from "@material-ui/core/TextField";
@@ -10,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const Register = ({ isAuthenticated, register }) => {
+const Register = ({ isAuthenticated, register, setAlert }) => {
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -43,7 +44,7 @@ const Register = ({ isAuthenticated, register }) => {
     e.preventDefault();
     if (password !== password2) {
       console.log("passwrods do not match");
-      // setAlert("Passwords do not match", "danger");
+      setAlert("Passwords do not match", "error");
     } else {
       console.log(email, name, password);
       register(name, email, password);
@@ -70,7 +71,7 @@ const Register = ({ isAuthenticated, register }) => {
               name="name"
               value={name}
               onChange={(e) => onChange(e)}
-              // required
+              required
             />
           </div>
           <div>
@@ -82,7 +83,7 @@ const Register = ({ isAuthenticated, register }) => {
               name="email"
               value={email}
               onChange={(e) => onChange(e)}
-              // required
+              required
             />
             {/* <small className="form-text">
               This site uses Gravatar so if you want a profile image, use a
@@ -99,6 +100,7 @@ const Register = ({ isAuthenticated, register }) => {
               minLength="6"
               value={password}
               onChange={(e) => onChange(e)}
+              required
             />
           </div>
           <div>
@@ -111,6 +113,7 @@ const Register = ({ isAuthenticated, register }) => {
               minLength="6"
               value={password2}
               onChange={(e) => onChange(e)}
+              required
             />
           </div>
           {/* <div>
@@ -153,4 +156,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, setAlert })(Register);

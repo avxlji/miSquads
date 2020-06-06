@@ -27,6 +27,10 @@
   margin: 2rem 0 4rem 0;
 }
 
+#no-teams-header {
+  margin: 2rem 0rem 4rem 2rem;
+}
+
 #dashboard-headers {
   margin-top: 2rem;
   margin-left: 1.5rem;
@@ -130,5 +134,12 @@
   #schedule-items-container {
     width: 40%;
     grid-template-columns: 100%;
+  }
+
+  #no-teams-header {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }

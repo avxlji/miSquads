@@ -190,9 +190,7 @@ const Dashboard = ({
           </div>
         </>
       ) : (
-        <h1 style={{ marginLeft: "2rem" }}>
-          You're not apart of any groups yet
-        </h1>
+        <h1 id="no-teams-header">You're not apart of any teams yet</h1>
       )}
       {/* end schedules display*/}
       {/* Start form selection panel */}

@@ -8,6 +8,7 @@ import {
   addUserToSchedule,
   deleteSchedule,
 } from "../../actions/schedule";
+import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types"; //required as prop validation
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -20,6 +21,8 @@ import EditEvent from "./EditEvent";
 import Spinner from "../layout/Spinner";
 import ScheduleEvent from "./ScheduleEvent";
 import ScheduleInfo from "./ScheduleInfo";
+
+import axios from "axios";
 
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
@@ -80,6 +83,7 @@ class Schedule extends Component {
       editEventEnd: null,
       editEventAllDay: false,
       editEventPrefill: null,
+      incorrectEntry: false,
     };
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
@@ -288,10 +292,34 @@ class Schedule extends Component {
   };
 
   verifyAccess = () => {
-    this.props.addUserToSchedule(
-      this.props.match.params.id,
-      this.state.roomKeyChange
-    );
+    axios
+      .post(`/api/schedule/check/${this.props.match.params.id}`, {
+        roomKey: this.state.roomKeyChange,
+      })
+      .then((res) => {
+        var verifiedRoomKey = res.data.verifiedRoomKey;
+        if (verifiedRoomKey) {
+          console.log("success");
+          this.props.addUserToSchedule(
+            this.props.match.params.id,
+            this.state.roomKeyChange
+          );
+        } else {
+          console.log("fail");
+          this.setState(
+            (prevState) => ({
+              incorrectEntry: true,
+            }),
+            () => {
+              setTimeout(() => {
+                this.setState({
+                  incorrectEntry: false,
+                });
+              }, 2000);
+            }
+          );
+        }
+      });
   };
 
   deleteCurrentSchedule = () => {
@@ -746,20 +774,26 @@ class Schedule extends Component {
                 {/* events section for smaller devices */}
                 <div id="events-list-container">
                   <h3 id="mobile-your-plans-header">Your Plans</h3>
-                  <div id="events-list-content">
-                    {this.state.currentSchedule.events.map(
-                      (currentEvent, index) => (
-                        <ScheduleEvent
-                          key={index}
-                          currentIndex={index}
-                          event={currentEvent}
-                          deleteEventFromDisplay={this.deleteTriggeredEvent}
-                          scheduleId={this.state.currentSchedule._id}
-                          sendData={this.getUpdatedEventData}
-                        />
-                      )
-                    )}
-                  </div>
+                  {this.state.currentSchedule.events.length > 0 ? (
+                    <div id="events-list-content">
+                      {this.state.currentSchedule.events.map(
+                        (currentEvent, index) => (
+                          <ScheduleEvent
+                            key={index}
+                            currentIndex={index}
+                            event={currentEvent}
+                            deleteEventFromDisplay={this.deleteTriggeredEvent}
+                            scheduleId={this.state.currentSchedule._id}
+                            sendData={this.getUpdatedEventData}
+                          />
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <p id="mobile-your-plans-alt">
+                      Your team hasn't scheduled any events yet
+                    </p>
+                  )}
                 </div>
 
                 {/* end render display based on device size */}
@@ -803,6 +837,7 @@ class Schedule extends Component {
                     id="outlined-basic"
                     label="Room Key"
                     name="roomKeyChange"
+                    helperText={this.state.incorrectEntry && "Incorrect entry"}
                     onChange={(e) => {
                       this.handleChange(e);
                     }}
@@ -852,5 +887,6 @@ export default connect(mapStateToProps, {
   deleteEvent,
   addUserToSchedule,
   deleteSchedule,
+  setAlert,
 })(withRouter(Schedule));
 //connect takes in x and any actions that we would like to use as arguments

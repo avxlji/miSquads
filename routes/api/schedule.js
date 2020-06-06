@@ -42,6 +42,7 @@ router.get("/:schedule_id", auth, async (req, res) => {
 // @route    PUT api/schedule/:schedule_id
 // @desc     UPDATE schedule name by id
 // @access   Private
+// @FIX      throw error if user isn't authenticated with a custom message
 router.put("/:schedule_id", auth, async (req, res) => {
   try {
     let schedule = await Schedule.findById(req.params.schedule_id);
@@ -49,23 +50,34 @@ router.put("/:schedule_id", auth, async (req, res) => {
       schedules: { $elemMatch: { schedule_id: schedule._id } },
     });
 
-    // Update the schedule name in all of the users associated with the schedule_id
-    for (var i = 0; i < users.length; i++) {
-      for (var j = 0; j < users[i].schedules.length; j++) {
-        if (
-          users[i].schedules[j].schedule_id.toString() ===
-          schedule._id.toString()
-        ) {
-          users[i].schedules[j].scheduleName = req.body.name;
-          users[i].save();
-          break;
-        }
+    var authenticatedUser = false;
+
+    for (var i = 0; i < schedule.users.length; i++) {
+      if (schedule.users[i].user_id.toString() === req.user.id) {
+        authenticatedUser = true;
+        break;
       }
     }
-    //Directly update the schedules name
-    schedule.scheduleName = req.body.name;
-    schedule.save();
-    res.json(schedule);
+
+    if (authenticatedUser) {
+      // Update the schedule name in all of the users associated with the schedule_id
+      for (var i = 0; i < users.length; i++) {
+        for (var j = 0; j < users[i].schedules.length; j++) {
+          if (
+            users[i].schedules[j].schedule_id.toString() ===
+            schedule._id.toString()
+          ) {
+            users[i].schedules[j].scheduleName = req.body.name;
+            users[i].save();
+            break;
+          }
+        }
+      }
+      //Directly update the schedules name
+      schedule.scheduleName = req.body.name;
+      schedule.save();
+      res.json(schedule);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -119,17 +131,29 @@ router.post(
 // @route    DELETE api/schedule/:schedule_id/:event_id
 // @desc     Delete event from schedule
 // @access   Private
+// @FIX      check if user who made the request is in the scope of the schedule
 router.delete("/:schedule_id/:event_id", auth, async (req, res) => {
   try {
     const foundSchedule = await Schedule.findById(req.params.schedule_id);
 
-    // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
-    foundSchedule.events = foundSchedule.events.filter(
-      (event) => event._id.toString() !== req.params.event_id
-    );
+    var authenticatedUser = false;
 
-    await foundSchedule.save();
-    return res.status(200).json(foundSchedule);
+    for (var i = 0; i < foundSchedule.users.length; i++) {
+      if (foundSchedule.users[i].user_id.toString() === req.user.id) {
+        authenticatedUser = true;
+        break;
+      }
+    }
+
+    if (authenticatedUser) {
+      // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
+      foundSchedule.events = foundSchedule.events.filter(
+        (event) => event._id.toString() !== req.params.event_id
+      );
+
+      await foundSchedule.save();
+      return res.status(200).json(foundSchedule);
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Server error" });
@@ -139,6 +163,7 @@ router.delete("/:schedule_id/:event_id", auth, async (req, res) => {
 // @route    PUT api/schedule/event/:schedule_id
 // @desc     Add schedule event
 // @access   Private
+// @FIX      check if user who made the request is in the scope of the schedule
 router.put(
   "/event/:schedule_id",
   [
@@ -167,9 +192,21 @@ router.put(
 
     try {
       const schedule = await Schedule.findById(req.params.schedule_id);
-      schedule.events.unshift(newEvent); //add at the beginning of the array to keep the most recent elements at the start
-      await schedule.save();
-      res.json(schedule);
+
+      var authenticatedUser = false;
+
+      for (var i = 0; i < schedule.users.length; i++) {
+        if (schedule.users[i].user_id.toString() === req.user.id) {
+          authenticatedUser = true;
+          break;
+        }
+      }
+
+      if (authenticatedUser) {
+        schedule.events.unshift(newEvent); //add at the beginning of the array to keep the most recent elements at the start
+        await schedule.save();
+        res.json(schedule);
+      }
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server error");
@@ -180,6 +217,7 @@ router.put(
 // @route    DELETE api/schedule/:schedule_id
 // @desc     Delete schedule
 // @access   Private
+// @FIX      check if user who made the request is in the scope of the schedule
 router.delete("/:schedule_id", auth, async (req, res) => {
   //since our route is private, we have access to the jwt token
   try {
@@ -189,28 +227,39 @@ router.delete("/:schedule_id", auth, async (req, res) => {
     });
     console.log(users);
     console.log("-------------------------------------------------");
+
     var authenticatedUser = false;
-    for (var i = 0; i < users.length; i++) {
-      var schedulesArray = [];
-      schedulesArray = users[i].schedules;
-      // add argument to the filter function | element
-      var alter = function (element) {
-        // console.log(typeof element.schedule_id.toString());
-        // console.log(element.schedule_id.toString());
-        // console.log(typeof schedule._id.toString());
-        // console.log(schedule._id.toString());
-        return (
-          element.schedule_id.toString() !== req.params.schedule_id.toString()
-        ); //use the argument here.
-      };
-      var filter = schedulesArray.filter(alter);
-      users[i].schedules = filter;
-      users[i].save();
+
+    for (var i = 0; i < schedule.users.length; i++) {
+      if (schedule.users[i].user_id.toString() === req.user.id) {
+        authenticatedUser = true;
+        break;
+      }
     }
 
-    //Remove profile
-    await schedule.remove();
-    res.json({ msg: "Schedule deleted" });
+    if (authenticatedUser) {
+      for (var i = 0; i < users.length; i++) {
+        var schedulesArray = [];
+        schedulesArray = users[i].schedules;
+        // add argument to the filter function | element
+        var alter = function (element) {
+          // console.log(typeof element.schedule_id.toString());
+          // console.log(element.schedule_id.toString());
+          // console.log(typeof schedule._id.toString());
+          // console.log(schedule._id.toString());
+          return (
+            element.schedule_id.toString() !== req.params.schedule_id.toString()
+          ); //use the argument here.
+        };
+        var filter = schedulesArray.filter(alter);
+        users[i].schedules = filter;
+        users[i].save();
+      }
+
+      //Remove profile
+      await schedule.remove();
+      res.json({ msg: "Schedule deleted" });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -310,32 +359,38 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
 // @route    PUT api/schedule/:schedule_id/:event_id
 // @desc     UPDATE schedule event by id
 // @access   Private
+// @FIX      check if user who made the request is in the scope of the schedule
 router.post("/:schedule_id/:event_id", auth, async (req, res) => {
   try {
     let schedule = await Schedule.findById(req.params.schedule_id);
 
-    // if (title === null || start === null || allDay === null || end === null) {
-    //   console.log("error");
-    // }
+    var authenticatedUser = false;
 
-    // console.log(req.body);
-
-    const { title, memo, start, allDay, end } = req.body;
-
-    for (var i = 0; i < schedule.events.length; i++) {
-      if (
-        schedule.events[i]._id.toString() === req.params.event_id.toString()
-      ) {
-        schedule.events[i].title = title;
-        schedule.events[i].memo = memo;
-        schedule.events[i].start = start;
-        schedule.events[i].end = end;
-        schedule.events[i].allDay = allDay;
+    for (var i = 0; i < schedule.users.length; i++) {
+      if (schedule.users[i].user_id.toString() === req.user.id) {
+        authenticatedUser = true;
         break;
       }
     }
-    schedule.save();
-    res.json(schedule);
+
+    if (authenticatedUser) {
+      const { title, memo, start, allDay, end } = req.body;
+
+      for (var i = 0; i < schedule.events.length; i++) {
+        if (
+          schedule.events[i]._id.toString() === req.params.event_id.toString()
+        ) {
+          schedule.events[i].title = title;
+          schedule.events[i].memo = memo;
+          schedule.events[i].start = start;
+          schedule.events[i].end = end;
+          schedule.events[i].allDay = allDay;
+          break;
+        }
+      }
+      schedule.save();
+      res.json(schedule);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

@@ -70,7 +70,7 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
     dispatch(setAlert("User added to schedule", "success"));
     // dispatch(setAlert("Event Removed", "success"));
   } catch (err) {
-    dispatch(setAlert("This schedule no longer exists", "danger"));
+    dispatch(setAlert("This schedule no longer exists", "error"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -99,7 +99,7 @@ export const changeScheduleName = (schedule_id, data, history) => async (
     dispatch(setAlert("Schedule name updated", "success"));
   } catch (err) {
     history.push("/dashboard");
-    dispatch(setAlert("This schedule no longer exists.", "danger"));
+    dispatch(setAlert("This schedule no longer exists.", "error"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -119,7 +119,7 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
       dispatch(setAlert("Schedule deleted", "error"));
     } catch (err) {
       history.push("/dashboard");
-      dispatch(setAlert("This schedule no longer exists.", "danger"));
+      dispatch(setAlert("This schedule no longer exists.", "error"));
       dispatch({
         type: SCHEDULE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
@@ -151,7 +151,7 @@ export const addEvent = (schedule_id, data, history) => async (dispatch) => {
     )
     .catch((err) => {
       console.log(err.message);
-      dispatch(setAlert("This schedule no longer exists", "danger"));
+      dispatch(setAlert("This schedule no longer exists", "error"));
     });
 };
 
@@ -195,7 +195,7 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
     dispatch(setAlert("Event removed", "error"));
   } catch (err) {
     // history.push("/dashboard");
-    dispatch(setAlert("This schedule no longer exists.", "danger"));
+    dispatch(setAlert("This schedule no longer exists.", "error"));
     dispatch({
       type: SCHEDULE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
