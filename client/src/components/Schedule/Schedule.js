@@ -7,6 +7,7 @@ import {
   deleteEvent,
   addUserToSchedule,
   deleteSchedule,
+  removeUserFromSchedule,
 } from "../../actions/schedule";
 import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types"; //required as prop validation
@@ -327,6 +328,18 @@ class Schedule extends Component {
       console.log(this.state.currentSchedule._id);
       if (this.state.currentSchedule._id.length > 5) {
         this.props.deleteSchedule(
+          this.state.currentSchedule._id,
+          this.props.history
+        );
+      }
+    }
+  };
+
+  leaveCurrentSchedule = () => {
+    if (this.state.currentSchedule !== null) {
+      console.log(this.state.currentSchedule._id);
+      if (this.state.currentSchedule._id.length > 5) {
+        this.props.removeUserFromSchedule(
           this.state.currentSchedule._id,
           this.props.history
         );
@@ -811,16 +824,32 @@ class Schedule extends Component {
                   </div>
                 </div>
 
-                <div id="delete-schedule-container">
-                  <Button
-                    variant="contained"
-                    type="button"
-                    color="secondary"
-                    size="medium"
-                    onClick={() => this.deleteCurrentSchedule()}
-                  >
-                    Delete schedule
-                  </Button>
+                <div id="schedule-end-buttons-container">
+                  <div id="delete-schedule-container">
+                    <Button
+                      variant="contained"
+                      type="button"
+                      color="secondary"
+                      size="medium"
+                      onClick={() => this.deleteCurrentSchedule()}
+                      id="delete-schedule-button"
+                    >
+                      Delete schedule
+                    </Button>
+                  </div>
+
+                  <div id="leave-schedule-container">
+                    <Button
+                      variant="contained"
+                      type="button"
+                      color="secondary"
+                      size="medium"
+                      id="leave-schedule-button"
+                      onClick={() => this.leaveCurrentSchedule()}
+                    >
+                      Leave schedule
+                    </Button>
+                  </div>
                 </div>
               </div>
             </>
@@ -873,6 +902,8 @@ Schedule.propTypes = {
   auth: PropTypes.object,
   addUserToSchedule: PropTypes.func,
   deleteSchedule: PropTypes.func,
+  setAlert: PropTypes.func,
+  removeUserFromSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -888,5 +919,6 @@ export default connect(mapStateToProps, {
   addUserToSchedule,
   deleteSchedule,
   setAlert,
+  removeUserFromSchedule,
 })(withRouter(Schedule));
 //connect takes in x and any actions that we would like to use as arguments

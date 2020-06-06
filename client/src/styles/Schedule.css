@@ -1,3 +1,6 @@
+.calendar-container {
+}
+
 .team-calendar-container {
   margin: auto;
   width: 85%;
@@ -57,6 +60,21 @@
 
 #mobile-schedule-info-header {
   display: none;
+}
+
+#delete-schedule-container {
+  margin-right: 2rem;
+}
+
+#schedule-end-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 2rem 0rem;
+}
+
+#leave-schedule-button {
+  background-color: #ef5350;
 }
 
 @media only screen and (max-width: 767px) {

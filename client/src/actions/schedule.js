@@ -78,6 +78,26 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
   }
 };
 
+export const removeUserFromSchedule = (schedule_id, history) => async (
+  dispatch
+) => {
+  try {
+    const res = await axios.post(`/api/schedule/${schedule_id}`);
+    dispatch({
+      type: CLEAR_SCHEDULE,
+    });
+    history.push("/dashboard");
+    dispatch(setAlert(`${res.data.msg}`, "error"));
+  } catch (err) {
+    history.push("/dashboard");
+    dispatch(setAlert("This schedule no longer exists.", "error"));
+    dispatch({
+      type: SCHEDULE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 export const changeScheduleName = (schedule_id, data, history) => async (
   dispatch
 ) => {

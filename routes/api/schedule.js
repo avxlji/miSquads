@@ -323,6 +323,50 @@ router.put("/:schedule_id/:roomKey", auth, async (req, res) => {
   }
 });
 
+// @route    PUT api/schedule/removeuser/:schedule_id
+// @desc     Remove user from schedule
+// @access   Private
+// @FIX      check if user who made the request is in the scope of the schedule
+router.post("/:schedule_id", auth, async (req, res) => {
+  console.log("reached");
+
+  //since our route is private, we have access to the jwt token
+  try {
+    const schedule = await Schedule.findById(req.params.schedule_id);
+    const promptedUser = await User.findById(req.user.id);
+
+    for (var i = 0; i < schedule.users.length; i++) {
+      if (schedule.users[i].user_id.toString() === req.user.id) {
+        schedule.users.splice(i, 1);
+        if (schedule.users.length < 1) {
+          //if user that was just removed from the schedule was the last user
+          await schedule.remove();
+        }
+        break;
+      }
+    }
+
+    schedule.save();
+
+    for (var i = 0; i < promptedUser.schedules.length; i++) {
+      if (
+        promptedUser.schedules[i].schedule_id.toString() ===
+        schedule._id.toString()
+      ) {
+        promptedUser.schedules.splice(i, 1);
+        break;
+      }
+    }
+
+    promptedUser.save();
+
+    res.json({ msg: "Departed team" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // // @route    PUT api/schedule/:schedule_id
 // // @desc     UPDATE schedule name by id
 // // @access   Private

@@ -2,60 +2,40 @@
   outline: 0 !important;
 }
 
+#landing-nav {
+  margin-top: 2rem;
+  width: 80%;
+  border-radius: 1px;
+  margin: auto;
+  margin-top: 20rem;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
 #landing {
-  background-image: url(../components/assets/miTeamsBackground.png);
+  background-color: transparent;
   height: 100vh;
 }
 
-#landing-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#toolbar {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
-#landing-image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  min-width: 350px;
-}
-
-.landing-buttons {
+#header-right {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
-.meetings-button {
-  padding: 3rem;
+#miTeams {
+  color: white;
 }
 
-.groups-button {
-  padding: 3rem;
-}
-
-.messages-button {
-  padding: 3rem;
-}
-
-@media (max-width: 574px) {
-  .landing-buttons {
-    flex-direction: column;
-    transform: translateY(2rem);
-  }
-
-  .messages-button,
-  .meetings-button,
-  .groups-button {
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 450px) {
-  #landing-image {
-    min-width: 250px;
-  }
+#register,
+#login,
+#about {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: white;
 }
