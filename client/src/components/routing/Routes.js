@@ -12,7 +12,7 @@ import { NotFound } from "../layout/NotFound";
 import DynamicAlert from "../layout/Alert";
 import Navbar from "../layout/Navbar";
 import About from "../about/About";
-
+import UpcomingFeatures from "../about/UpcomingFeatures";
 const Routes = () => {
   return (
     <>
@@ -24,6 +24,7 @@ const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/about" component={About} />
+        <Route exact path="/upcoming-features" component={UpcomingFeatures} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/schedule/:id" component={Schedule} />
         <Route component={NotFound} />

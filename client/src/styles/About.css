@@ -1,10 +1,11 @@
+/* start about landing section */
+
 #about-content-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 80vh;
 }
 
 #whats-header {
@@ -21,9 +22,89 @@
   width: 50%;
 }
 
+/* end get started section */
+
+/* start get started section */
+
 #get-started-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  width: 50%;
 }
+
+#get-started-container h3 {
+  margin-bottom: 3rem;
+  color: #001f3f;
+}
+
+#about-steps-table-container {
+  margin-bottom: 3rem;
+}
+
+/* end get started section */
+
+/* start about privacy section */
+
+#about-privacy-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#privacy-header {
+  color: #001f3f;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+#about-privacy-container p {
+  color: #001f3f;
+  width: 50%;
+  padding: 3.75rem 0rem;
+}
+
+#about-privacy-container img {
+  width: 25%;
+}
+
+/* start upcoming features reference */
+
+#about-updates-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+#updates-header {
+  color: #001f3f;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+#about-updates-container p {
+  color: #001f3f;
+  width: 50%;
+  white-space: nowrap;
+  margin-right: 2rem;
+}
+
+#about-updates-container button {
+  background-color: #001f3f;
+  margin-left: 2rem;
+}
+
+#about-updates-content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* end upcoming features reference */

@@ -14,7 +14,7 @@ const Footer = () => {
           </div>
           <div class="footer-grid-right">
             <a
-              href="https://github.com/jeverd/lecture-experience"
+              href="https://github.com/avxlji"
               target="_blank"
               rel="noopener noreferrer"
             >
