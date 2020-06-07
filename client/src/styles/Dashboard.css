@@ -18,11 +18,8 @@
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
 
-  width: 60%;
+  width: 100%;
   border-radius: 20px;
-  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.15),
-    0 15px 12px rgba(0, 0, 0, 0.11);
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.15), 0 15px 12px rgba(0, 0, 0, 0.11);
   padding: 2rem;
   margin: 2rem 0 4rem 0;
 }
@@ -32,6 +29,7 @@
 }
 
 #dashboard-headers {
+  width: 50%;
   margin-top: 2rem;
   margin-left: 1.5rem;
 }
@@ -43,6 +41,11 @@
 
 #user-name-header {
   font-size: 4rem;
+}
+
+#lg-buttons-group > button {
+  background-color: #001f3f;
+  border: none;
 }
 
 .card {
@@ -94,6 +97,7 @@
 
 .dashboard-management-buttons {
   margin: 4rem 0 1.5rem 1.5rem;
+  width: 60%;
 }
 
 #deleteAccount {

@@ -8,7 +8,12 @@ const DynamicAlert = ({ alerts }) => {
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
-      <MuiAlert severity={alert.alertType} elevation={6} variant="filled">
+      <MuiAlert
+        severity={alert.alertType}
+        elevation={6}
+        variant="filled"
+        style={{ width: "85%", margin: "auto" }}
+      >
         {alert.msg}
       </MuiAlert>
     ))

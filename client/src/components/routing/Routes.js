@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import { NotFound } from "../layout/NotFound";
 import DynamicAlert from "../layout/Alert";
 import Navbar from "../layout/Navbar";
+import About from "../about/About";
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         {/* <Route exact path="/schedule" component={Schedule} /> */}
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/about" component={About} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/schedule/:id" component={Schedule} />
         <Route component={NotFound} />

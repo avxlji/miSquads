@@ -162,146 +162,152 @@ const Dashboard = ({
 
   return (
     <>
-      {/* start dashboard header(s) */}
-      {user !== null && (
-        <div id="dashboard-headers">
-          <h1 id="hello-header">Hello</h1>
-          <h1 id="user-name-header"> {user.name}</h1>
-        </div>
-      )}
-      {/* end dashboard headers */}
-      {/* <div id="dashboard-divider"></div> */}
-      {/* start schedules display */}
-      {user !== null && user.schedules.length > 0 ? (
-        <>
-          <div id="schedule-items">
-            <h1 id="schedule-items-header">Your Teams</h1>
-            <div id="schedule-items-container">
-              {user.schedules.map((sched) => (
-                <>
-                  <ScheduleItem
-                    key={sched.schedule_id}
-                    scheduleName={sched.scheduleName}
-                    linkToSchedule={sched.schedule_id}
-                  />
-                </>
-              ))}
-            </div>
-          </div>
-        </>
-      ) : (
-        <h1 id="no-teams-header">You're not apart of any teams yet</h1>
-      )}
-      {/* end schedules display*/}
-      {/* Start form selection panel */}
-      <div id="dashboard-form-panel-lg">
-        <ButtonGroup
-          variant="contained"
-          color="primary"
-          aria-label="contained primary button group"
-        >
-          <Button
-            variant="contained"
-            size="medium"
-            color="primary"
-            onClick={() => onCreateTeamClick()}
-          >
-            Create Team
-          </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            color="primary"
-            onClick={() => onJoinTeamClick()}
-          >
-            Join Team
-          </Button>
-        </ButtonGroup>
-      </div>
-      {/* End form selection panel */}
-      {/* Start condition form display*/}
-      <>
-        {joinTeam && (
-          <div id="add-schedule-container">
-            <TextField
-              id="outlined-basic"
-              label="Team Id"
-              type="text"
-              className="add-schedule-inputs"
-              onChange={(e) => onUrlInputChange(e)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="Team Key"
-              type="text"
-              className="add-schedule-inputs"
-              onChange={(e) => onRoomKeyInputChange(e)}
-            />
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={() => onScheduleInputSubmit()}
-              className="add-schedule-inputs"
-            >
-              Join Team
-            </Button>
+      {/* testing out 80% div */}
+      <div style={{ width: "80%", margin: "auto" }}>
+        {/* start dashboard header(s) */}
+        {user !== null && (
+          <div id="dashboard-headers">
+            <h1 id="hello-header">Hello</h1>
+            <h1 id="user-name-header"> {user.name}</h1>
           </div>
         )}
-
-        {createTeam && (
-          <div id="add-schedule-container">
-            <TextField
-              id="outlined-basic"
-              label="Team Name"
-              type="text"
-              onChange={(e) => onCreateScheduleInputChange(e)}
-              name="newScheduleName"
-              className="add-schedule-inputs"
-            />
-            <TextField
-              id="outlined-basic"
-              label="Team Key"
-              type="text"
-              onChange={(e) => onCreateScheduleInputChange(e)}
-              name="newScheduleRoomKey"
-              className="add-schedule-inputs"
-            />
+        {/* end dashboard headers */}
+        {/* <div id="dashboard-divider"></div> */}
+        {/* start schedules display */}
+        {user !== null && user.schedules.length > 0 ? (
+          <>
+            <div id="schedule-items">
+              <h1 id="schedule-items-header">Your Teams</h1>
+              <div id="schedule-items-container">
+                {user.schedules.map((sched) => (
+                  <>
+                    <ScheduleItem
+                      key={sched.schedule_id}
+                      scheduleName={sched.scheduleName}
+                      linkToSchedule={sched.schedule_id}
+                    />
+                  </>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          <h1 id="no-teams-header">You're not apart of any teams yet</h1>
+        )}
+        {/* end schedules display*/}
+        {/* Start form selection panel */}
+        <div id="dashboard-form-panel-lg">
+          <ButtonGroup
+            variant="contained"
+            color="primary"
+            id="lg-buttons-group"
+            aria-label="contained primary button group"
+          >
             <Button
               variant="contained"
-              size="small"
+              size="medium"
               color="primary"
-              onClick={() => onCreateScheduleInputSubmit()}
-              className="add-schedule-inputs"
+              onClick={() => onCreateTeamClick()}
             >
               Create Team
             </Button>
-          </div>
-        )}
-        {/* End conditional form display */}
-
-        {/* Start management buttons */}
-        <div className="dashboard-management-buttons">
-          <Button
-            variant="contained"
-            type="button"
-            id="logOut"
-            onClick={logout}
-          >
-            Log out
-          </Button>
-          <Button
-            variant="contained"
-            type="button"
-            color="secondary"
-            onClick={deleteAccount}
-            id="deleteAccount"
-          >
-            Delete Account
-          </Button>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              onClick={() => onJoinTeamClick()}
+            >
+              Join Team
+            </Button>
+          </ButtonGroup>
         </div>
-        {/* End management buttons */}
-      </>
+        {/* End form selection panel */}
+        {/* Start condition form display*/}
+        <>
+          {joinTeam && (
+            <div id="add-schedule-container">
+              <TextField
+                id="outlined-basic"
+                label="Team Id"
+                type="text"
+                className="add-schedule-inputs"
+                onChange={(e) => onUrlInputChange(e)}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Team Key"
+                type="text"
+                className="add-schedule-inputs"
+                onChange={(e) => onRoomKeyInputChange(e)}
+              />
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={() => onScheduleInputSubmit()}
+                style={{ backgroundColor: "#001f3f" }}
+                className="add-schedule-inputs"
+              >
+                Join Team
+              </Button>
+            </div>
+          )}
+
+          {createTeam && (
+            <div id="add-schedule-container">
+              <TextField
+                id="outlined-basic"
+                label="Team Name"
+                type="text"
+                onChange={(e) => onCreateScheduleInputChange(e)}
+                name="newScheduleName"
+                className="add-schedule-inputs"
+              />
+              <TextField
+                id="outlined-basic"
+                label="Team Key"
+                type="text"
+                onChange={(e) => onCreateScheduleInputChange(e)}
+                name="newScheduleRoomKey"
+                className="add-schedule-inputs"
+              />
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                style={{ backgroundColor: "#001f3f" }}
+                onClick={() => onCreateScheduleInputSubmit()}
+                className="add-schedule-inputs"
+              >
+                Create Team
+              </Button>
+            </div>
+          )}
+          {/* End conditional form display */}
+
+          {/* Start management buttons */}
+          <div className="dashboard-management-buttons">
+            <Button
+              variant="contained"
+              type="button"
+              id="logOut"
+              onClick={logout}
+            >
+              Log out
+            </Button>
+            <Button
+              variant="contained"
+              type="button"
+              color="secondary"
+              onClick={deleteAccount}
+              id="deleteAccount"
+            >
+              Delete Account
+            </Button>
+          </div>
+          {/* End management buttons */}
+        </>
+      </div>
     </>
   );
 };

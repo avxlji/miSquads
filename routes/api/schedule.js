@@ -346,7 +346,7 @@ router.post("/:schedule_id", auth, async (req, res) => {
       }
     }
 
-    schedule.save();
+    schedule.save().catch((err) => console.log(err.message));
 
     for (var i = 0; i < promptedUser.schedules.length; i++) {
       if (
@@ -358,7 +358,7 @@ router.post("/:schedule_id", auth, async (req, res) => {
       }
     }
 
-    promptedUser.save();
+    promptedUser.save().catch((err) => console.log(err.message));
 
     res.json({ msg: "Departed team" });
   } catch (err) {
