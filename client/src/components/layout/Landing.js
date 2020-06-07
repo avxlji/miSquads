@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "../../styles/Landing.css";
 
+//import react reveal effects
+import Fade from "react-reveal/Fade";
+
 import Footer from "./Footer";
 import Navbar from "../layout/Navbar";
 import landingImage from "../assets/calendarImg.png";
@@ -19,21 +22,29 @@ const Landing = ({ isAuthenticated }) => {
     <>
       <div id="landing-container">
         <div id="landing-content">
-          <img src={landingImage} style={{ width: "100%" }}></img>
+          <Fade delay="500">
+            <img src={landingImage} style={{ width: "100%" }}></img>
+          </Fade>
           <div id="landing-content-words-container">
-            <p id="get-productive">Get productive. </p>
-            <p id="stay-connected">Stay connected. </p>
+            <Fade left>
+              <p id="get-productive">Get productive. </p>
+            </Fade>
+            <Fade right duration="1000">
+              <p id="stay-connected">Stay connected. </p>
+            </Fade>
 
-            <Link to="/login">
-              <Button
-                variant="contained"
-                size="large"
-                color="primary"
-                id="get-started-button"
-              >
-                Get Started
-              </Button>
-            </Link>
+            <Fade bottom>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  id="get-started-button"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </Fade>
           </div>
         </div>
       </div>

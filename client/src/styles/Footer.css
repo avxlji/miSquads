@@ -1,9 +1,7 @@
 /* start footer */
 .footer {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 80%;
-  height: auto;
   background-color: #001f3f;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
@@ -29,7 +27,7 @@
 
 .footer-grid-right i {
   transition: 1s;
-  color: #46c2ff;
+  color: white;
 }
 
 @media only screen and (max-width: 414px) {

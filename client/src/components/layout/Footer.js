@@ -18,7 +18,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fab fa-github-alt"></i>
+              <i class="fas fa-code"></i>
             </a>
           </div>
         </div>

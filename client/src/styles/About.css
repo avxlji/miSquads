@@ -1,0 +1,29 @@
+#about-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+}
+
+#whats-header {
+  font-size: 2.5rem;
+}
+
+#about-content-container img {
+  width: 50%;
+}
+
+#about-content-container p {
+  color: #001f3f;
+  padding: 3rem;
+  width: 50%;
+}
+
+#get-started-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
