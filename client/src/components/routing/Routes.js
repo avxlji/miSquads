@@ -10,10 +10,12 @@ import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import { NotFound } from "../layout/NotFound";
 import DynamicAlert from "../layout/Alert";
+import Navbar from "../layout/Navbar";
 
 const Routes = () => {
   return (
     <>
+      <Navbar></Navbar>
       <DynamicAlert />
       <Switch>
         <Route exact path="/" component={Landing} />
