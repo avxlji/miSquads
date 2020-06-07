@@ -79,7 +79,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   margin-bottom: 3rem;
 }
 
@@ -93,18 +92,22 @@
   color: #001f3f;
   width: 50%;
   white-space: nowrap;
-  margin-right: 2rem;
 }
 
 #about-updates-container button {
   background-color: #001f3f;
-  margin-left: 2rem;
 }
 
 #about-updates-content-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#about-updates-content-container p {
+  margin-top: 0.5rem;
+  color: grey;
 }
 
 /* end upcoming features reference */

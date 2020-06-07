@@ -107,20 +107,19 @@ const About = () => {
         <h3 id="updates-header">Upcoming Updates</h3>
         <div id="about-updates-content-container">
           <div>
-            <p>Current Release 1.0</p>
-          </div>
-
-          <div>
             <Link to="/upcoming-features">
               <Button
                 variant="contained"
                 size="large"
                 color="primary"
-                id="upcoming-features-button"
+                id="about-upcoming-features-button"
               >
                 View Upcoming Features
               </Button>
             </Link>
+          </div>
+          <div>
+            <p>Current Release 1.0</p>
           </div>
         </div>
       </div>

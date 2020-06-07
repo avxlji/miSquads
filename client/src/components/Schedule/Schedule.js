@@ -25,6 +25,9 @@ import ScheduleInfo from "./ScheduleInfo";
 
 import axios from "axios";
 
+//import react reveal effects
+import Fade from "react-reveal/Fade";
+
 //materialUI imports
 import TextField from "@material-ui/core/TextField";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -608,36 +611,40 @@ class Schedule extends Component {
             <>
               {/* start non-mobile display */}
               <div className="team-calendar-container">
-                <h1 id="current-schedule-name">
-                  {this.state.currentSchedule.scheduleName}
-                </h1>
-                {/* start schedule form select */}
-                <div id="schedule-button-group">
-                  <ButtonGroup
-                    variant="contained"
-                    color="primary"
-                    aria-label="contained primary button group"
-                  >
-                    <Button
+                <Fade duration="500">
+                  {" "}
+                  {/* Fade 1 */}
+                  <h1 id="current-schedule-name">
+                    {this.state.currentSchedule.scheduleName}
+                  </h1>
+                  {/* start schedule form select */}
+                  <div id="schedule-button-group">
+                    <ButtonGroup
                       variant="contained"
-                      size="medium"
                       color="primary"
-                      onClick={this.onAddEventClick}
+                      aria-label="contained primary button group"
                     >
-                      Add Plan
-                    </Button>
-                    <Button
-                      variant="contained"
-                      size="medium"
-                      color="primary"
-                      onClick={this.onChangeScheduleNameClick}
-                    >
-                      Change Schedule Name
-                    </Button>
-                  </ButtonGroup>
-                </div>
-                {/* end schedule form select */}
-                {/* start conditional form render */}
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        color="primary"
+                        onClick={this.onAddEventClick}
+                      >
+                        Add Plan
+                      </Button>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        color="primary"
+                        onClick={this.onChangeScheduleNameClick}
+                      >
+                        Change Schedule Name
+                      </Button>
+                    </ButtonGroup>
+                  </div>
+                  {/* end schedule form select */}
+                  {/* start conditional form render */}
+                </Fade>
                 {this.state.addEvent && (
                   <AddEvent scheduleId={this.state.currentSchedule._id} />
                 )}
@@ -768,89 +775,104 @@ class Schedule extends Component {
                 {/* end event/plan details modal */}
 
                 {/* start render display based on device size */}
-                <div id="large-display-calendar-container">
-                  <Calendar
-                    localizer={localizer}
-                    events={this.state.currentSchedule.events}
-                    onSelectEvent={this.toggleSelectedEvent}
-                    defaultView="week"
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{ height: 500, marginBottom: "3rem" }}
-                  />
-                </div>
+                <Fade duration="500">
+                  {" "}
+                  {/* Fade 2 */}
+                  <div id="large-display-calendar-container">
+                    <Calendar
+                      localizer={localizer}
+                      events={this.state.currentSchedule.events}
+                      onSelectEvent={this.toggleSelectedEvent}
+                      defaultView="week"
+                      startAccessor="start"
+                      endAccessor="end"
+                      style={{ height: 500, marginBottom: "3rem" }}
+                    />
+                  </div>
+                </Fade>
 
                 {/* more info section for larger devices */}
 
                 {/* need to display your events, schedule id, users (w number of users) */}
 
                 {/* events section for smaller devices */}
-                <div id="events-list-container">
-                  <h3 id="mobile-your-plans-header">Your Plans</h3>
-                  {this.state.currentSchedule.events.length > 0 ? (
-                    <div id="events-list-content">
-                      {this.state.currentSchedule.events.map(
-                        (currentEvent, index) => (
-                          <ScheduleEvent
-                            key={index}
-                            currentIndex={index}
-                            event={currentEvent}
-                            deleteEventFromDisplay={this.deleteTriggeredEvent}
-                            scheduleId={this.state.currentSchedule._id}
-                            sendData={this.getUpdatedEventData}
-                          />
-                        )
-                      )}
-                    </div>
-                  ) : (
-                    <p id="mobile-your-plans-alt">
-                      Your team hasn't scheduled any events yet
-                    </p>
-                  )}
-                </div>
-
+                <Fade duration="500">
+                  {" "}
+                  {/* Fade 3 */}
+                  <div id="events-list-container">
+                    <h3 id="mobile-your-plans-header">Your Plans</h3>
+                    {this.state.currentSchedule.events.length > 0 ? (
+                      <div id="events-list-content">
+                        {this.state.currentSchedule.events.map(
+                          (currentEvent, index) => (
+                            <ScheduleEvent
+                              key={index}
+                              currentIndex={index}
+                              event={currentEvent}
+                              deleteEventFromDisplay={this.deleteTriggeredEvent}
+                              scheduleId={this.state.currentSchedule._id}
+                              sendData={this.getUpdatedEventData}
+                            />
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <p id="mobile-your-plans-alt">
+                        Your team hasn't scheduled any events yet
+                      </p>
+                    )}
+                  </div>
+                </Fade>
                 {/* end render display based on device size */}
 
-                <div id="schedule-info-accordion">
-                  <h3 id="mobile-schedule-info-header">Schedule info</h3>
-                  <div id="schedule-info-content">
-                    {/* stops displaying events as an attached component on smaller devices */}
-                    <ScheduleInfo
-                      events={this.state.currentSchedule.events}
-                      users={this.state.currentSchedule.users}
-                      deleteEventFromDisplay={this.deleteTriggeredEvent}
-                      scheduleId={this.state.currentSchedule._id}
-                    />
+                <Fade duration="500">
+                  {" "}
+                  {/* Fade 4 */}
+                  <div id="schedule-info-accordion">
+                    <h3 id="mobile-schedule-info-header">Schedule info</h3>
+                    <div id="schedule-info-content">
+                      {/* stops displaying events as an attached component on smaller devices */}
+                      <ScheduleInfo
+                        events={this.state.currentSchedule.events}
+                        users={this.state.currentSchedule.users}
+                        deleteEventFromDisplay={this.deleteTriggeredEvent}
+                        scheduleId={this.state.currentSchedule._id}
+                      />
+                    </div>
                   </div>
-                </div>
+                </Fade>
 
-                <div id="schedule-end-buttons-container">
-                  <div id="delete-schedule-container">
-                    <Button
-                      variant="contained"
-                      type="button"
-                      color="secondary"
-                      size="medium"
-                      onClick={() => this.deleteCurrentSchedule()}
-                      id="delete-schedule-button"
-                    >
-                      Delete schedule
-                    </Button>
-                  </div>
+                <Fade duration="500">
+                  {" "}
+                  {/* Fade 5 */}
+                  <div id="schedule-end-buttons-container">
+                    <div id="delete-schedule-container">
+                      <Button
+                        variant="contained"
+                        type="button"
+                        color="secondary"
+                        size="medium"
+                        onClick={() => this.deleteCurrentSchedule()}
+                        id="delete-schedule-button"
+                      >
+                        Delete schedule
+                      </Button>
+                    </div>
 
-                  <div id="leave-schedule-container">
-                    <Button
-                      variant="contained"
-                      type="button"
-                      color="secondary"
-                      size="medium"
-                      id="leave-schedule-button"
-                      onClick={() => this.leaveCurrentSchedule()}
-                    >
-                      Leave schedule
-                    </Button>
+                    <div id="leave-schedule-container">
+                      <Button
+                        variant="contained"
+                        type="button"
+                        color="secondary"
+                        size="medium"
+                        id="leave-schedule-button"
+                        onClick={() => this.leaveCurrentSchedule()}
+                      >
+                        Leave schedule
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </Fade>
               </div>
             </>
           ) : (
