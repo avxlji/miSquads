@@ -21,6 +21,14 @@ import TextField from "@material-ui/core/TextField";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+
 const Dashboard = ({
   deleteAccount,
   auth: { user, isAuthenticated },
@@ -177,7 +185,7 @@ const Dashboard = ({
         {user !== null && user.schedules.length > 0 ? (
           <>
             <div id="schedule-items">
-              <h1 id="schedule-items-header">Your Teams</h1>
+              {/* <h1 id="schedule-items-header">Your Teams</h1>
               <div id="schedule-items-container">
                 {user.schedules.map((sched) => (
                   <>
@@ -188,7 +196,38 @@ const Dashboard = ({
                     />
                   </>
                 ))}
-              </div>
+              </div> */}
+
+              <TableContainer component={Paper}>
+                <Table aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Schedule Name</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {user.schedules.map((sched, index) => (
+                      <TableRow key={index}>
+                        <TableCell component="th" scope="row">
+                          {sched.scheduleName}
+                        </TableCell>
+                        <TableCell align="right">
+                          <Link to={`/schedule/${sched.schedule_id}`}>
+                            <Button
+                              variant="contained"
+                              size="medium"
+                              color="primary"
+                              style={{ backgroundColor: "#001f3f" }}
+                            >
+                              Open
+                            </Button>
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           </>
         ) : (

@@ -114,6 +114,7 @@ const ScheduleInfo = ({
                       variant="contained"
                       size="medium"
                       color="primary"
+                      style={{ backgroundColor: "#001f3f" }}
                       id="adjusted-margin-schedule-info-delete-button"
                       onClick={() =>
                         deleteTriggeredEvent(
@@ -130,6 +131,7 @@ const ScheduleInfo = ({
                       variant="contained"
                       size="medium"
                       color="primary"
+                      style={{ backgroundColor: "#001f3f" }}
                       id="schedule-info-delete-button"
                       onClick={() =>
                         deleteTriggeredEvent(

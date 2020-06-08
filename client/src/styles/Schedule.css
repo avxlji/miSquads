@@ -1,6 +1,11 @@
 .calendar-container {
 }
 
+#lg-schedule-buttons-group > button {
+  background-color: #001f3f;
+  border: none;
+}
+
 .team-calendar-container {
   margin: auto;
   width: 85%;

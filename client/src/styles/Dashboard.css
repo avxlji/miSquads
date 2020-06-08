@@ -58,6 +58,11 @@
   margin-bottom: 1rem;
 }
 
+#logOut {
+  background-color: #ef5350;
+  color: white;
+}
+
 /* start responsive grid conditions */
 
 @media (max-width: 1200px) {

@@ -623,6 +623,8 @@ class Schedule extends Component {
                       variant="contained"
                       color="primary"
                       aria-label="contained primary button group"
+                      id="lg-schedule-buttons-group"
+                      style={{ backgroundColor: "#001f3f" }}
                     >
                       <Button
                         variant="contained"
@@ -665,6 +667,7 @@ class Schedule extends Component {
                       id="change-schedule-name-button"
                       block
                       onClick={this.changeName}
+                      style={{ backgroundColor: "#001f3f" }}
                     >
                       Change schedule name
                     </Button>
@@ -710,7 +713,10 @@ class Schedule extends Component {
                             size="small"
                             color="primary"
                             id="close-selected-event-button"
-                            style={{ marginLeft: ".95rem" }}
+                            style={{
+                              marginLeft: ".95rem",
+                              backgroundColor: "#001f3f",
+                            }}
                             block
                             onClick={this.toggleEditEventModal}
                           >
@@ -721,7 +727,10 @@ class Schedule extends Component {
                             size="small"
                             color="primary"
                             id="close-selected-event-button"
-                            style={{ marginLeft: ".95rem" }}
+                            style={{
+                              marginLeft: ".95rem",
+                              backgroundColor: "#001f3f",
+                            }}
                             block
                             onClick={this.deleteSelectedEvent}
                           >
@@ -732,7 +741,10 @@ class Schedule extends Component {
                             size="small"
                             color="primary"
                             id="close-selected-event-button"
-                            style={{ marginLeft: ".95rem" }}
+                            style={{
+                              marginLeft: ".95rem",
+                              backgroundColor: "#001f3f",
+                            }}
                             block
                             onClick={this.closeSelectedEvent}
                           >

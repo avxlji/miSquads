@@ -531,6 +531,7 @@ class EditEvent extends Component {
                     variant="contained"
                     size="small"
                     color="primary"
+                    style={{ backgroundColor: "#001f3f" }}
                     id="edit-event-close-button"
                     block
                   >
@@ -543,6 +544,7 @@ class EditEvent extends Component {
                     variant="contained"
                     size="small"
                     color="primary"
+                    style={{ backgroundColor: "#001f3f" }}
                     id="edit-event-go-back-button"
                     block
                   >
@@ -555,6 +557,7 @@ class EditEvent extends Component {
                     variant="contained"
                     size="small"
                     color="primary"
+                    style={{ backgroundColor: "#001f3f" }}
                     id="edit-event-update-button"
                     block
                   >

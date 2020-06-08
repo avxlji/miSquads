@@ -494,6 +494,7 @@ class AddEvent extends Component {
                     variant="contained"
                     size="small"
                     color="primary"
+                    style={{ backgroundColor: "#001f3f" }}
                     block
                   >
                     Add Meeting
