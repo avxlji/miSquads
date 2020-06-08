@@ -57,7 +57,7 @@ const UpcomingFeatures = () => {
                 </TableCell>
                 <TableCell align="right">
                   {" "}
-                  Leave messages for team-mates
+                  Leave personalized notes for team-mates
                 </TableCell>
               </TableRow>
 
