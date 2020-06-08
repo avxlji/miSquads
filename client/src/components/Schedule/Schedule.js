@@ -894,7 +894,7 @@ class Schedule extends Component {
                   <LockIcon
                     color="primary"
                     fontSize={"large"}
-                    style={{ marginTop: "1rem" }}
+                    style={{ marginTop: "1rem", color: "#001f3f" }}
                   />
                   <TextField
                     id="outlined-basic"
@@ -913,6 +913,7 @@ class Schedule extends Component {
                     color="primary"
                     id="room-key-button"
                     onClick={this.verifyAccess}
+                    style={{ backgroundColor: "#001f3f" }}
                   >
                     Enter room key
                   </Button>
