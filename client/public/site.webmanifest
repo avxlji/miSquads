@@ -10,7 +10,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "description": "Team Planning Tool.",
