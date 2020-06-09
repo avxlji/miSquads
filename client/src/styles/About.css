@@ -157,6 +157,13 @@
   }
 }
 
+/* IF device is iPhone SE */
+@media only screen and (max-width: 320px) {
+  #about-steps-table-container {
+    width: 120%;
+  }
+}
+
 /* device screen providing poor user experience */
 
 /* NEED TO TEST SYNCHRONOUSLY WITH OTHER PAGES */

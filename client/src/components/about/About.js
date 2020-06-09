@@ -1,27 +1,27 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import "../../styles/About.css";
-import aboutImage from "../assets/aboutLanding.png";
-import securityImage from "../assets/undrawSecurity.svg";
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../../styles/About.css';
+import aboutImage from '../assets/aboutLanding.png';
+import securityImage from '../assets/undrawSecurity.svg';
 
-import Footer from "../layout/Footer";
-import Navbar from "../layout/Navbar";
+import Footer from '../layout/Footer';
+import Navbar from '../layout/Navbar';
 
 //import react reveal effects
-import Fade from "react-reveal/Fade";
+import Fade from 'react-reveal/Fade';
 
 //material UI imports
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const About = () => {
   return (
@@ -68,7 +68,7 @@ const About = () => {
                     align="right"
                     className="non-responsive-about-text"
                   >
-                    {" "}
+                    {' '}
                     <p className="non-responsive-about-text">
                       Hit Register in the top right corner of your screen and
                       create an account (make it something easy to remember)
@@ -84,8 +84,8 @@ const About = () => {
                     2)
                   </TableCell>
                   <TableCell align="right">
-                    {" "}
-                    Once you're signed in, hit create team
+                    {' '}
+                    Once you're signed in, hit create squad
                   </TableCell>
                 </TableRow>
 
@@ -97,13 +97,14 @@ const About = () => {
                     align="right"
                     className="non-responsive-about-text"
                   >
-                    {" "}
+                    {' '}
                     <p className="non-responsive-about-text">
-                      Enter in your team name and a team key (Keep this key
-                      handy as new users joining your team will be asked for it)
+                      Enter in your squad name and a squad key (Keep this key
+                      handy as new users joining your squad will be asked for
+                      it)
                     </p>
                     <p className="responsive-about-text">
-                      Enter in your team name and a team key
+                      Enter in your squad name and a squad key
                     </p>
                   </TableCell>
                 </TableRow>
@@ -113,20 +114,20 @@ const About = () => {
                     4)
                   </TableCell>
                   <TableCell align="right">
-                    {" "}
+                    {' '}
                     <p className="non-responsive-about-text">
-                      Once you've created your team, that's it you're done! You
-                      can invite others to your team by sending them the URL of
-                      your team or by sending them your unique team ID
+                      Once you've created your squad, that's it you're done! You
+                      can invite others to your squad by sending them the URL of
+                      your squad or by sending them your unique squad ID
                     </p>
                     <p className="responsive-about-text">
-                      Thats it, you're done! Share your team with your team URL
-                      or unique ID
+                      Thats it, you're done! Share your squad with your squad
+                      URL or unique ID
                     </p>
                   </TableCell>
                   {/* <TableCell align="right" className="responsive-about-text">
                   {" "}
-                  Thats it, you're done! Share your team with your team URL or
+                  Thats it, you're done! Share your squad with your squad URL or
                   unique ID
                 </TableCell> */}
                 </TableRow>

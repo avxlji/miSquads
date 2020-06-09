@@ -1,24 +1,24 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import "../../styles/UpcomingFeatures.css";
-import aboutImage from "../assets/aboutLanding.png";
-import securityImage from "../assets/undrawSecurity.svg";
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../../styles/UpcomingFeatures.css';
+import aboutImage from '../assets/aboutLanding.png';
+import securityImage from '../assets/undrawSecurity.svg';
 
-import Footer from "../layout/Footer";
-import Navbar from "../layout/Navbar";
+import Footer from '../layout/Footer';
+import Navbar from '../layout/Navbar';
 
 //material UI imports
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const UpcomingFeatures = () => {
   return (
@@ -41,7 +41,7 @@ const UpcomingFeatures = () => {
                 <TableCell component="th" scope="row">
                   TBA
                 </TableCell>
-                <TableCell align="right"> Customizable Team Colors</TableCell>
+                <TableCell align="right"> Customizable squad Colors</TableCell>
               </TableRow>
 
               <TableRow key="2">
@@ -56,8 +56,8 @@ const UpcomingFeatures = () => {
                   TBA
                 </TableCell>
                 <TableCell align="right">
-                  {" "}
-                  Leave personalized notes for team-mates
+                  {' '}
+                  Leave personalized notes for squad-mates
                 </TableCell>
               </TableRow>
 

@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { deleteAccount } from "../../actions/auth";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteAccount } from '../../actions/auth';
 import {
   addUserToSchedule,
   createSchedule,
   clearSchedule,
-} from "../../actions/schedule";
-import { loadUser } from "../../actions/auth";
-import { logout } from "../../actions/auth";
+} from '../../actions/schedule';
+import { loadUser } from '../../actions/auth';
+import { logout } from '../../actions/auth';
 // import Spinner from "../layout/Spinner";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, Redirect, withRouter } from 'react-router-dom';
 // import { DashboardActions } from "./DashboardActions";
-import ScheduleItem from "./ScheduleItem";
-import "../../styles/Dashboard.css";
-import axios from "axios";
+import ScheduleItem from './ScheduleItem';
+import '../../styles/Dashboard.css';
+import axios from 'axios';
 
 //materialUI imports
-import TextField from "@material-ui/core/TextField";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 
 //import react reveal effects
-import Fade from "react-reveal/Fade";
+import Fade from 'react-reveal/Fade';
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const Dashboard = ({
   deleteAccount,
@@ -50,16 +50,16 @@ const Dashboard = ({
 
   /* start hooks */
   const [urlInput, setUrlInput] = useState({
-    url: "",
+    url: '',
   });
 
   const [createScheduleInput, setCreateScheduleInput] = useState({
-    newScheduleName: "",
-    newScheduleRoomKey: "",
+    newScheduleName: '',
+    newScheduleRoomKey: '',
   });
 
   const [roomKeyInput, setRoomKeyInput] = useState({
-    roomKey: "",
+    roomKey: '',
   });
 
   const [scheduleFormSelection, setScheduleFormSelection] = useState({
@@ -136,8 +136,8 @@ const Dashboard = ({
   };
 
   const onScheduleInputSubmit = () => {
-    if (url !== "" && roomKey !== "") {
-      var urlInput = url.split("/");
+    if (url !== '' && roomKey !== '') {
+      var urlInput = url.split('/');
       var scheduleIdEntry = urlInput[urlInput.length - 1];
       const body = { roomKey };
       console.log(body);
@@ -148,11 +148,11 @@ const Dashboard = ({
           addUserToSchedule(scheduleIdEntry, roomKey, history);
           window.location.reload();
         } else {
-          console.log("failed");
+          console.log('failed');
         }
       });
     } else {
-      console.log("rip");
+      console.log('rip');
     }
   };
 
@@ -174,7 +174,7 @@ const Dashboard = ({
   return (
     <>
       {/* testing out 80% div */}
-      <div style={{ width: "80%", margin: "auto" }}>
+      <div style={{ width: '80%', margin: 'auto' }}>
         {/* start dashboard header(s) */}
         {user !== null && (
           <div id="dashboard-headers">
@@ -206,15 +206,21 @@ const Dashboard = ({
                   <Table aria-label="customized table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Schedule Name</TableCell>
+                        <TableCell>Your Squads</TableCell>
                         <TableCell align="right"></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
+                      {/* add text wrap to quad name */}
                       {user.schedules.map((sched, index) => (
                         <TableRow key={index}>
                           <TableCell component="th" scope="row">
-                            {sched.scheduleName}
+                            {/* splicing string is a temporary solution to improve display on mobile devices */}
+                            <p>
+                              {sched.scheduleName.length > 13
+                                ? sched.scheduleName.substring(0, 12) + '...'
+                                : sched.scheduleName}
+                            </p>
                           </TableCell>
                           <TableCell align="right">
                             <Link to={`/schedule/${sched.schedule_id}`}>
@@ -222,7 +228,7 @@ const Dashboard = ({
                                 variant="contained"
                                 size="medium"
                                 color="primary"
-                                style={{ backgroundColor: "#001f3f" }}
+                                style={{ backgroundColor: '#001f3f' }}
                               >
                                 Open
                               </Button>
@@ -237,7 +243,7 @@ const Dashboard = ({
             </div>
           </>
         ) : (
-          <h1 id="no-teams-header">You're not apart of any teams yet</h1>
+          <h1 id="no-teams-header">You're not apart of any squads yet</h1>
         )}
         {/* end schedules display*/}
         {/* Start form selection panel */}
@@ -254,7 +260,7 @@ const Dashboard = ({
               color="primary"
               onClick={() => onCreateTeamClick()}
             >
-              Create Team
+              Create Squad
             </Button>
             <Button
               variant="contained"
@@ -262,7 +268,7 @@ const Dashboard = ({
               color="primary"
               onClick={() => onJoinTeamClick()}
             >
-              Join Team
+              Join Squad
             </Button>
           </ButtonGroup>
         </div>
@@ -274,14 +280,14 @@ const Dashboard = ({
               <div id="add-schedule-container">
                 <TextField
                   id="outlined-basic"
-                  label="Team Id"
+                  label="Squad Id"
                   type="text"
                   className="add-schedule-inputs"
                   onChange={(e) => onUrlInputChange(e)}
                 />
                 <TextField
                   id="outlined-basic"
-                  label="Team Key"
+                  label="Squad Key"
                   type="text"
                   className="add-schedule-inputs"
                   onChange={(e) => onRoomKeyInputChange(e)}
@@ -292,9 +298,9 @@ const Dashboard = ({
                   color="primary"
                   onClick={() => onScheduleInputSubmit()}
                   className="post-input-group-buttons"
-                  style={{ backgroundColor: "#001f3f" }}
+                  style={{ backgroundColor: '#001f3f' }}
                 >
-                  Join Team
+                  Join Squad
                 </Button>
               </div>
             </Fade>
@@ -305,7 +311,7 @@ const Dashboard = ({
               <div id="add-schedule-container">
                 <TextField
                   id="outlined-basic"
-                  label="Team Name"
+                  label="Squad Name"
                   type="text"
                   onChange={(e) => onCreateScheduleInputChange(e)}
                   name="newScheduleName"
@@ -313,7 +319,7 @@ const Dashboard = ({
                 />
                 <TextField
                   id="outlined-basic"
-                  label="Team Key"
+                  label="Squad Key"
                   type="text"
                   onChange={(e) => onCreateScheduleInputChange(e)}
                   name="newScheduleRoomKey"
@@ -323,11 +329,11 @@ const Dashboard = ({
                   variant="contained"
                   size="small"
                   color="primary"
-                  style={{ backgroundColor: "#001f3f" }}
+                  style={{ backgroundColor: '#001f3f' }}
                   className="post-input-group-buttons"
                   onClick={() => onCreateScheduleInputSubmit()}
                 >
-                  Create Team
+                  Create Squad
                 </Button>
               </div>
             </Fade>

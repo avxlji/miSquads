@@ -24,6 +24,7 @@
 #current-schedule-name {
   font-size: 3rem;
   padding: 2rem 0rem 0rem 0rem;
+  word-wrap: break-word;
 }
 
 #schedule-button-group {

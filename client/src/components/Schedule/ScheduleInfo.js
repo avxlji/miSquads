@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 // import Spinner from "../layout/Spinner";
-import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import "../../styles/ScheduleTest.css";
-import { deleteEvent } from "../../actions/schedule";
-import Moment from "react-moment";
-import moment from "moment";
-import "../../styles/ScheduleInfo.css";
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import '../../styles/ScheduleTest.css';
+import { deleteEvent } from '../../actions/schedule';
+import Moment from 'react-moment';
+import moment from 'moment';
+import '../../styles/ScheduleInfo.css';
 // import { DashboardActions } from "./DashboardActions";
 
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 const ScheduleInfo = ({
   events,
@@ -33,9 +33,9 @@ const ScheduleInfo = ({
   };
 
   const convertStandardToMilitary = (time) => {
-    var standardTime = moment(time, "HH:mm").format("hh:mm a");
+    var standardTime = moment(time, 'HH:mm').format('hh:mm a');
 
-    if (standardTime.charAt(0) === "0") {
+    if (standardTime.charAt(0) === '0') {
       standardTime = standardTime.substr(1);
       return standardTime;
     }
@@ -43,13 +43,13 @@ const ScheduleInfo = ({
   };
 
   const formatTiming = (starting, ending) => {
-    var startingArray = starting.split(" ");
+    var startingArray = starting.split(' ');
     var formattedStartingTime = convertStandardToMilitary(
       startingArray[startingArray.length - 1]
     );
     var dayOfPlan =
-      startingArray[0] + " " + startingArray[1] + " " + startingArray[2];
-    var endingArray = ending.split(" ");
+      startingArray[0] + ' ' + startingArray[1] + ' ' + startingArray[2];
+    var endingArray = ending.split(' ');
     var formattedEndingTime = convertStandardToMilitary(
       endingArray[endingArray.length - 1]
     );
@@ -57,8 +57,8 @@ const ScheduleInfo = ({
   };
 
   const deleteTriggeredEvent = (scheduleId, id, history) => {
-    if (window.confirm("Are you sure about that? This cannot be undone.")) {
-      console.log("called");
+    if (window.confirm('Are you sure about that? This cannot be undone.')) {
+      console.log('called');
       console.log(scheduleId);
       deleteEvent(scheduleId, id, history);
       deleteEventFromDisplay(id);
@@ -80,7 +80,7 @@ const ScheduleInfo = ({
           id={`panel1bh-content`}
         >
           <Typography>
-            <h3>Your teams plans</h3>
+            <h3>Your squads plans</h3>
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails id="expansion-events-panel">
@@ -114,7 +114,7 @@ const ScheduleInfo = ({
                       variant="contained"
                       size="medium"
                       color="primary"
-                      style={{ backgroundColor: "#001f3f" }}
+                      style={{ backgroundColor: '#001f3f' }}
                       id="adjusted-margin-schedule-info-delete-button"
                       onClick={() =>
                         deleteTriggeredEvent(
@@ -131,7 +131,7 @@ const ScheduleInfo = ({
                       variant="contained"
                       size="medium"
                       color="primary"
-                      style={{ backgroundColor: "#001f3f" }}
+                      style={{ backgroundColor: '#001f3f' }}
                       id="schedule-info-delete-button"
                       onClick={() =>
                         deleteTriggeredEvent(
@@ -148,7 +148,7 @@ const ScheduleInfo = ({
               </>
             ))
           ) : (
-            <p>Your team hasn't scheduled any events yet</p>
+            <p>Your squad hasn't scheduled any events yet</p>
           )}
           <br />
           <div id="expansion-button-container">
@@ -198,7 +198,7 @@ const ScheduleInfo = ({
           id={`panel3bh-content`}
         >
           <Typography>
-            <h3>Team members</h3>
+            <h3>Squad members</h3>
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails id="expansion-users-panel">

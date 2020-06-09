@@ -81,3 +81,10 @@
     font-size: 4rem;
   }
 }
+
+/* IF device is iPhone SE */
+@media only screen and (max-width: 320px) {
+  #image-alt-text {
+    font-size: 3rem;
+  }
+}

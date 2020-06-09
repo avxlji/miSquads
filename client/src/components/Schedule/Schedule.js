@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   getSchedule,
   changeScheduleName,
@@ -8,39 +8,39 @@ import {
   addUserToSchedule,
   deleteSchedule,
   removeUserFromSchedule,
-} from "../../actions/schedule";
-import { setAlert } from "../../actions/alert";
-import PropTypes from "prop-types"; //required as prop validation
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "../../styles/Schedule.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Redirect, withRouter } from "react-router-dom";
-import AddEvent from "./AddEvent";
+} from '../../actions/schedule';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types'; //required as prop validation
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import '../../styles/Schedule.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Redirect, withRouter } from 'react-router-dom';
+import AddEvent from './AddEvent';
 // import EventDialog from "./EventDialog";
-import EditEvent from "./EditEvent";
-import Spinner from "../layout/Spinner";
-import ScheduleEvent from "./ScheduleEvent";
-import ScheduleInfo from "./ScheduleInfo";
+import EditEvent from './EditEvent';
+import Spinner from '../layout/Spinner';
+import ScheduleEvent from './ScheduleEvent';
+import ScheduleInfo from './ScheduleInfo';
 
-import axios from "axios";
+import axios from 'axios';
 
 //import react reveal effects
-import Fade from "react-reveal/Fade";
+import Fade from 'react-reveal/Fade';
 
 //materialUI imports
-import TextField from "@material-ui/core/TextField";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 //materialUI imports
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import Checkbox from "@material-ui/core/Checkbox";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import LockIcon from "@material-ui/icons/Lock";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LockIcon from '@material-ui/icons/Lock';
 
 const localizer = momentLocalizer(moment);
 
@@ -50,21 +50,21 @@ class Schedule extends Component {
     super(props);
     this.state = {
       dummyObject1: {
-        scheduleName: "Test schedule 1",
+        scheduleName: 'Test schedule 1',
         events: [
           {
-            _id: "5ebe05ef1f5670631aaeaa9b",
-            title: "7:40pm",
-            start: "May 6, 2020 08:00:00",
+            _id: '5ebe05ef1f5670631aaeaa9b',
+            title: '7:40pm',
+            start: 'May 6, 2020 08:00:00',
             allDay: false,
-            end: "May 6, 2020 18:00:00",
+            end: 'May 6, 2020 18:00:00',
           },
           {
-            _id: "5ebe05e51f5670631aaeaa9a",
-            title: "test1",
-            start: "today",
+            _id: '5ebe05e51f5670631aaeaa9a',
+            title: 'test1',
+            start: 'today',
             allDay: true,
-            end: "",
+            end: '',
           },
         ],
       },
@@ -114,7 +114,7 @@ class Schedule extends Component {
     }
 
     if (oldProps.scheduleName !== newProps.scheduleName) {
-      console.log("name changed called");
+      console.log('name changed called');
       return 2;
     }
 
@@ -204,7 +204,7 @@ class Schedule extends Component {
           );
           break;
         case 2:
-          console.log("name changed");
+          console.log('name changed');
           console.log(this.state.currentSchedule.scheduleName);
           console.log(nextProps.schedule.schedule.scheduleName);
           this.setState((prevState) => ({
@@ -303,13 +303,13 @@ class Schedule extends Component {
       .then((res) => {
         var verifiedRoomKey = res.data.verifiedRoomKey;
         if (verifiedRoomKey) {
-          console.log("success");
+          console.log('success');
           this.props.addUserToSchedule(
             this.props.match.params.id,
             this.state.roomKeyChange
           );
         } else {
-          console.log("fail");
+          console.log('fail');
           this.setState(
             (prevState) => ({
               incorrectEntry: true,
@@ -369,8 +369,8 @@ class Schedule extends Component {
   toggleSelectedEvent = (e) => {
     console.log(e);
     const { id, title, allDay, start, memo, end } = e;
-    var splitStartDateString = start.toString().split(" ").slice(0, 5);
-    var splitEndDateString = end.toString().split(" ").slice(0, 5);
+    var splitStartDateString = start.toString().split(' ').slice(0, 5);
+    var splitEndDateString = end.toString().split(' ').slice(0, 5);
     console.log(splitEndDateString[4]);
     var formattedStartString = this.convertMilitaryToStandard(
       splitStartDateString[4]
@@ -427,7 +427,7 @@ class Schedule extends Component {
       if (this.state.selectedEvent !== null) {
         if (
           window.confirm(
-            "Are you sure you sure about that? This action cannot be undone"
+            'Are you sure you sure about that? This action cannot be undone'
           )
         ) {
           console.log(this.state.currentSchedule._id);
@@ -476,20 +476,20 @@ class Schedule extends Component {
   };
 
   convertMilitaryToStandard = (dateString) => {
-    var amOrPm = "am";
-    var hoursMinutes = dateString.split(":").slice(0, 2);
+    var amOrPm = 'am';
+    var hoursMinutes = dateString.split(':').slice(0, 2);
     if (
-      hoursMinutes[0].charAt(0) === "0" &&
-      hoursMinutes[0].charAt(1) === "0"
+      hoursMinutes[0].charAt(0) === '0' &&
+      hoursMinutes[0].charAt(1) === '0'
     ) {
       //covers case 00
-      hoursMinutes[0] = "12";
+      hoursMinutes[0] = '12';
     } else if (
-      hoursMinutes[0].charAt(0) === "0" &&
-      hoursMinutes[0].charAt(1) !== "0"
+      hoursMinutes[0].charAt(0) === '0' &&
+      hoursMinutes[0].charAt(1) !== '0'
     ) {
       //covers cases 01 to 09
-      hoursMinutes[0] = hoursMinutes[0].replace("0", "");
+      hoursMinutes[0] = hoursMinutes[0].replace('0', '');
     }
     //cases 10 to 11 are covered by default
     // else if (
@@ -503,18 +503,18 @@ class Schedule extends Component {
     else if (parseInt(hoursMinutes[0]) > 12) {
       //covers cases 13 to 23
       //covers cases 13 to 23
-      amOrPm = "pm";
+      amOrPm = 'pm';
       hoursMinutes[0] = (parseInt(hoursMinutes[0]) - 12).toString();
     }
-    var standardTime = hoursMinutes[0] + ":" + hoursMinutes[1] + amOrPm;
+    var standardTime = hoursMinutes[0] + ':' + hoursMinutes[1] + amOrPm;
     console.log(hoursMinutes);
     return standardTime;
   };
 
   convertMilitaryToStandardMoment = (time) => {
-    var standardTime = moment(time, "HH:mm").format("hh:mm a");
+    var standardTime = moment(time, 'HH:mm').format('hh:mm a');
 
-    if (standardTime.charAt(0) === "0") {
+    if (standardTime.charAt(0) === '0') {
       standardTime = standardTime.substr(1);
       return standardTime;
     }
@@ -598,19 +598,28 @@ class Schedule extends Component {
   getListedDateFromEvent = () => {
     var selectedStartDateArray = this.state.selectedEvent.start
       .toString()
-      .split(" ");
+      .split(' ');
     return (
       selectedStartDateArray[0] +
-      " " +
+      ' ' +
       selectedStartDateArray[1] +
-      " " +
+      ' ' +
       selectedStartDateArray[2] +
-      " " +
+      ' ' +
       selectedStartDateArray[3]
     );
   };
 
   /* end button bar conditional form trigger */
+
+  checkScheduleTitleLength = (title) => {
+    if (title.length > 14) {
+      title = title.substring(0, 20) + '...';
+      return title;
+    } else {
+      return '';
+    }
+  };
 
   render() {
     return (
@@ -627,10 +636,12 @@ class Schedule extends Component {
               {/* start non-mobile display */}
               <div className="team-calendar-container">
                 <Fade duration="500">
-                  {" "}
+                  {' '}
                   {/* Fade 1 */}
                   <h1 id="current-schedule-name">
-                    {this.state.currentSchedule.scheduleName}
+                    {this.checkScheduleTitleLength(
+                      this.state.currentSchedule.scheduleName
+                    )}
                   </h1>
                   {/* start schedule form select */}
                   <div id="schedule-button-group">
@@ -639,7 +650,7 @@ class Schedule extends Component {
                       color="primary"
                       aria-label="contained primary button group"
                       id="lg-schedule-buttons-group"
-                      style={{ backgroundColor: "#001f3f" }}
+                      style={{ backgroundColor: '#001f3f' }}
                     >
                       <Button
                         variant="contained"
@@ -685,7 +696,7 @@ class Schedule extends Component {
                         id="change-schedule-name-button"
                         block
                         onClick={this.changeName}
-                        style={{ backgroundColor: "#001f3f" }}
+                        style={{ backgroundColor: '#001f3f' }}
                       >
                         Change schedule name
                       </Button>
@@ -713,13 +724,13 @@ class Schedule extends Component {
                             ) : (
                               <>
                                 <ListItem>
-                                  Start Time:{" "}
+                                  Start Time:{' '}
                                   {this.convertMilitaryToStandardMoment(
                                     this.state.selectedEvent.start
                                   )}
                                 </ListItem>
                                 <ListItem>
-                                  End Time:{" "}
+                                  End Time:{' '}
                                   {this.convertMilitaryToStandardMoment(
                                     this.state.selectedEvent.end
                                   )}
@@ -737,8 +748,8 @@ class Schedule extends Component {
                             color="primary"
                             id="close-selected-event-button"
                             style={{
-                              marginLeft: ".95rem",
-                              backgroundColor: "#001f3f",
+                              marginLeft: '.95rem',
+                              backgroundColor: '#001f3f',
                             }}
                             block
                             onClick={this.toggleEditEventModal}
@@ -751,8 +762,8 @@ class Schedule extends Component {
                             color="primary"
                             id="close-selected-event-button"
                             style={{
-                              marginLeft: ".95rem",
-                              backgroundColor: "#001f3f",
+                              marginLeft: '.95rem',
+                              backgroundColor: '#001f3f',
                             }}
                             block
                             onClick={this.deleteSelectedEvent}
@@ -765,8 +776,8 @@ class Schedule extends Component {
                             color="primary"
                             id="close-selected-event-button"
                             style={{
-                              marginLeft: ".95rem",
-                              backgroundColor: "#001f3f",
+                              marginLeft: '.95rem',
+                              backgroundColor: '#001f3f',
                             }}
                             block
                             onClick={this.closeSelectedEvent}
@@ -811,7 +822,7 @@ class Schedule extends Component {
 
                 {/* start render display based on device size */}
                 <Fade duration="500">
-                  {" "}
+                  {' '}
                   {/* Fade 2 */}
                   <div id="large-display-calendar-container">
                     <Calendar
@@ -821,7 +832,7 @@ class Schedule extends Component {
                       defaultView="week"
                       startAccessor="start"
                       endAccessor="end"
-                      style={{ height: 500, marginBottom: "3rem" }}
+                      style={{ height: 500, marginBottom: '3rem' }}
                     />
                   </div>
                 </Fade>
@@ -832,7 +843,7 @@ class Schedule extends Component {
 
                 {/* events section for smaller devices */}
                 <Fade duration="500">
-                  {" "}
+                  {' '}
                   {/* Fade 3 */}
                   <div id="events-list-container">
                     <h3 id="mobile-your-plans-header">Your Plans</h3>
@@ -853,7 +864,7 @@ class Schedule extends Component {
                       </div>
                     ) : (
                       <p id="mobile-your-plans-alt">
-                        Your team hasn't scheduled any events yet
+                        Your squad hasn't scheduled any events yet
                       </p>
                     )}
                   </div>
@@ -861,7 +872,7 @@ class Schedule extends Component {
                 {/* end render display based on device size */}
 
                 <Fade duration="500">
-                  {" "}
+                  {' '}
                   {/* Fade 4 */}
                   <div id="schedule-info-accordion">
                     <h3 id="mobile-schedule-info-header">Schedule info</h3>
@@ -878,7 +889,7 @@ class Schedule extends Component {
                 </Fade>
 
                 <Fade duration="500">
-                  {" "}
+                  {' '}
                   {/* Fade 5 */}
                   <div id="schedule-end-buttons-container">
                     <div id="delete-schedule-container">
@@ -916,14 +927,14 @@ class Schedule extends Component {
                 <div>
                   <LockIcon
                     color="primary"
-                    fontSize={"large"}
-                    style={{ marginTop: "1rem", color: "#001f3f" }}
+                    fontSize={'large'}
+                    style={{ marginTop: '1rem', color: '#001f3f' }}
                   />
                   <TextField
                     id="outlined-basic"
                     label="Room Key"
                     name="roomKeyChange"
-                    helperText={this.state.incorrectEntry && "Incorrect entry"}
+                    helperText={this.state.incorrectEntry && 'Incorrect entry'}
                     onChange={(e) => {
                       this.handleChange(e);
                     }}
@@ -936,7 +947,7 @@ class Schedule extends Component {
                     color="primary"
                     id="room-key-button"
                     onClick={this.verifyAccess}
-                    style={{ backgroundColor: "#001f3f" }}
+                    style={{ backgroundColor: '#001f3f' }}
                   >
                     Enter room key
                   </Button>
