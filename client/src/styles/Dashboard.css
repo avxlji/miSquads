@@ -134,6 +134,11 @@
 
   #add-schedule-container > .add-schedule-inputs {
     margin: 1rem;
+    min-width: 10rem;
+  }
+
+  #add-schedule-container > .post-input-group-buttons {
+    margin-top: 1rem;
   }
 
   #dashboard-headers {

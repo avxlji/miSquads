@@ -291,8 +291,8 @@ const Dashboard = ({
                   size="small"
                   color="primary"
                   onClick={() => onScheduleInputSubmit()}
+                  className="post-input-group-buttons"
                   style={{ backgroundColor: "#001f3f" }}
-                  className="add-schedule-inputs"
                 >
                   Join Team
                 </Button>
@@ -324,8 +324,8 @@ const Dashboard = ({
                   size="small"
                   color="primary"
                   style={{ backgroundColor: "#001f3f" }}
+                  className="post-input-group-buttons"
                   onClick={() => onCreateScheduleInputSubmit()}
-                  className="add-schedule-inputs"
                 >
                   Create Team
                 </Button>
