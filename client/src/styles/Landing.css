@@ -8,41 +8,12 @@
   outline: 0 !important;
 }
 
-#landing-nav {
-  transform: translateY(1rem);
-  width: 80%;
-  border-radius: 1px;
-  margin: auto;
-  background-color: #001f3f;
-  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-    0 15px 12px rgba(0, 0, 0, 0.22);
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-}
 #landing-container {
   background-position: center;
 }
 
-#toolbar {
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-#header-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-#miTeams {
-  color: white;
-}
-
-#register,
-#login,
-#about {
-  margin-left: 0.5rem;
-  font-size: 0.8rem;
-  color: white;
+#image-alt-text {
+  display: none;
 }
 
 #landing-content {
@@ -59,6 +30,7 @@
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   border-radius: 2px;
+  max-width: 1100px;
 }
 
 #landing-content-words-container {
@@ -72,13 +44,40 @@
 
 #get-productive {
   margin-right: 15rem;
+  white-space: nowrap;
 }
 
 #stay-connected {
   margin-left: 15rem;
+  white-space: nowrap;
 }
 
 #get-started-button {
   transform: translateY(2rem);
   background-color: #001f3f;
+}
+
+@media only screen and (max-width: 600px) {
+  #landing-content img {
+    display: none;
+  }
+
+  #get-productive {
+    margin-right: 0rem;
+    padding: 0.5rem 0rem;
+    white-space: nowrap;
+    font-size: 1.3rem;
+  }
+
+  #stay-connected {
+    margin-left: 0rem;
+    padding: 0.5rem 0rem;
+    white-space: nowrap;
+    font-size: 1.3rem;
+  }
+
+  #image-alt-text {
+    display: contents;
+    font-size: 4rem;
+  }
 }

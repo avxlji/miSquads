@@ -60,7 +60,7 @@ const Register = ({ isAuthenticated, register, setAlert }) => {
     <>
       <div id="register-container">
         <h1 id="register-header">Sign Up</h1>
-        <p id="register-summary">Get started with miTeams</p>
+        <p id="register-summary">Get started with miSquads</p>
         <form className="form" onSubmit={(e) => onSubmit(e)}>
           <div>
             <TextField

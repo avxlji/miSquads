@@ -595,6 +595,21 @@ class Schedule extends Component {
     });
   }
 
+  getListedDateFromEvent = () => {
+    var selectedStartDateArray = this.state.selectedEvent.start
+      .toString()
+      .split(" ");
+    return (
+      selectedStartDateArray[0] +
+      " " +
+      selectedStartDateArray[1] +
+      " " +
+      selectedStartDateArray[2] +
+      " " +
+      selectedStartDateArray[3]
+    );
+  };
+
   /* end button bar conditional form trigger */
 
   render() {
@@ -648,30 +663,34 @@ class Schedule extends Component {
                   {/* start conditional form render */}
                 </Fade>
                 {this.state.addEvent && (
-                  <AddEvent scheduleId={this.state.currentSchedule._id} />
+                  <Fade duration="400">
+                    <AddEvent scheduleId={this.state.currentSchedule._id} />
+                  </Fade>
                 )}
                 {this.state.changeSchedName && (
-                  <div id="change-schedule-name-container">
-                    <TextField
-                      id="outlined-basic"
-                      label="Schedule Name"
-                      name="nameChange"
-                      onChange={(e) => {
-                        this.handleChange(e);
-                      }}
-                    />
-                    <Button
-                      variant="contained"
-                      size="small"
-                      color="primary"
-                      id="change-schedule-name-button"
-                      block
-                      onClick={this.changeName}
-                      style={{ backgroundColor: "#001f3f" }}
-                    >
-                      Change schedule name
-                    </Button>
-                  </div>
+                  <Fade duration="400">
+                    <div id="change-schedule-name-container">
+                      <TextField
+                        id="outlined-basic"
+                        label="Schedule Name"
+                        name="nameChange"
+                        onChange={(e) => {
+                          this.handleChange(e);
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        size="small"
+                        color="primary"
+                        id="change-schedule-name-button"
+                        block
+                        onClick={this.changeName}
+                        style={{ backgroundColor: "#001f3f" }}
+                      >
+                        Change schedule name
+                      </Button>
+                    </div>
+                  </Fade>
                 )}
                 {/* end conditional form render */}
                 {/* start event/plan details modal */}
@@ -707,6 +726,10 @@ class Schedule extends Component {
                                 </ListItem>
                               </>
                             )}
+                            <ListItem>
+                              Plan date: {this.getListedDateFromEvent()}
+                            </ListItem>
+                            <ListItem>{this.state.selectedEvent.memo}</ListItem>
                           </List>
                           <Button
                             variant="contained"

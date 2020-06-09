@@ -41,7 +41,7 @@
   }
 
   .footer-grid-right {
-    font-size: 1rem;
+    display: none;
   }
 }
 

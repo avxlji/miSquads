@@ -101,7 +101,8 @@
 }
 
 .dashboard-management-buttons {
-  margin: 4rem 0 1.5rem 1.5rem;
+  display: flex;
+  margin: 4rem 0 1.5rem 1rem;
   width: 60%;
 }
 
@@ -150,5 +151,34 @@
     margin: auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .dashboard-management-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-left: 0rem;
+  }
+
+  #lg-buttons-group {
+    margin-top: 2rem;
+  }
+  /* 
+  .dashboard-management-buttons {
+    display: flex;
+    margin: 4rem 0 1.5rem 1.5rem;
+    width: 60%;
+  } */
+
+  #deleteAccount {
+    margin-left: 0rem;
+    margin-top: 1rem;
+  }
+
+  #delete-account,
+  #logOut {
+    white-space: nowrap;
   }
 }

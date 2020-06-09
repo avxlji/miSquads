@@ -19,8 +19,8 @@ const Navbar = ({ isAuthenticated }) => {
           </Link> */}
           <div id="header-left">
             <Link to="/">
-              <Typography variant="h6" id="miTeams">
-                miTeams
+              <Typography variant="h6" id="miSquads">
+                miSquads
               </Typography>
             </Link>
           </div>

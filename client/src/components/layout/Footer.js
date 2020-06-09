@@ -10,7 +10,7 @@ const Footer = () => {
       <div class="footer">
         <div class="footer-grid">
           <div class="footer-grid-left">
-            <p class="glossy-text">&copy; 2020 miTeams</p>
+            <p class="glossy-text">&copy; 2020 miSquads</p>
           </div>
           <div class="footer-grid-right">
             <a

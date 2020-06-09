@@ -21,6 +21,9 @@ import TextField from "@material-ui/core/TextField";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 
+//import react reveal effects
+import Fade from "react-reveal/Fade";
+
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -199,34 +202,37 @@ const Dashboard = ({
               </div> */}
 
               <TableContainer component={Paper}>
-                <Table aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Schedule Name</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {user.schedules.map((sched, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {sched.scheduleName}
-                        </TableCell>
-                        <TableCell align="right">
-                          <Link to={`/schedule/${sched.schedule_id}`}>
-                            <Button
-                              variant="contained"
-                              size="medium"
-                              color="primary"
-                              style={{ backgroundColor: "#001f3f" }}
-                            >
-                              Open
-                            </Button>
-                          </Link>
-                        </TableCell>
+                <Fade>
+                  <Table aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Schedule Name</TableCell>
+                        <TableCell align="right"></TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHead>
+                    <TableBody>
+                      {user.schedules.map((sched, index) => (
+                        <TableRow key={index}>
+                          <TableCell component="th" scope="row">
+                            {sched.scheduleName}
+                          </TableCell>
+                          <TableCell align="right">
+                            <Link to={`/schedule/${sched.schedule_id}`}>
+                              <Button
+                                variant="contained"
+                                size="medium"
+                                color="primary"
+                                style={{ backgroundColor: "#001f3f" }}
+                              >
+                                Open
+                              </Button>
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Fade>
               </TableContainer>
             </div>
           </>
@@ -264,85 +270,93 @@ const Dashboard = ({
         {/* Start condition form display*/}
         <>
           {joinTeam && (
-            <div id="add-schedule-container">
-              <TextField
-                id="outlined-basic"
-                label="Team Id"
-                type="text"
-                className="add-schedule-inputs"
-                onChange={(e) => onUrlInputChange(e)}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Team Key"
-                type="text"
-                className="add-schedule-inputs"
-                onChange={(e) => onRoomKeyInputChange(e)}
-              />
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={() => onScheduleInputSubmit()}
-                style={{ backgroundColor: "#001f3f" }}
-                className="add-schedule-inputs"
-              >
-                Join Team
-              </Button>
-            </div>
+            <Fade duration="400">
+              <div id="add-schedule-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Team Id"
+                  type="text"
+                  className="add-schedule-inputs"
+                  onChange={(e) => onUrlInputChange(e)}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Team Key"
+                  type="text"
+                  className="add-schedule-inputs"
+                  onChange={(e) => onRoomKeyInputChange(e)}
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  onClick={() => onScheduleInputSubmit()}
+                  style={{ backgroundColor: "#001f3f" }}
+                  className="add-schedule-inputs"
+                >
+                  Join Team
+                </Button>
+              </div>
+            </Fade>
           )}
 
           {createTeam && (
-            <div id="add-schedule-container">
-              <TextField
-                id="outlined-basic"
-                label="Team Name"
-                type="text"
-                onChange={(e) => onCreateScheduleInputChange(e)}
-                name="newScheduleName"
-                className="add-schedule-inputs"
-              />
-              <TextField
-                id="outlined-basic"
-                label="Team Key"
-                type="text"
-                onChange={(e) => onCreateScheduleInputChange(e)}
-                name="newScheduleRoomKey"
-                className="add-schedule-inputs"
-              />
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                style={{ backgroundColor: "#001f3f" }}
-                onClick={() => onCreateScheduleInputSubmit()}
-                className="add-schedule-inputs"
-              >
-                Create Team
-              </Button>
-            </div>
+            <Fade duration="400">
+              <div id="add-schedule-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Team Name"
+                  type="text"
+                  onChange={(e) => onCreateScheduleInputChange(e)}
+                  name="newScheduleName"
+                  className="add-schedule-inputs"
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Team Key"
+                  type="text"
+                  onChange={(e) => onCreateScheduleInputChange(e)}
+                  name="newScheduleRoomKey"
+                  className="add-schedule-inputs"
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  style={{ backgroundColor: "#001f3f" }}
+                  onClick={() => onCreateScheduleInputSubmit()}
+                  className="add-schedule-inputs"
+                >
+                  Create Team
+                </Button>
+              </div>
+            </Fade>
           )}
           {/* End conditional form display */}
 
           {/* Start management buttons */}
           <div className="dashboard-management-buttons">
-            <Button
-              variant="contained"
-              type="button"
-              id="logOut"
-              onClick={logout}
-            >
-              Log out
-            </Button>
-            <Button
-              variant="contained"
-              type="button"
-              color="secondary"
-              onClick={deleteAccount}
-              id="deleteAccount"
-            >
-              Delete Account
-            </Button>
+            <div>
+              <Button
+                variant="contained"
+                type="button"
+                id="logOut"
+                onClick={logout}
+              >
+                Log out
+              </Button>
+            </div>
+            <div>
+              <Button
+                variant="contained"
+                type="button"
+                color="secondary"
+                onClick={deleteAccount}
+                id="deleteAccount"
+              >
+                Delete Account
+              </Button>
+            </div>
           </div>
           {/* End management buttons */}
         </>

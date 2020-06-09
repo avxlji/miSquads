@@ -24,6 +24,7 @@ const Landing = ({ isAuthenticated }) => {
         <div id="landing-content">
           <Fade delay="500">
             <img src={landingImage} style={{ width: "100%" }}></img>
+            <h3 id="image-alt-text">miSquads</h3>
           </Fade>
           <div id="landing-content-words-container">
             <Fade left>
