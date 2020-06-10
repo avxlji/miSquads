@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../styles/About.css';
 import aboutImage from '../assets/aboutLanding.png';
 import securityImage from '../assets/undrawSecurity.svg';
+import { removeCurrentAlert } from '../../actions/alert';
 
 import Footer from '../layout/Footer';
 import Navbar from '../layout/Navbar';
@@ -23,7 +24,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const About = () => {
+const About = ({ removeCurrentAlert }) => {
+  useEffect(() => {
+    removeCurrentAlert();
+  }, [removeCurrentAlert]);
   return (
     <>
       <div id="about-display">
@@ -186,10 +190,11 @@ const About = () => {
 
 About.propTypes = {
   isAuthenticated: PropTypes.bool,
+  removeCurrentAlert: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(About);
+export default connect(mapStateToProps, { removeCurrentAlert })(About);

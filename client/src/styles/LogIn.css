@@ -9,6 +9,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  white-space: nowrap;
 }
 
 #sign-in-header {
@@ -27,4 +28,17 @@
 #sign-in-button {
   margin-bottom: 0.5rem;
   background-color: #001f3f;
+}
+
+@media only screen and (max-width: 600px) {
+  #sign-in-header {
+    font-size: 1.5rem;
+  }
+}
+
+/* IF device is iPhone SE */
+@media only screen and (max-width: 320px) {
+  #sign-in-header {
+    margin-top: 1rem;
+  }
 }
