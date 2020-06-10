@@ -1,37 +1,41 @@
-import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { register } from "../../actions/auth";
-import { setAlert } from "../../actions/alert";
-import "../../styles/Register.css";
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { register } from '../../actions/auth';
+// import { setAlert } from '../../actions/alert';
+import '../../styles/Register.css';
 
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
-const Register = ({ isAuthenticated, register, setAlert }) => {
+const Register = ({ isAuthenticated, register }) => {
   const [formData, setFormData] = useState({
-    email: "",
-    name: "",
-    password: "",
-    password2: "",
+    email: '',
+    name: '',
+    password: '',
+    password2: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
+  const [minimumPasswordLength, setMinimumPasswordLength] = useState(true);
+
   const [dynamicPasswordDisplay, setDynamicPasswordDisplay] = useState(
-    "password"
+    'password'
   );
 
   const handleShowPasswordTrigger = () => {
-    if (showPassword === false && dynamicPasswordDisplay === "password") {
+    if (showPassword === false && dynamicPasswordDisplay === 'password') {
       setShowPassword(!showPassword);
-      setDynamicPasswordDisplay("text");
+      setDynamicPasswordDisplay('text');
     } else {
       setShowPassword(!showPassword);
-      setDynamicPasswordDisplay("password");
+      setDynamicPasswordDisplay('password');
     }
   };
 
@@ -40,15 +44,30 @@ const Register = ({ isAuthenticated, register, setAlert }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  /* set temporary password error message */
+  const displayPasswordsDoNotMatch = () => {
+    setTimeout(() => {
+      setPasswordMatch(true);
+    }, 4000);
+  };
+
+  const displayMinLength = () => {
+    setTimeout(() => {
+      setMinimumPasswordLength(true);
+    }, 4000);
+  };
+  /* set temporary password error message */
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log("passwrods do not match");
-      setAlert("Passwords do not match", "error");
+      setPasswordMatch(false);
+      displayPasswordsDoNotMatch();
+    } else if (password.length < 6 || password2.length < 6) {
+      setMinimumPasswordLength(false);
+      displayMinLength();
     } else {
-      console.log(email, name, password);
       register(name, email, password);
-      console.log("Register Component success");
     }
   };
 
@@ -98,6 +117,11 @@ const Register = ({ isAuthenticated, register, setAlert }) => {
               placeholder="Password"
               name="password"
               minLength="6"
+              helperText={
+                minimumPasswordLength
+                  ? ''
+                  : 'Your password must be atleast 6 characters'
+              }
               value={password}
               onChange={(e) => onChange(e)}
               required
@@ -112,6 +136,7 @@ const Register = ({ isAuthenticated, register, setAlert }) => {
               name="password2"
               minLength="6"
               value={password2}
+              helperText={passwordMatch ? '' : 'Passwords do not match'}
               onChange={(e) => onChange(e)}
               required
             />
@@ -156,4 +181,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register, setAlert })(Register);
+export default connect(mapStateToProps, { register })(Register);

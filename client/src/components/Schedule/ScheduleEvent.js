@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 // import Spinner from "../layout/Spinner";
-import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import "../../styles/ScheduleTest.css";
-import { deleteEvent } from "../../actions/schedule";
-import Moment from "react-moment";
-import moment from "moment";
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import '../../styles/ScheduleTest.css';
+import { deleteEvent } from '../../actions/schedule';
+import Moment from 'react-moment';
+import moment from 'moment';
 // import { DashboardActions } from "./DashboardActions";
 
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
 
 const ScheduleTest = ({
   event: { id, title, start, startString, end, endString, memo, allDay },
@@ -32,9 +32,9 @@ const ScheduleTest = ({
   };
 
   const convertStandardToMilitary = (time) => {
-    var standardTime = moment(time, "HH:mm").format("hh:mm a");
+    var standardTime = moment(time, 'HH:mm').format('hh:mm a');
 
-    if (standardTime.charAt(0) === "0") {
+    if (standardTime.charAt(0) === '0') {
       standardTime = standardTime.substr(1);
       return standardTime;
     }
@@ -42,9 +42,7 @@ const ScheduleTest = ({
   };
 
   const deleteTriggeredEvent = (scheduleId, id, history) => {
-    if (window.confirm("Are you sure about that? This cannot be undone.")) {
-      console.log("called");
-      console.log(scheduleId);
+    if (window.confirm('Are you sure about that? This cannot be undone.')) {
       deleteEvent(scheduleId, id, history);
       deleteEventFromDisplay(id);
     }

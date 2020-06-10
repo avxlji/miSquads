@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Input, Label, Form } from "reactstrap";
-import { connect } from "react-redux";
-import { updateEvent } from "../../actions/schedule";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import "../../styles/EditEvent.css";
+import React, { Component } from 'react';
+import { Input, Label, Form } from 'reactstrap';
+import { connect } from 'react-redux';
+import { updateEvent } from '../../actions/schedule';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import '../../styles/EditEvent.css';
 
 //materialUI imports
-import TextField from "@material-ui/core/TextField";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import TextField from '@material-ui/core/TextField';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 class MobileEditEvent extends Component {
   constructor(props) {
@@ -20,9 +20,9 @@ class MobileEditEvent extends Component {
     this.state = {
       //   id: this.props.eventId,
       name: this.props.editEventPrefill.title,
-      year: "",
-      month: "January",
-      day: "1",
+      year: '',
+      month: 'January',
+      day: '1',
       starttime: this.props.editEventPrefill.startString,
       endtime: this.props.editEventPrefill.endString,
       submitting: false,
@@ -69,7 +69,7 @@ class MobileEditEvent extends Component {
       yearFormat = this.state.year.substring(0, 2);
       return yearFormat;
     } else {
-      alert("Invalid Year Format");
+      alert('Invalid Year Format');
     }
   }
 
@@ -77,65 +77,65 @@ class MobileEditEvent extends Component {
     var selection = this.state.month.substring(0, 3).toLowerCase();
     var months = {
       //lookup table
-      jan: "1",
-      feb: "2",
-      mar: "3",
-      apr: "4",
-      may: "5",
-      jun: "6",
-      jul: "7",
-      aug: "8",
-      sep: "9",
-      oct: "10",
-      nov: "11",
-      dec: "12",
+      jan: '1',
+      feb: '2',
+      mar: '3',
+      apr: '4',
+      may: '5',
+      jun: '6',
+      jul: '7',
+      aug: '8',
+      sep: '9',
+      oct: '10',
+      nov: '11',
+      dec: '12',
     };
-    if (selection == "jan") return months.jan;
-    if (selection == "feb") return months.feb;
-    if (selection == "mar") return months.mar;
-    if (selection == "apr") return months.apr;
-    if (selection == "may") return months.may;
-    if (selection == "jun") return months.jun;
-    if (selection == "jul") return months.jul;
-    if (selection == "aug") return months.aug;
-    if (selection == "sep") return months.sep;
-    if (selection == "oct") return months.oct;
-    if (selection == "nov") return months.nov;
-    if (selection == "dec") return months.dec;
+    if (selection == 'jan') return months.jan;
+    if (selection == 'feb') return months.feb;
+    if (selection == 'mar') return months.mar;
+    if (selection == 'apr') return months.apr;
+    if (selection == 'may') return months.may;
+    if (selection == 'jun') return months.jun;
+    if (selection == 'jul') return months.jul;
+    if (selection == 'aug') return months.aug;
+    if (selection == 'sep') return months.sep;
+    if (selection == 'oct') return months.oct;
+    if (selection == 'nov') return months.nov;
+    if (selection == 'dec') return months.dec;
   }
 
   startTimeBeforeEndTime() {
     var isValidated = false;
 
     var startTime = this.state.starttime.toLowerCase();
-    var splitStartTime = startTime.split(":");
+    var splitStartTime = startTime.split(':');
     var startTimeHours;
     var startTimeMinutes;
 
     var endTime = this.state.endtime.toLowerCase();
-    var splitEndTimeHours = endTime.split(":");
+    var splitEndTimeHours = endTime.split(':');
     var endTimeHours;
     var endTimeMinutes;
 
     var timeOffset = 12;
 
-    if (startTime.includes("pm")) {
+    if (startTime.includes('pm')) {
       startTimeHours = parseInt(splitStartTime[0]) + timeOffset;
     } else {
       startTimeHours = parseInt(splitStartTime[0]);
     }
 
-    startTimeMinutes = splitStartTime[1].replace("am", "");
-    startTimeMinutes = splitStartTime[1].replace("pm", "");
+    startTimeMinutes = splitStartTime[1].replace('am', '');
+    startTimeMinutes = splitStartTime[1].replace('pm', '');
 
-    if (endTime.includes("pm")) {
+    if (endTime.includes('pm')) {
       endTimeHours = parseInt(splitEndTimeHours[0]) + timeOffset;
     } else {
       endTimeHours = parseInt(splitEndTimeHours[0]);
     }
 
-    endTimeMinutes = splitEndTimeHours[1].replace("am", "");
-    endTimeMinutes = splitEndTimeHours[1].replace("pm", "");
+    endTimeMinutes = splitEndTimeHours[1].replace('am', '');
+    endTimeMinutes = splitEndTimeHours[1].replace('pm', '');
 
     if (endTimeHours > startTimeHours) {
       isValidated = true;
@@ -152,8 +152,8 @@ class MobileEditEvent extends Component {
       parseInt(splitStartTime[0]) == 12
     ) {
       if (
-        splitEndTimeHours[1].includes("pm") &&
-        splitStartTime[1].includes("pm")
+        splitEndTimeHours[1].includes('pm') &&
+        splitStartTime[1].includes('pm')
       ) {
         isValidated = true;
       }
@@ -169,27 +169,26 @@ class MobileEditEvent extends Component {
 
     time = time.toLowerCase();
 
-    var isPm = time.includes("pm");
+    var isPm = time.includes('pm');
 
-    var timeArray = time.split(":");
+    var timeArray = time.split(':');
 
     if (isPm) {
       hour = 12 + parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("pm", "");
+      min = timeArray[1].replace('pm', '');
     } else {
       hour = parseInt(timeArray[0], 10);
-      min = timeArray[1].replace("am", "");
+      min = timeArray[1].replace('am', '');
     }
 
-    militaryTime = hour.toString() + ":" + min + ":00";
+    militaryTime = hour.toString() + ':' + min + ':00';
 
     return militaryTime;
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log("onSubmit edit event called");
-    if (this.checkYearFormat(this.state.year) == "20") {
+    if (this.checkYearFormat(this.state.year) == '20') {
       if (
         this.isValidDate(
           this.state.year,
@@ -202,8 +201,8 @@ class MobileEditEvent extends Component {
             if (this.state.endtime) {
               if (this.isValidTime(this.state.endtime)) {
                 if (this.startTimeBeforeEndTime()) {
-                  if (this.state.name.includes("}}}")) {
-                    let newName = this.state.name.replace("}}}", "");
+                  if (this.state.name.includes('}}}')) {
+                    let newName = this.state.name.replace('}}}', '');
                     this.setState({
                       name: newName,
                     });
@@ -220,24 +219,21 @@ class MobileEditEvent extends Component {
 
                   const formattedStartTime =
                     this.state.month +
-                    " " +
+                    ' ' +
                     this.state.day +
-                    ", " +
+                    ', ' +
                     this.state.year +
-                    " " +
+                    ' ' +
                     startTime;
 
                   const formattedEndTime =
                     this.state.month +
-                    " " +
+                    ' ' +
                     this.state.day +
-                    ", " +
+                    ', ' +
                     this.state.year +
-                    " " +
+                    ' ' +
                     endTime;
-
-                  console.log(formattedStartTime);
-                  console.log(formattedEndTime);
 
                   const newItem = {
                     title: this.state.name,
@@ -246,8 +242,7 @@ class MobileEditEvent extends Component {
                     end: formattedEndTime,
                     memo: this.state.memo,
                   };
-                  console.log(this.props.scheduleId);
-                  console.log(this.props.eventId);
+
                   //add item via addEvent action
                   this.props.updateEvent(
                     this.props.scheduleId,
@@ -259,30 +254,27 @@ class MobileEditEvent extends Component {
                   this.demoMethod(newItem);
                 } else {
                   alert(
-                    "Please make sure your start time is before your end time"
+                    'Please make sure your start time is before your end time'
                   );
                 }
               } else {
-                alert("Invalid end time format");
+                alert('Invalid end time format');
               }
             } else {
-              alert("Please enter a End Time");
+              alert('Please enter a End Time');
             }
           } else {
             //3
-            alert("Invalid start time format");
+            alert('Invalid start time format');
           }
-        } else if (this.state.starttime == "" && this.state.endtime == "") {
+        } else if (this.state.starttime == '' && this.state.endtime == '') {
           /* testing allDay feature */
 
           const formattedStartTime =
-            this.state.month + " " + this.state.day + ", " + this.state.year;
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
 
           const formattedEndTime =
-            this.state.month + " " + this.state.day + ", " + this.state.year;
-
-          console.log(formattedStartTime);
-          console.log(formattedEndTime);
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
 
           const newItem = {
             title: this.state.name,
@@ -304,7 +296,7 @@ class MobileEditEvent extends Component {
           //closes modal
           this.toggle();
         } else {
-          alert("Invalid Time Entry");
+          alert('Invalid Time Entry');
         }
       }
     }
@@ -353,18 +345,18 @@ class MobileEditEvent extends Component {
       31,
     ];
     var months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return (
       <div>

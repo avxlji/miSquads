@@ -103,7 +103,6 @@ class Schedule extends Component {
   componentDidUpdate(prevProps) {
     if (this.state.currentSchedule !== null) {
       if (this.state.currentSchedule.scheduleName !== null) {
-        console.log(prevProps);
       }
     }
   }
@@ -114,7 +113,6 @@ class Schedule extends Component {
     }
 
     if (oldProps.scheduleName !== newProps.scheduleName) {
-      console.log('name changed called');
       return 2;
     }
 
@@ -157,8 +155,8 @@ class Schedule extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.state.currentSchedule);
-    console.log(nextProps);
+    // console.log(this.state.currentSchedule);
+    // console.log(nextProps);
     // if (nextProps.schedule.schedule === null) {
     //   //if no change in props
     //   console.log();
@@ -199,21 +197,20 @@ class Schedule extends Component {
           this.setState(
             {
               currentSchedule: formattedProp,
-            },
-            () => console.log(this.state.currentSchedule)
+            }
+            // ,
+            // () => console.log(this.state.currentSchedule)
           );
           break;
         case 2:
-          console.log('name changed');
-          console.log(this.state.currentSchedule.scheduleName);
-          console.log(nextProps.schedule.schedule.scheduleName);
+          // console.log(this.state.currentSchedule.scheduleName);
+          // console.log(nextProps.schedule.schedule.scheduleName);
           this.setState((prevState) => ({
             currentSchedule: {
               ...prevState.currentSchedule,
               scheduleName: nextProps.schedule.schedule.scheduleName,
             },
           }));
-          console.log(this.state.currentSchedule);
           // setTimeout(() => {
           //   console.log(this.state.currentSchedule.scheduleName);
           // }, 2000);
@@ -246,8 +243,9 @@ class Schedule extends Component {
                   ...prevState.currentSchedule.events,
                 ],
               },
-            }),
-            () => console.log(this.state.currentSchedule)
+            })
+            // ,
+            // () => console.log(this.state.currentSchedule)
           );
           break;
         case 5:
@@ -275,8 +273,6 @@ class Schedule extends Component {
       let data = {
         name: this.state.nameChange,
       };
-      console.log(this.state.nameChange);
-      console.log(this.props.match.params.id);
       this.props.changeScheduleName(
         this.props.match.params.id,
         data,
@@ -303,13 +299,11 @@ class Schedule extends Component {
       .then((res) => {
         var verifiedRoomKey = res.data.verifiedRoomKey;
         if (verifiedRoomKey) {
-          console.log('success');
           this.props.addUserToSchedule(
             this.props.match.params.id,
             this.state.roomKeyChange
           );
         } else {
-          console.log('fail');
           this.setState(
             (prevState) => ({
               incorrectEntry: true,
@@ -328,7 +322,6 @@ class Schedule extends Component {
 
   deleteCurrentSchedule = () => {
     if (this.state.currentSchedule !== null) {
-      console.log(this.state.currentSchedule._id);
       if (this.state.currentSchedule._id.length > 5) {
         this.props.deleteSchedule(
           this.state.currentSchedule._id,
@@ -340,7 +333,6 @@ class Schedule extends Component {
 
   leaveCurrentSchedule = () => {
     if (this.state.currentSchedule !== null) {
-      console.log(this.state.currentSchedule._id);
       if (this.state.currentSchedule._id.length > 5) {
         this.props.removeUserFromSchedule(
           this.state.currentSchedule._id,
@@ -367,19 +359,17 @@ class Schedule extends Component {
   };
 
   toggleSelectedEvent = (e) => {
-    console.log(e);
     const { id, title, allDay, start, memo, end } = e;
     var splitStartDateString = start.toString().split(' ').slice(0, 5);
     var splitEndDateString = end.toString().split(' ').slice(0, 5);
-    console.log(splitEndDateString[4]);
+    // console.log(splitEndDateString[4]);
     var formattedStartString = this.convertMilitaryToStandard(
       splitStartDateString[4]
     );
     var formattedEndString = this.convertMilitaryToStandard(
       splitEndDateString[4]
     );
-    console.log(start);
-    console.log(end);
+
     const newformattedEvent = {
       id: id,
       title: title,
@@ -430,8 +420,6 @@ class Schedule extends Component {
             'Are you sure you sure about that? This action cannot be undone'
           )
         ) {
-          console.log(this.state.currentSchedule._id);
-          console.log(this.state.selectedEvent.id);
           var selectedEventId = this.state.selectedEvent.id;
           this.props.deleteEvent(
             this.state.currentSchedule._id,
@@ -507,7 +495,7 @@ class Schedule extends Component {
       hoursMinutes[0] = (parseInt(hoursMinutes[0]) - 12).toString();
     }
     var standardTime = hoursMinutes[0] + ':' + hoursMinutes[1] + amOrPm;
-    console.log(hoursMinutes);
+
     return standardTime;
   };
 
@@ -612,14 +600,14 @@ class Schedule extends Component {
 
   /* end button bar conditional form trigger */
 
-  checkScheduleTitleLength = (title) => {
-    if (title.length > 14) {
-      title = title.substring(0, 20) + '...';
-      return title;
-    } else {
-      return '';
-    }
-  };
+  // checkScheduleTitleLength = (title) => {
+  //   if (title.length > 14) {
+  //     title = title.substring(0, 20) + '...';
+  //     return title;
+  //   } else {
+  //     return '';
+  //   }
+  // };
 
   render() {
     return (
@@ -639,9 +627,7 @@ class Schedule extends Component {
                   {' '}
                   {/* Fade 1 */}
                   <h1 id="current-schedule-name">
-                    {this.checkScheduleTitleLength(
-                      this.state.currentSchedule.scheduleName
-                    )}
+                    {this.state.currentSchedule.scheduleName}
                   </h1>
                   {/* start schedule form select */}
                   <div id="schedule-button-group">

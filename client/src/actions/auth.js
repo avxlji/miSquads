@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -10,9 +10,9 @@ import {
   USER_DELETED,
   USER_ERROR,
   CLEAR_SCHEDULE,
-} from "./types";
-import { setAlert } from "./alert";
-import setAuthToken from "../utils/setAuthToken";
+} from './types';
+import { setAlert } from './alert';
+import setAuthToken from '../utils/setAuthToken';
 
 export const loadUser = () => async (dispatch) => {
   //Check to see if user is valid through token
@@ -21,7 +21,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get('/api/auth');
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -37,14 +37,14 @@ export const loadUser = () => async (dispatch) => {
 export const register = (name, email, password) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
   const body = JSON.stringify({ name, email, password });
 
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post('/api/users', body, config);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -60,9 +60,8 @@ export const register = (name, email, password) => async (dispatch) => {
     }
 
     dispatch(
-      setAlert("Incorrect email or password, please try again", "error")
+      setAlert('Incorrect email or password, please try again', 'error')
     );
-    console.log("nigee");
 
     dispatch({
       type: REGISTER_FAIL,
@@ -74,14 +73,13 @@ export const register = (name, email, password) => async (dispatch) => {
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
   const body = JSON.stringify({ email, password });
-  console.log(email, password);
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post('/api/auth', body, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data, //route sends back token
@@ -96,9 +94,8 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     dispatch(
-      setAlert("Incorrect email or password, please try again", "error")
+      setAlert('Incorrect email or password, please try again', 'error')
     );
-    console.log("nigee");
 
     dispatch({
       type: LOGIN_FAIL,
@@ -118,14 +115,13 @@ export const logout = () => async (dispatch) => {
 
 //Delete account and profile
 export const deleteAccount = () => async (dispatch) => {
-  if (window.confirm("Are you sure? This can NOT be undone!")) {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
       dispatch({
         //temp clear schedule
         type: CLEAR_SCHEDULE,
       });
-      await axios.delete("/api/users");
-      // console.log("delete account action called");
+      await axios.delete('/api/users');
       dispatch({ type: USER_DELETED });
 
       // dispatch(setAlert("Your account has been deleted"));

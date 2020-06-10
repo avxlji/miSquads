@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
+/* THIS MODEL IS CURRENTLY NOT IN USE AND MAY BE IMPLEMENTED IN A FUTURE UPDATE */
 
 const PostSchema = new mongoose.Schema({
   user: {
-    //each post must be associated to a user, post can only be deleted by creating user
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: 'user',
     required: true,
   },
   text: {
@@ -19,11 +20,9 @@ const PostSchema = new mongoose.Schema({
   },
   likes: [
     {
-      // One like template
-      //allows us to know which likes came from which user
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+        ref: 'users',
       },
     },
   ],
@@ -32,7 +31,7 @@ const PostSchema = new mongoose.Schema({
       // One comment template
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+        ref: 'users',
       },
       text: {
         type: String,
@@ -56,5 +55,5 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-const Post = mongoose.model("post", PostSchema);
+const Post = mongoose.model('post', PostSchema);
 module.exports = Post;

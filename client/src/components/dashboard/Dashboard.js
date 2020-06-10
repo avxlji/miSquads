@@ -140,25 +140,19 @@ const Dashboard = ({
       var urlInput = url.split('/');
       var scheduleIdEntry = urlInput[urlInput.length - 1];
       const body = { roomKey };
-      console.log(body);
       axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
         const { verifiedRoomKey } = res.data;
-        console.log(verifiedRoomKey);
         if (verifiedRoomKey && validateNewSchedule(scheduleIdEntry) === true) {
           addUserToSchedule(scheduleIdEntry, roomKey, history);
           window.location.reload();
         } else {
-          console.log('failed');
         }
       });
     } else {
-      console.log('rip');
     }
   };
 
   const onCreateScheduleInputSubmit = () => {
-    console.log(newScheduleName);
-    console.log(newScheduleRoomKey);
     if (newScheduleName.length > 0 && newScheduleRoomKey.length > 0) {
       let data = {
         roomKey: newScheduleRoomKey,

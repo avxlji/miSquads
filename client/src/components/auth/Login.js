@@ -1,35 +1,39 @@
-import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
-import "../../styles/LogIn.css";
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
+import '../../styles/LogIn.css';
 
 //materialUI imports
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const Login = ({ isAuthenticated, login }) => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [dynamicPasswordDisplay, setDynamicPasswordDisplay] = useState(
-    "password"
+    'password'
+  );
+
+  const [minPasswordLengthReached, setMinPasswordLengthReached] = useState(
+    true
   );
 
   const handleShowPasswordTrigger = () => {
-    if (showPassword === false && dynamicPasswordDisplay === "password") {
+    if (showPassword === false && dynamicPasswordDisplay === 'password') {
       setShowPassword(!showPassword);
-      setDynamicPasswordDisplay("text");
+      setDynamicPasswordDisplay('text');
     } else {
       setShowPassword(!showPassword);
-      setDynamicPasswordDisplay("password");
+      setDynamicPasswordDisplay('password');
     }
   };
 
@@ -38,9 +42,20 @@ const Login = ({ isAuthenticated, login }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const setMinPasswordFailedDisplay = () => {
+    setTimeout(() => {
+      setMinPasswordFailedDisplay(true);
+    }, 4000);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    if (password.length < 6) {
+      setMinPasswordLengthReached(false);
+      setMinPasswordFailedDisplay();
+    } else {
+      login(email, password);
+    }
   };
 
   if (isAuthenticated) {
@@ -75,6 +90,11 @@ const Login = ({ isAuthenticated, login }) => {
               name="password"
               minLength="2"
               value={password}
+              helperText={
+                minPasswordLengthReached
+                  ? ''
+                  : 'Your password has to be atleast 6 characters'
+              }
               fullWidth
               onChange={(e) => onChange(e)}
               required

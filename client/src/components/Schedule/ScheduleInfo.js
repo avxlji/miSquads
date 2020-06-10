@@ -58,8 +58,6 @@ const ScheduleInfo = ({
 
   const deleteTriggeredEvent = (scheduleId, id, history) => {
     if (window.confirm('Are you sure about that? This cannot be undone.')) {
-      console.log('called');
-      console.log(scheduleId);
       deleteEvent(scheduleId, id, history);
       deleteEventFromDisplay(id);
     }
