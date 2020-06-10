@@ -10,6 +10,7 @@
 
 #landing-container {
   background-position: center;
+  overflow-y: hidden;
 }
 
 #image-alt-text {
