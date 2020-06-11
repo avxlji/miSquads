@@ -1,3 +1,4 @@
+//general imports
 import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,7 +7,6 @@ import '../../styles/About.css';
 import aboutImage from '../assets/aboutLanding.png';
 import securityImage from '../assets/undrawSecurity.svg';
 import { removeCurrentAlert } from '../../actions/alert';
-
 import Footer from '../layout/Footer';
 import Navbar from '../layout/Navbar';
 
@@ -15,7 +15,6 @@ import Fade from 'react-reveal/Fade';
 
 //material UI imports
 import Button from '@material-ui/core/Button';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -31,6 +30,7 @@ const About = ({ removeCurrentAlert }) => {
   return (
     <>
       <div id="about-display">
+        {/* START SECTION 1*/}
         <div id="about-content-container">
           <h3 id="whats-header">Whats miSquads?</h3>
           <Fade>
@@ -47,7 +47,9 @@ const About = ({ removeCurrentAlert }) => {
             collaboration and prompt check-ins.
           </p>
         </div>
+        {/* END SECTION 1*/}
 
+        {/* START SECTION 2*/}
         <div id="get-started-container">
           <h3 id="whats-header" className="non-responsive-about-text">
             How do I get started?
@@ -55,6 +57,7 @@ const About = ({ removeCurrentAlert }) => {
           <h3 id="whats-header" className="responsive-about-text">
             Getting started
           </h3>
+
           <TableContainer component={Paper} id="about-steps-table-container">
             <Table aria-label="simple table">
               <TableHead>
@@ -139,7 +142,9 @@ const About = ({ removeCurrentAlert }) => {
             </Table>
           </TableContainer>
         </div>
+        {/* END SECTION 2*/}
 
+        {/* START SECTION 3*/}
         <div id="about-privacy-container">
           <h3 id="privacy-header" className="non-responsive-about-text">
             Data Privacy and Concerns
@@ -160,7 +165,9 @@ const About = ({ removeCurrentAlert }) => {
             used outside of this platform.
           </p>
         </div>
+        {/* END SECTION 3*/}
 
+        {/* START SECTION 4*/}
         <div id="about-updates-container">
           <h3 id="updates-header">Upcoming Updates</h3>
           <div id="about-updates-content-container">
@@ -181,6 +188,7 @@ const About = ({ removeCurrentAlert }) => {
             </div>
           </div>
         </div>
+        {/* END SECTION 4*/}
 
         <Footer />
       </div>

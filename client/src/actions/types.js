@@ -6,8 +6,6 @@ export const SCHEDULE_ERROR = 'SCHEDULE_ERROR';
 export const ADD_EVENT = 'ADD_EVENT';
 export const CLEAR_SCHEDULE = 'CLEAR_SCHEDULE';
 
-// Generalize individual schedule updates into 'UPDATE_SCHEDULE'
-
 //REGISTER ACTIONS
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
@@ -16,6 +14,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 
+//USER MUTATION ACTIONS
 export const USER_ERROR = 'USER_ERROR';
 export const UPDATE_USER = 'UPDATE_USER';
 export const USER_DELETED = 'USER_DELETED';

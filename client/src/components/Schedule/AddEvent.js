@@ -1,5 +1,5 @@
+//general imports
 import React, { Component } from 'react';
-import { Input, Label, Form } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addEvent } from '../../actions/schedule';
 import { setAlert } from '../../actions/alert';
@@ -29,12 +29,6 @@ class AddEvent extends Component {
     memo: '',
   };
 
-  static propTypes = {
-    //verifiying props
-    isAuthenticated: PropTypes.bool,
-    isLoading: PropTypes.bool,
-  };
-
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
@@ -57,12 +51,14 @@ class AddEvent extends Component {
     });
   };
 
+  //checks to see if date is actually exists
   isValidDate(year, month, day) {
     const date = new Date(year, +month - 1, day);
     const isValidDate = Boolean(+date) && date.getDate() == day;
     return isValidDate;
   }
 
+  //validates time format using regex
   isValidTime(arg) {
     var regularExpression = /^(1[0-2]|0?[1-9]):[0-5][0-9](am|pm)$/;
 
@@ -76,6 +72,7 @@ class AddEvent extends Component {
     return correctFormat;
   }
 
+  //checks to see if year is 4 numbers and is of the format 20--
   checkYearFormat(arg) {
     var yearFormat;
     if (arg.length == 4) {
@@ -288,8 +285,6 @@ class AddEvent extends Component {
             alert('Invalid start time format');
           }
         } else if (this.state.starttime === '' && this.state.endtime === '') {
-          /* testing allDay feature */
-
           const formattedStartTime =
             this.state.month + ' ' + this.state.day + ', ' + this.state.year;
 
@@ -374,10 +369,6 @@ class AddEvent extends Component {
       <div>
         {this.props.isAuthenticated ? (
           <div>
-            {/* <button color="primary" onClick={this.refreshPage}>
-              Refresh
-            </button> */}
-
             <form onSubmit={this.onSubmit}>
               <div id="add-event-container">
                 <div>
@@ -500,8 +491,13 @@ class AddEvent extends Component {
   }
 }
 
+AddEvent.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  isLoading: PropTypes.bool,
+};
+
 const mapStateToProps = (state) => ({
-  item: state.item, //named item because of item attribute in index.js reducer
+  item: state.item,
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
 });

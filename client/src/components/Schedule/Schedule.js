@@ -1,3 +1,4 @@
+//general imports
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -17,12 +18,10 @@ import '../../styles/Schedule.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Redirect, withRouter } from 'react-router-dom';
 import AddEvent from './AddEvent';
-// import EventDialog from "./EventDialog";
 import EditEvent from './EditEvent';
 import Spinner from '../layout/Spinner';
 import ScheduleEvent from './ScheduleEvent';
 import ScheduleInfo from './ScheduleInfo';
-
 import axios from 'axios';
 
 //import react reveal effects
@@ -49,25 +48,25 @@ class Schedule extends Component {
     //temp addition ...
     super(props);
     this.state = {
-      dummyObject1: {
-        scheduleName: 'Test schedule 1',
-        events: [
-          {
-            _id: '5ebe05ef1f5670631aaeaa9b',
-            title: '7:40pm',
-            start: 'May 6, 2020 08:00:00',
-            allDay: false,
-            end: 'May 6, 2020 18:00:00',
-          },
-          {
-            _id: '5ebe05e51f5670631aaeaa9a',
-            title: 'test1',
-            start: 'today',
-            allDay: true,
-            end: '',
-          },
-        ],
-      },
+      // dummyObject1: {
+      //   scheduleName: 'Test schedule 1',
+      //   events: [
+      //     {
+      //       _id: '5ebe05ef1f5670631aaeaa9b',
+      //       title: '7:40pm',
+      //       start: 'May 6, 2020 08:00:00',
+      //       allDay: false,
+      //       end: 'May 6, 2020 18:00:00',
+      //     },
+      //     {
+      //       _id: '5ebe05e51f5670631aaeaa9a',
+      //       title: 'test1',
+      //       start: 'today',
+      //       allDay: true,
+      //       end: '',
+      //     },
+      //   ],
+      // },
       currentSchedule: null,
       _id: null,
       memo: null,
@@ -100,13 +99,7 @@ class Schedule extends Component {
     this.props.getSchedule(this.props.match.params.id);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.state.currentSchedule !== null) {
-      if (this.state.currentSchedule.scheduleName !== null) {
-      }
-    }
-  }
-
+  //compares new data passed into application store with local component state
   evaluateObjectChange(oldProps, newProps) {
     if (oldProps === null) {
       return 1;
@@ -154,17 +147,15 @@ class Schedule extends Component {
     return 5;
   }
 
+  //executes change in state based on what new data passed into component
   componentWillReceiveProps(nextProps) {
     // console.log(this.state.currentSchedule);
     // console.log(nextProps);
-    // if (nextProps.schedule.schedule === null) {
-    //   //if no change in props
-    //   console.log();
-    // }
+
+    //if incoming props has a value
     if (nextProps.schedule.schedule !== null) {
-      //if incoming props has a value
       var objectCase = this.evaluateObjectChange(
-        //otherwise, evaluate incoming props
+        //compare current props with new props
         this.props.schedule.schedule,
         nextProps.schedule.schedule
       );
@@ -194,26 +185,17 @@ class Schedule extends Component {
               };
             }
           }
-          this.setState(
-            {
-              currentSchedule: formattedProp,
-            }
-            // ,
-            // () => console.log(this.state.currentSchedule)
-          );
+          this.setState({
+            currentSchedule: formattedProp,
+          });
           break;
         case 2:
-          // console.log(this.state.currentSchedule.scheduleName);
-          // console.log(nextProps.schedule.schedule.scheduleName);
           this.setState((prevState) => ({
             currentSchedule: {
               ...prevState.currentSchedule,
               scheduleName: nextProps.schedule.schedule.scheduleName,
             },
           }));
-          // setTimeout(() => {
-          //   console.log(this.state.currentSchedule.scheduleName);
-          // }, 2000);
           break;
         case 3:
           const {
@@ -234,31 +216,18 @@ class Schedule extends Component {
             endString: end,
             memo: memo,
           };
-          this.setState(
-            (prevState) => ({
-              currentSchedule: {
-                ...prevState.currentSchedule,
-                events: [
-                  newformattedEvent,
-                  ...prevState.currentSchedule.events,
-                ],
-              },
-            })
-            // ,
-            // () => console.log(this.state.currentSchedule)
-          );
+          this.setState((prevState) => ({
+            currentSchedule: {
+              ...prevState.currentSchedule,
+              events: [newformattedEvent, ...prevState.currentSchedule.events],
+            },
+          }));
           break;
         case 5:
           return;
         default:
           return;
       }
-    } else {
-      //if schedule has been deleted (no longer exists) set component state to null
-      // this.props.history.push("/dashboard");
-      // this.setState({
-      //   currentSchedule: null,
-      // });
     }
   }
 
@@ -291,6 +260,7 @@ class Schedule extends Component {
     }
   };
 
+  //used to verify users joining by url/scheduleId
   verifyAccess = () => {
     axios
       .post(`/api/schedule/check/${this.props.match.params.id}`, {
@@ -384,22 +354,11 @@ class Schedule extends Component {
       this.setState({
         selectedEvent: newformattedEvent,
         eventDetailsOpen: !this.state.eventDetailsOpen,
-        /* edit modal prefill data */
-        // editEventTitle: title,
-        // editEventStart: start,
-        // editEventEnd: end,
-        // editEventAllDay: allDay,
-        // editEventPrefill: newformattedEvent,
       });
     } else {
       this.setState({
         eventDetailsOpen: !this.state.eventDetailsOpen,
         selectedEvent: null,
-        // editEventTitle: null,
-        // editEventStart: null,
-        // editEventEnd: null,
-        // editEventAllDay: null,
-        // editEventPrefill: null,
       });
     }
   };
@@ -412,7 +371,7 @@ class Schedule extends Component {
   };
 
   deleteSelectedEvent = () => {
-    //removes deleted event from frontend when triggered by a call inside the scope of this component
+    //removes deleted event from display
     if (this.state.currentSchedule !== null) {
       if (this.state.selectedEvent !== null) {
         if (
@@ -426,14 +385,11 @@ class Schedule extends Component {
             this.state.selectedEvent.id,
             this.props.history
           );
-          /* option 1, refetch schedule */
-          // window.location.reload();
 
-          /* option 2, filter out deleted event from frontend */
+          /* filter out deleted event */
           var filteredArray = this.state.currentSchedule.events.filter(
             (event) => event.id !== selectedEventId
           );
-          // console.log(filteredArray);
           this.setState((prevState) => ({
             currentSchedule: {
               // object that we want to update
@@ -448,9 +404,10 @@ class Schedule extends Component {
     }
   };
 
-  deleteTriggeredEvent = (deletedEventId) => {
-    //removes deleted event from frontend when triggered by a call outside the scope of this component
+  /* Two different delete event triggers as we need to handle the delete event differently on desktop vs mobile */
 
+  deleteTriggeredEvent = (deletedEventId) => {
+    //removes deleted event from display
     var filteredArray = this.state.currentSchedule.events.filter(
       (event) => event.id !== deletedEventId
     );
@@ -463,6 +420,7 @@ class Schedule extends Component {
     }));
   };
 
+  /* Currently being tested */
   convertMilitaryToStandard = (dateString) => {
     var amOrPm = 'am';
     var hoursMinutes = dateString.split(':').slice(0, 2);
@@ -600,24 +558,9 @@ class Schedule extends Component {
 
   /* end button bar conditional form trigger */
 
-  // checkScheduleTitleLength = (title) => {
-  //   if (title.length > 14) {
-  //     title = title.substring(0, 20) + '...';
-  //     return title;
-  //   } else {
-  //     return '';
-  //   }
-  // };
-
   render() {
     return (
       <>
-        {/* {this.props.schedule.loading && this.state.currentSchedule == null ? (
-          //If loading and no schedule loaded into state, show spinner
-          <div>
-            <Spinner />
-          </div>
-        ) : ( */}
         <div className="calendar-container">
           {this.state.currentSchedule !== null ? (
             <>
@@ -942,7 +885,6 @@ class Schedule extends Component {
             </>
           )}
         </div>
-        {/* )} */}
       </>
     );
   }
@@ -962,7 +904,7 @@ Schedule.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  schedule: state.schedule, //accessing item from main reducer
+  schedule: state.schedule,
   auth: state.auth,
 });
 
@@ -976,4 +918,3 @@ export default connect(mapStateToProps, {
   setAlert,
   removeUserFromSchedule,
 })(withRouter(Schedule));
-//connect takes in x and any actions that we would like to use as arguments

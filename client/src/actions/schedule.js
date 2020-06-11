@@ -12,14 +12,12 @@ import { body } from 'express-validator';
 import { loadUser } from './auth';
 
 export const getSchedule = (id) => (dispatch) => {
-  axios //making request to backend
+  axios
     .get(`/api/schedule/${id}`)
-    .then((
-      res //getting back data
-    ) =>
+    .then((res) =>
       dispatch({
         type: GET_SCHEDULE,
-        payload: res.data, //sending as payload to reducer
+        payload: res.data, //sending schedule as payload to reducer
       })
     )
     .catch((err) => {
@@ -37,9 +35,13 @@ export const createSchedule = (data) => async (dispatch) => {
     const res = await axios.post(`/api/schedule`, data, config);
     dispatch({
       type: CREATE_SCHEDULE,
-      payload: res.data,
+      payload: res.data, //sends back new schedule
     });
-    loadUser();
+
+    /* UNDER TEST */
+    // loadUser();
+    /* UNDER TEST */
+
     dispatch(setAlert('Your schedule was created successfully', 'success'));
   } catch (err) {
     dispatch(
@@ -62,7 +64,7 @@ export const addUserToSchedule = (schedule_id, roomKey, history) => async (
     const res = await axios.put(`/api/schedule/${schedule_id}/${roomKey}`);
     dispatch({
       type: UPDATE_SCHEDULE,
-      payload: res.data, //returns schedule post deletion
+      payload: res.data, //returns schedule with new user
     });
     dispatch(setAlert("You've been added!", 'success'));
     // dispatch(setAlert("Event Removed", "success"));
@@ -84,7 +86,7 @@ export const removeUserFromSchedule = (schedule_id, history) => async (
       type: CLEAR_SCHEDULE,
     });
     history.push('/dashboard');
-    dispatch(setAlert(`${res.data.msg}`, 'error'));
+    dispatch(setAlert(`${res.data.msg}`, 'error')); //message being send from /routes/api/schedule.js
   } catch (err) {
     history.push('/dashboard');
     dispatch(setAlert('This schedule no longer exists.', 'error'));
@@ -105,10 +107,9 @@ export const changeScheduleName = (schedule_id, data, history) => async (
   };
   try {
     const res = await axios.put(`/api/schedule/${schedule_id}`, data, config);
-    //Request is being made to schedule with incorrect id
     dispatch({
       type: UPDATE_SCHEDULE,
-      payload: res.data, //sending as payload to reducer
+      payload: res.data, //sends back updated schedule
     });
     dispatch(setAlert('Schedule name updated', 'success'));
   } catch (err) {
@@ -129,7 +130,6 @@ export const deleteSchedule = (schedule_id, history) => async (dispatch) => {
         type: CLEAR_SCHEDULE,
       });
       history.push('/dashboard');
-      // window.location.reload();
       dispatch(setAlert('Schedule deleted', 'error'));
     } catch (err) {
       history.push('/dashboard');
@@ -156,7 +156,7 @@ export const addEvent = (schedule_id, data, history) => async (dispatch) => {
       ) => {
         dispatch({
           type: ADD_EVENT,
-          payload: res.data, //sending as payload to reducer
+          payload: res.data, //sends back updated schedule with new event
         });
         dispatch(setAlert('Event added', 'success'));
       }
@@ -183,7 +183,7 @@ export const updateEvent = (schedule_id, event_id, data, history) => async (
       ) => {
         dispatch({
           type: UPDATE_SCHEDULE,
-          payload: res.data, //sending as payload to reducer
+          payload: res.data, //sends back updated schedule with updated event
         });
         dispatch(setAlert('Event updated', 'success'));
       }
@@ -199,7 +199,7 @@ export const deleteEvent = (schedule_id, event_id, history) => async (
     const res = await axios.delete(`/api/schedule/${schedule_id}/${event_id}`);
     dispatch({
       type: UPDATE_SCHEDULE,
-      payload: res.data, //returns schedule post deletion
+      payload: res.data, //sends back updated schedule with deleted event
     });
     dispatch(setAlert('Event removed', 'error'));
   } catch (err) {

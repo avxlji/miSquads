@@ -1,7 +1,10 @@
-import React, { Fragment } from "react";
-import notFound from "../assets/undrawNotFound.svg";
-import Footer from "./Footer";
-import "../../styles/NotFound.css";
+//general imports
+import React, { Fragment } from 'react';
+import notFound from '../assets/undrawNotFound.svg';
+import Footer from './Footer';
+import '../../styles/NotFound.css';
+
+/* 404 Error Page */
 
 export const NotFound = () => {
   return (

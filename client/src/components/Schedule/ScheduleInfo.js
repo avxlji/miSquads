@@ -1,6 +1,6 @@
+//general imports
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Spinner from "../layout/Spinner";
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import '../../styles/ScheduleTest.css';
@@ -8,8 +8,8 @@ import { deleteEvent } from '../../actions/schedule';
 import Moment from 'react-moment';
 import moment from 'moment';
 import '../../styles/ScheduleInfo.css';
-// import { DashboardActions } from "./DashboardActions";
 
+//material ui imports
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -66,7 +66,6 @@ const ScheduleInfo = ({
   const updateEvent = () => {};
   return (
     <>
-      {/* Start events display panel */}
       <ExpansionPanel
         expanded={expanded === `panel1`}
         onChange={handleChange(`panel1`)}
@@ -149,18 +148,7 @@ const ScheduleInfo = ({
             <p>Your squad hasn't scheduled any events yet</p>
           )}
           <br />
-          <div id="expansion-button-container">
-            {/* <Button
-              variant="contained"
-              size="medium"
-              color="primary"
-              onClick={(scheduleId, id, history) =>
-                deleteEvent(scheduleId, id, history)
-              }
-            >
-              Edit Plan
-            </Button>{" "} */}
-          </div>
+          <div id="expansion-button-container"></div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
       {/* End events display panel */}

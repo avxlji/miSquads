@@ -1,3 +1,4 @@
+//general imports
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -14,9 +15,6 @@ const Navbar = ({ isAuthenticated }) => {
     <>
       <AppBar position="static" id="nav">
         <Toolbar id="toolbar">
-          {/* <Link to="/login">
-            <Typography variant="h6">News</Typography>
-          </Link> */}
           <div id="header-left">
             <Link to="/">
               <Typography variant="h6" id="miSquads">
@@ -24,6 +22,8 @@ const Navbar = ({ isAuthenticated }) => {
               </Typography>
             </Link>
           </div>
+
+          {/* render links based on authentication status*/}
           <div id="header-right">
             {!isAuthenticated ? (
               <>

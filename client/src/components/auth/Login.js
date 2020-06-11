@@ -1,3 +1,4 @@
+//general imports
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -39,12 +40,12 @@ const Login = ({ isAuthenticated, login }) => {
 
   const { email, password } = formData;
 
+  /* dynamic form onchange for user input */
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const setMinPasswordFailedDisplay = () => {
     setTimeout(() => {
-      console.log('reached');
       setMinPasswordLengthReached(true);
     }, 4000);
   };
@@ -52,7 +53,6 @@ const Login = ({ isAuthenticated, login }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password.length < 6) {
-      console.log(password);
       setMinPasswordLengthReached(false);
       setMinPasswordFailedDisplay();
     } else {

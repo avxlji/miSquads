@@ -1,3 +1,4 @@
+//general imports
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -5,13 +6,11 @@ import PropTypes from 'prop-types';
 import '../../styles/UpcomingFeatures.css';
 import aboutImage from '../assets/aboutLanding.png';
 import securityImage from '../assets/undrawSecurity.svg';
-
 import Footer from '../layout/Footer';
 import Navbar from '../layout/Navbar';
 
 //material UI imports
 import Button from '@material-ui/core/Button';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';

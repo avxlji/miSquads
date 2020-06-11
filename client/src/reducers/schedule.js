@@ -5,14 +5,14 @@ import {
   CLEAR_SCHEDULE,
   UPDATE_SCHEDULE,
   CREATE_SCHEDULE,
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
   schedule: null,
   loading: true,
   error: {},
 };
-//ADD CLEAR SCHEDULE CASE, CHECK DELETE EVENT CYCLE, TEST DELETE CYCLE
+
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {

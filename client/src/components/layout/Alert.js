@@ -1,8 +1,11 @@
+//general imports
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import MuiAlert from '@material-ui/lab/Alert';
 import '../../styles/Alert.css';
+
+//material ui imports
+import MuiAlert from '@material-ui/lab/Alert';
 
 const DynamicAlert = ({ alerts }) => {
   return (

@@ -1,3 +1,4 @@
+//general imports
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,18 +13,17 @@ import { logout } from '../../actions/auth';
 // import Spinner from "../layout/Spinner";
 import { Link, Redirect, withRouter } from 'react-router-dom';
 // import { DashboardActions } from "./DashboardActions";
-import ScheduleItem from './ScheduleItem';
+// import ScheduleItem from './ScheduleItem';
 import '../../styles/Dashboard.css';
 import axios from 'axios';
+
+//import react reveal effects
+import Fade from 'react-reveal/Fade';
 
 //materialUI imports
 import TextField from '@material-ui/core/TextField';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
-
-//import react reveal effects
-import Fade from 'react-reveal/Fade';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -45,7 +45,7 @@ const Dashboard = ({
   useEffect(() => {
     //clear schedule upon entering/returning to dashboard to prevent state lag
     clearSchedule();
-    loadUser(); //testing performance (reloads user data into dashboard)
+    loadUser(); //loads current user into dashboard
   }, [clearSchedule, loadUser]);
 
   /* start hooks */
@@ -124,6 +124,8 @@ const Dashboard = ({
   const validateNewSchedule = (newScheduleId) => {
     if (user !== null) {
       var uniqueSchedule = true;
+
+      //check to see if user is already apart of the schedule they are trying to join
       if (user.schedules.length > 0) {
         for (var i = 0; i < user.schedules.length; i++) {
           if (user.schedules[i].schedule_id.toString() === newScheduleId) {
@@ -137,18 +139,21 @@ const Dashboard = ({
 
   const onScheduleInputSubmit = () => {
     if (url !== '' && roomKey !== '') {
+      //split the url and get the last index (aka the ID)
       var urlInput = url.split('/');
       var scheduleIdEntry = urlInput[urlInput.length - 1];
+
+      //check to see if the user entered the correct roomKey
       const body = { roomKey };
       axios.post(`/api/schedule/check/${scheduleIdEntry}`, body).then((res) => {
         const { verifiedRoomKey } = res.data;
+
+        //if the roomKey is correct and they arent already apart of the schedule they are trying to join, add the user
         if (verifiedRoomKey && validateNewSchedule(scheduleIdEntry) === true) {
           addUserToSchedule(scheduleIdEntry, roomKey, history);
           window.location.reload();
-        } else {
         }
       });
-    } else {
     }
   };
 
@@ -158,6 +163,8 @@ const Dashboard = ({
         roomKey: newScheduleRoomKey,
         scheduleName: newScheduleName,
       };
+
+      //create schedule then refresh webpage to load in new queue for current user
       createSchedule(data);
       window.location.reload();
     }
@@ -167,7 +174,6 @@ const Dashboard = ({
 
   return (
     <>
-      {/* testing out 80% div */}
       <div style={{ width: '80%', margin: 'auto' }}>
         {/* start dashboard header(s) */}
         {user !== null && (
@@ -177,24 +183,11 @@ const Dashboard = ({
           </div>
         )}
         {/* end dashboard headers */}
-        {/* <div id="dashboard-divider"></div> */}
+
         {/* start schedules display */}
         {user !== null && user.schedules.length > 0 ? (
           <>
             <div id="schedule-items">
-              {/* <h1 id="schedule-items-header">Your Teams</h1>
-              <div id="schedule-items-container">
-                {user.schedules.map((sched) => (
-                  <>
-                    <ScheduleItem
-                      key={sched.schedule_id}
-                      scheduleName={sched.scheduleName}
-                      linkToSchedule={sched.schedule_id}
-                    />
-                  </>
-                ))}
-              </div> */}
-
               <TableContainer component={Paper}>
                 <Fade>
                   <Table aria-label="customized table">
@@ -205,7 +198,6 @@ const Dashboard = ({
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {/* add text wrap to quad name */}
                       {user.schedules.map((sched, index) => (
                         <TableRow key={index}>
                           <TableCell component="th" scope="row">
@@ -240,6 +232,7 @@ const Dashboard = ({
           <h1 id="no-teams-header">You're not apart of any squads yet</h1>
         )}
         {/* end schedules display*/}
+
         {/* Start form selection panel */}
         <div id="dashboard-form-panel-lg">
           <ButtonGroup
@@ -267,8 +260,10 @@ const Dashboard = ({
           </ButtonGroup>
         </div>
         {/* End form selection panel */}
+
         {/* Start condition form display*/}
         <>
+          {/* If user selects join team */}
           {joinTeam && (
             <Fade duration="400">
               <div id="add-schedule-container">
@@ -300,6 +295,7 @@ const Dashboard = ({
             </Fade>
           )}
 
+          {/* If user selects create team */}
           {createTeam && (
             <Fade duration="400">
               <div id="add-schedule-container">

@@ -1,3 +1,4 @@
+//general imports
 import React, { Component } from 'react';
 import { Input, Label, Form } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -33,15 +34,6 @@ class EditEvent extends Component {
     };
   }
 
-  /*This function is not currently in use */
-  // refactorDateToAmPmTime = (time) => {
-  //   var standardTime = moment(time, "ddd DD-MMM-YYYY, hh:mm A").format(
-  //     "hh:mm A"
-  //   );
-  //   console.log(time);
-  //   return "January";
-  // };
-
   refactorDateToMonth = (time) => {
     var month = time.getMonth();
     var months = [
@@ -61,11 +53,6 @@ class EditEvent extends Component {
     month = months[month];
     return month;
   };
-
-  // refactorDateToYear = (time) => {
-  //   var year = time.getFullYear();
-  //   return year.toString();
-  // };
 
   onChange = (e) => {
     this.setState({

@@ -163,22 +163,3 @@
     width: 120%;
   }
 }
-
-/* device screen providing poor user experience */
-
-/* NEED TO TEST SYNCHRONOUSLY WITH OTHER PAGES */
-
-/* @media only screen and (max-width: 310px) {
-  #about-display {
-    display: none;
-  }
-
-  #unsupported-device-header {
-    display: block;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-}  */

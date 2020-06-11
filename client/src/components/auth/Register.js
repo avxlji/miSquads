@@ -1,3 +1,4 @@
+//general imports
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -6,6 +7,7 @@ import { register } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
 import '../../styles/Register.css';
 
+//material UI imports
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -41,6 +43,7 @@ const Register = ({ isAuthenticated, register, setAlert }) => {
 
   const { name, email, password, password2 } = formData;
 
+  /* dynamic form onchange for user input */
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 

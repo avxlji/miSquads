@@ -15,11 +15,12 @@ import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
 
 export const loadUser = () => async (dispatch) => {
-  //Check to see if user is valid through token
+  //Set token from localStorage in browser
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
+  //check to see if user is valid
   try {
     const res = await axios.get('/api/auth');
     dispatch({
@@ -56,7 +57,6 @@ export const register = (name, email, password) => async (dispatch) => {
 
     if (errors) {
       console.log(errors);
-      //   errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
 
     dispatch(
@@ -103,7 +103,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-//Logout user and clear profile
+//Clear schedule and logout user
 export const logout = () => async (dispatch) => {
   dispatch({
     type: CLEAR_SCHEDULE,
@@ -121,7 +121,10 @@ export const deleteAccount = () => async (dispatch) => {
         //temp clear schedule
         type: CLEAR_SCHEDULE,
       });
+
+      //send request to server to delete user from db
       await axios.delete('/api/users');
+
       dispatch({ type: USER_DELETED });
 
       // dispatch(setAlert("Your account has been deleted"));

@@ -1,18 +1,19 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+//general imports
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 //Component imports
-import Schedule from "../Schedule/Schedule";
-import Landing from "../layout/Landing";
-import Register from "../auth/Register";
-import Login from "../auth/Login";
-import Dashboard from "../dashboard/Dashboard";
-import PrivateRoute from "./PrivateRoute";
-import { NotFound } from "../layout/NotFound";
-import DynamicAlert from "../layout/Alert";
-import Navbar from "../layout/Navbar";
-import About from "../about/About";
-import UpcomingFeatures from "../about/UpcomingFeatures";
+import Schedule from '../Schedule/Schedule';
+import Landing from '../layout/Landing';
+import Register from '../auth/Register';
+import Login from '../auth/Login';
+import Dashboard from '../dashboard/Dashboard';
+import PrivateRoute from './PrivateRoute';
+import { NotFound } from '../layout/NotFound';
+import DynamicAlert from '../layout/Alert';
+import Navbar from '../layout/Navbar';
+import About from '../about/About';
+import UpcomingFeatures from '../about/UpcomingFeatures';
 const Routes = () => {
   return (
     <>
