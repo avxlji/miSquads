@@ -44,13 +44,15 @@ const Login = ({ isAuthenticated, login }) => {
 
   const setMinPasswordFailedDisplay = () => {
     setTimeout(() => {
-      setMinPasswordFailedDisplay(true);
+      console.log('reached');
+      setMinPasswordLengthReached(true);
     }, 4000);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password.length < 6) {
+      console.log(password);
       setMinPasswordLengthReached(false);
       setMinPasswordFailedDisplay();
     } else {

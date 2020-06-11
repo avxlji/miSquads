@@ -1,18 +1,18 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import "../../styles/Navbar.css";
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../../styles/Navbar.css';
 
 //material UI imports
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 const Navbar = ({ isAuthenticated }) => {
   return (
     <>
-      <AppBar position="static" id="landing-nav">
+      <AppBar position="static" id="nav">
         <Toolbar id="toolbar">
           {/* <Link to="/login">
             <Typography variant="h6">News</Typography>

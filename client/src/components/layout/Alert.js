@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import MuiAlert from "@material-ui/lab/Alert";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import MuiAlert from '@material-ui/lab/Alert';
+import '../../styles/Alert.css';
 
 const DynamicAlert = ({ alerts }) => {
   return (
@@ -12,7 +13,8 @@ const DynamicAlert = ({ alerts }) => {
         severity={alert.alertType}
         elevation={6}
         variant="filled"
-        style={{ width: "85%", margin: "auto" }}
+        id="mui-alert"
+        style={{ width: '85%', margin: 'auto' }}
       >
         {alert.msg}
       </MuiAlert>

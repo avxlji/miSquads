@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
-// import { setAlert } from '../../actions/alert';
+import { setAlert } from '../../actions/alert';
 import '../../styles/Register.css';
 
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-const Register = ({ isAuthenticated, register }) => {
+const Register = ({ isAuthenticated, register, setAlert }) => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -61,11 +61,9 @@ const Register = ({ isAuthenticated, register }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setPasswordMatch(false);
-      displayPasswordsDoNotMatch();
+      setAlert('Those passwords do not match', 'error');
     } else if (password.length < 6 || password2.length < 6) {
-      setMinimumPasswordLength(false);
-      displayMinLength();
+      setAlert('Your password must be atleast 6 characters', 'error');
     } else {
       register(name, email, password);
     }
@@ -117,11 +115,11 @@ const Register = ({ isAuthenticated, register }) => {
               placeholder="Password"
               name="password"
               minLength="6"
-              helperText={
-                minimumPasswordLength
-                  ? ''
-                  : 'Your password must be atleast 6 characters'
-              }
+              // helperText={
+              //   minimumPasswordLength
+              //     ? ''
+              //     : 'Your password must be atleast 6 characters'
+              // }
               value={password}
               onChange={(e) => onChange(e)}
               required
@@ -136,7 +134,7 @@ const Register = ({ isAuthenticated, register }) => {
               name="password2"
               minLength="6"
               value={password2}
-              helperText={passwordMatch ? '' : 'Passwords do not match'}
+              // helperText={passwordMatch ? '' : 'Passwords do not match'}
               onChange={(e) => onChange(e)}
               required
             />
@@ -175,10 +173,11 @@ const Register = ({ isAuthenticated, register }) => {
 Register.propTypes = {
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  setAlert: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, setAlert })(Register);
