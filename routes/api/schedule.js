@@ -409,37 +409,4 @@ router.post('/:schedule_id/:event_id', auth, async (req, res) => {
   }
 });
 
-// // @route    PUT api/schedule/:schedule_id
-// // @desc     UPDATE schedule name by id
-// // @access   Private
-// router.put("/:schedule_id", auth, async (req, res) => {
-//   try {
-//     let schedule = await Schedule.findById(req.params.schedule_id);
-//     const users = await User.find({
-//       schedules: { $elemMatch: { schedule_id: schedule._id } },
-//     });
-
-//     // Update the schedule name in all of the users associated with the schedule_id
-//     for (var i = 0; i < users.length; i++) {
-//       for (var j = 0; j < users[i].schedules.length; j++) {
-//         if (
-//           users[i].schedules[j].schedule_id.toString() ===
-//           schedule._id.toString()
-//         ) {
-//           users[i].schedules[j].scheduleName = req.body.name;
-//           users[i].save();
-//           break;
-//         }
-//       }
-//     }
-//     //Directly update the schedules name
-//     schedule.scheduleName = req.body.name;
-//     schedule.save();
-//     res.json(schedule);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
 module.exports = router;
