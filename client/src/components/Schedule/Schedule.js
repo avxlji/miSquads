@@ -812,6 +812,7 @@ class Schedule extends Component {
                         users={this.state.currentSchedule.users}
                         deleteEventFromDisplay={this.deleteTriggeredEvent}
                         scheduleId={this.state.currentSchedule._id}
+                        roomKey={this.state.currentSchedule.roomKey}
                       />
                     </div>
                   </div>

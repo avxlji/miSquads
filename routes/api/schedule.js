@@ -361,7 +361,7 @@ router.post('/:schedule_id', auth, async (req, res) => {
     //save updated user
     promptedUser.save().catch((err) => console.log(err.message));
 
-    res.json({ msg: 'Departed team' });
+    res.json({ msg: 'Departed squad' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

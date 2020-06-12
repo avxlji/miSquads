@@ -22,6 +22,7 @@ const ScheduleInfo = ({
   events,
   users,
   scheduleId,
+  roomKey,
   deleteEvent,
   deleteEventFromDisplay,
   history,
@@ -169,6 +170,9 @@ const ScheduleInfo = ({
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>Schedule Id: {scheduleId}</Typography>
+        </ExpansionPanelDetails>
+        <ExpansionPanelDetails>
+          <Typography>Schedule roomKey: {roomKey}</Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
       {/* End explicit schedule information */}

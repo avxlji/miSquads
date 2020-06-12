@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-const config = require('config');
-const db = config.get('mongoURI');
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Load env vars
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
+    await mongoose.connect(process.env.mongoURI, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,

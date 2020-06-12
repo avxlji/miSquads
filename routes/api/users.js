@@ -8,6 +8,11 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 const Schedule = require('../../models/Schedule');
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Load env vars
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // @ROUTE POST api/users
 // @DESC register user
@@ -64,7 +69,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.jwtSecret,
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
