@@ -1,0 +1,124 @@
+#schedule-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+}
+
+#no-teams-header {
+  margin: 2rem 0rem 4rem 2rem;
+}
+
+#dashboard-headers {
+  width: 50%;
+  margin-top: 2rem;
+  margin-left: 1.5rem;
+}
+
+#hello-header {
+  font-size: 1.2rem;
+  margin-left: 0.2rem;
+}
+
+#user-name-header {
+  font-size: 4rem;
+}
+
+#lg-buttons-group > button {
+  background-color: #001f3f;
+  border: none;
+}
+
+#logOut {
+  background-color: #ef5350;
+  color: white;
+}
+
+#add-schedule-container > .post-input-group-buttons {
+  white-space: nowrap;
+}
+
+#dashboard-form-panel-lg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-schedule-container {
+  margin: auto;
+  padding: 2rem;
+  width: 40rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.add-schedule-inputs {
+  margin: 2rem;
+}
+
+.dashboard-management-buttons {
+  display: flex;
+  margin: 4rem 0 1.5rem 1rem;
+  width: 60%;
+}
+
+#deleteAccount {
+  margin-left: 1.5rem;
+}
+
+#lg-buttons-group {
+  margin-top: 2rem;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  #add-schedule-container {
+    width: 50%;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #add-schedule-container > .add-schedule-inputs {
+    margin: 1rem;
+    min-width: 10rem;
+  }
+
+  #add-schedule-container > .post-input-group-buttons {
+    margin-top: 1rem;
+  }
+
+  #dashboard-headers {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  #no-teams-header {
+    width: 80%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .dashboard-management-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-left: 0rem;
+  }
+
+  #deleteAccount {
+    margin-left: 0rem;
+    margin-top: 1rem;
+  }
+
+  #delete-account,
+  #logOut {
+    white-space: nowrap;
+  }
+}

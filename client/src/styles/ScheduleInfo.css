@@ -1,0 +1,32 @@
+#expansion-events-panel-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#expansion-events-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+#single-event-typography > p {
+  margin: 1rem 0rem;
+}
+
+#schedule-info-delete-button {
+  margin: 1rem 0;
+}
+
+#adjusted-margin-schedule-info-delete-button {
+  margin: 1rem 0 -1rem 0;
+}
+
+#expansion-users-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 767px) {
+  #expansion-events-panel-container {
+    display: none;
+  }
+}

@@ -1,0 +1,29 @@
+/* start get started section */
+
+#upcoming-features-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 50%;
+  min-height: 80vh;
+}
+
+#upcoming-features-container h3 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #001f3f;
+}
+
+#upcoming-features-table-container {
+  margin-bottom: 3rem;
+}
+
+#upcoming-features-button {
+  background-color: #001f3f;
+  margin-bottom: 3rem;
+}
+
+/* end get started section */

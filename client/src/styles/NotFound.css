@@ -1,0 +1,36 @@
+#not-found-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#not-found-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#not-found-content-container h3 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  white-space: nowrap;
+}
+
+#not-found-content-container p {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+#not-found-content-container img {
+  width: 50%;
+  min-width: 200px;
+}
+
+/* iPhone SE */
+@media only screen and (max-width: 320px) {
+  #not-found-content-container h3 {
+    font-size: 1.9rem;
+  }
+}

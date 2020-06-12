@@ -1,0 +1,4 @@
+node_modules/
+.history/
+.env
+.DS_Store

@@ -1,0 +1,46 @@
+*:focus {
+  outline: 0 !important;
+}
+
+#nav {
+  transform: translateY(1rem);
+  width: 85%;
+  border-radius: 1px;
+  margin: auto;
+  margin-bottom: 3rem;
+  background-color: #001f3f;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+#toolbar {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+#header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#miSquads {
+  color: white;
+}
+
+#register,
+#login,
+#about {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: white;
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 600px) {
+  /* reduced margin to prevent navbar from being pushed on to fixed register/login form */
+  #nav {
+    margin-bottom: 2.5rem;
+  }
+}

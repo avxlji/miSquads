@@ -1,0 +1,165 @@
+/* start about landing section */
+
+#about-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#whats-header {
+  font-size: 2.5rem;
+}
+
+#about-content-container img {
+  width: 50%;
+  min-width: 300px;
+  max-width: 1100px;
+}
+
+#about-content-container p {
+  color: #001f3f;
+  padding: 3rem;
+  width: 50%;
+}
+
+/* end get started section */
+
+#unsupported-device-header {
+  display: none;
+}
+
+.responsive-about-text {
+  display: none;
+}
+
+/* start get started section */
+
+#get-started-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 50%;
+}
+
+#get-started-container h3 {
+  margin-bottom: 3rem;
+  color: #001f3f;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#about-steps-table-container {
+  margin-bottom: 3rem;
+}
+
+/* end get started section */
+
+/* start about privacy section */
+
+#about-privacy-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#privacy-header {
+  color: #001f3f;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+#about-privacy-container p {
+  color: #001f3f;
+  width: 50%;
+  padding: 3.75rem 0rem;
+}
+
+#about-privacy-container img {
+  width: 25%;
+  min-width: 200px;
+  max-width: 1100px;
+}
+
+/* start upcoming features reference */
+
+#about-updates-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+#updates-header {
+  color: #001f3f;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+#about-updates-container p {
+  color: #001f3f;
+  width: 50%;
+  white-space: nowrap;
+}
+
+#about-updates-container button {
+  background-color: #001f3f;
+}
+
+#about-updates-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#about-updates-content-container p {
+  margin-top: 0.5rem;
+  color: grey;
+}
+
+/* end upcoming features reference */
+
+@media only screen and (max-width: 1024px) {
+  #about-content-container p {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  #about-content-container p {
+    width: 80%;
+  }
+
+  .responsive-about-text {
+    display: block;
+  }
+
+  .non-responsive-about-text {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  #whats-header {
+    font-size: 2rem;
+  }
+
+  #get-started-container h3 {
+    font-size: 2rem;
+  }
+}
+
+/* IF device is iPhone SE */
+@media only screen and (max-width: 320px) {
+  #about-steps-table-container {
+    width: 120%;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "miSquads",
+  "short_name": "mS",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "description": "Squad Planning Tool.",
+  "dir": "ltr",
+  "lang": "en-US"
+}
