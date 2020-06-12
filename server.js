@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
 const dotenv = require('dotenv');
+const colors = require('colors');
 
 // Load env vars
 dotenv.config({ path: '.env' });
@@ -49,7 +50,7 @@ if (process.env.NODE_ENV === 'production') {
 //Set server port as environment or 5000
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`.cyan.bold));
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {

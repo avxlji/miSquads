@@ -229,7 +229,7 @@ const Dashboard = ({
             </div>
           </>
         ) : (
-          <h1 id="no-teams-header">You're not apart of any squads yet</h1>
+          <h1 id="no-teams-header">You're not part of any squads yet</h1>
         )}
         {/* end schedules display*/}
 

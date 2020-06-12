@@ -264,6 +264,9 @@ class AddEvent extends Component {
                       this.props.history
                     );
 
+                    //function in Schedule.js
+                    this.props.closeAndClearAddEvent();
+
                     //closes modal
                     this.toggle();
                   } else {
@@ -305,6 +308,9 @@ class AddEvent extends Component {
             newItem,
             this.props.history
           );
+
+          //function in Schedule.js
+          this.props.closeAndClearAddEvent();
 
           //closes modal
           this.toggle();

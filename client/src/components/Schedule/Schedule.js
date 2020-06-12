@@ -93,6 +93,7 @@ class Schedule extends Component {
     this.setEventDetailsModal = this.setEventDetailsModal.bind(this);
     this.closeEditModals = this.closeEditModals.bind(this);
     this.deleteTriggeredEvent = this.deleteTriggeredEvent.bind(this);
+    this.closeAndClearAddEvent = this.closeAndClearAddEvent.bind(this);
   }
 
   componentDidMount() {
@@ -247,6 +248,7 @@ class Schedule extends Component {
         data,
         this.props.history
       );
+      this.closeAndClearChangeScheduleName();
     }
   };
 
@@ -556,6 +558,18 @@ class Schedule extends Component {
     );
   };
 
+  closeAndClearAddEvent = () => {
+    this.setState({
+      addEvent: false,
+    });
+  };
+
+  closeAndClearChangeScheduleName = () => {
+    this.setState({
+      changeSchedName: false,
+    });
+  };
+
   /* end button bar conditional form trigger */
 
   render() {
@@ -604,7 +618,10 @@ class Schedule extends Component {
                 </Fade>
                 {this.state.addEvent && (
                   <Fade duration="400">
-                    <AddEvent scheduleId={this.state.currentSchedule._id} />
+                    <AddEvent
+                      scheduleId={this.state.currentSchedule._id}
+                      closeAndClearAddEvent={this.closeAndClearAddEvent}
+                    />
                   </Fade>
                 )}
                 {this.state.changeSchedName && (
@@ -649,7 +666,7 @@ class Schedule extends Component {
                           </DialogTitle>
                           <List>
                             {this.state.selectedEvent.allDay ? (
-                              <ListItem>This event runs all day.</ListItem>
+                              <ListItem>This event runs all day</ListItem>
                             ) : (
                               <>
                                 <ListItem>

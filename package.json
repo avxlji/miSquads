@@ -1,7 +1,7 @@
 {
-  "name": "socialdevconnector",
+  "name": "misquads",
   "version": "1.0.0",
-  "description": "social network mockup",
+  "description": "Collaboration tool",
   "main": "server.js",
   "scripts": {
     "start": "node server",

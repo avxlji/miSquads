@@ -90,7 +90,7 @@ const ScheduleInfo = ({
                   <p>{currentEvent.title}</p>
                   {currentEvent.allDay ? (
                     <p>
-                      This is event is scheduled for {currentEvent.startString}
+                      This event is scheduled for {currentEvent.startString}
                     </p>
                   ) : (
                     <p>
