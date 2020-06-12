@@ -1,8 +1,8 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import "../../styles/Footer.css";
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../../styles/Footer.css';
 
 const Footer = () => {
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
           </div>
           <div class="footer-grid-right">
             <a
-              href="https://github.com/avxlji"
+              href="https://github.com/avxlji/miSquads"
               target="_blank"
               rel="noopener noreferrer"
             >
