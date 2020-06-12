@@ -259,6 +259,9 @@ const Dashboard = ({
             </Button>
           </ButtonGroup>
         </div>
+        <div id="dashboard-form-panel-alt">
+          <p>To create and join schedules, please use a laptop or a tablet</p>
+        </div>
         {/* End form selection panel */}
 
         {/* Start condition form display*/}

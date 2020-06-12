@@ -6,6 +6,10 @@
   min-height: 40vh;
 }
 
+#dashboard-form-panel-alt {
+  display: none;
+}
+
 #no-teams-header {
   margin: 2rem 0rem 4rem 2rem;
 }
@@ -72,7 +76,7 @@
   margin-top: 2rem;
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
+/* Medium devices (landscape tablets, 768px) */
 @media only screen and (max-width: 768px) {
   #add-schedule-container {
     width: 50%;
@@ -102,6 +106,21 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
+}
+
+/* for anything smaller than a tablet */
+@media only screen and (max-width: 767px) {
+  /* blocked adding schedule on mobile while bug is under review */
+  #dashboard-form-panel-lg {
+    display: none;
+  }
+
+  #dashboard-form-panel-alt {
+    display: contents;
+    text-align: center;
+    margin: auto;
+  }
+  /* blocked adding schedule on mobile while bug is under review */
 }
 
 @media only screen and (max-width: 600px) {
