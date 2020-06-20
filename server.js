@@ -3,6 +3,10 @@ const connectDB = require('./config/db');
 const path = require('path');
 const dotenv = require('dotenv');
 const colors = require('colors');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 // Load env vars
 dotenv.config({ path: '.env' });
@@ -31,6 +35,18 @@ connectDB();
 
 //initialize request middleware
 app.use(express.json());
+
+//Sanitize data
+app.use(mongoSanitize());
+
+//Set security headers
+app.use(helmet());
+
+//Prevent XSS attacks
+app.use(xss());
+
+// Prevent http param pollution
+app.use(hpp());
 
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));

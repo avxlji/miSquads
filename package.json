@@ -19,14 +19,18 @@
     "config": "^3.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.0",
     "express-validator": "^6.4.1",
     "gravatar": "^1.8.0",
+    "helmet": "^3.23.1",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.12",
     "path": "^0.12.7",
     "react-reveal": "^1.2.2",
     "request": "^2.88.2",
-    "uuid": "^8.1.0"
+    "uuid": "^8.1.0",
+    "xss-clean": "^0.1.1"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
