@@ -57,6 +57,13 @@ const ScheduleInfo = ({
     return `From ${formattedStartingTime} to ${formattedEndingTime} on ${dayOfPlan}`;
   };
 
+  const formatAllDay = (starting) => {
+    var startingArray = starting.split(' ');
+    var dayOfPlan =
+      startingArray[0] + ' ' + startingArray[1] + ' ' + startingArray[2];
+    return `${dayOfPlan}`;
+  };
+
   const deleteTriggeredEvent = (scheduleId, id, history) => {
     if (window.confirm('Are you sure about that? This cannot be undone.')) {
       deleteEvent(scheduleId, id, history);
@@ -90,7 +97,7 @@ const ScheduleInfo = ({
                 <Typography key={index} id="single-event-typography">
                   <p>{currentEvent.title}</p>
                   {currentEvent.allDay ? (
-                    <p>This event runs all day</p>
+                    <p> {formatAllDay(currentEvent.startString)}</p>
                   ) : (
                     <p>
                       {formatTiming(

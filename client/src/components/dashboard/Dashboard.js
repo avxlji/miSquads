@@ -209,7 +209,7 @@ const Dashboard = ({
                             </p>
                           </TableCell>
                           <TableCell align="right">
-                            <Link to={`/schedule/${sched.schedule_id}`}>
+                            <Link to={`/squad/${sched.schedule_id}`}>
                               <Button
                                 variant="contained"
                                 size="medium"

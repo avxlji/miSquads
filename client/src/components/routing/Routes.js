@@ -27,7 +27,7 @@ const Routes = () => {
         <Route exact path="/about" component={About} />
         <Route exact path="/upcoming-features" component={UpcomingFeatures} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <PrivateRoute exact path="/schedule/:id" component={Schedule} />
+        <PrivateRoute exact path="/squad/:id" component={Schedule} />
         <Route component={NotFound} />
       </Switch>
     </>

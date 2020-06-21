@@ -320,9 +320,6 @@ class EditEvent extends Component {
           );
 
           this.demoMethod(newItem);
-
-          //closes modal
-          this.toggle();
         } else {
           alert('Invalid Time Entry');
         }
@@ -468,7 +465,7 @@ class EditEvent extends Component {
                     name="starttime"
                     placeholder="Ex. 8:00am, 9:30pm"
                     onChange={this.onChange}
-                    required
+                    value={this.state.starttime}
                   />
                 </div>
 
@@ -480,7 +477,7 @@ class EditEvent extends Component {
                     name="endtime"
                     placeholder="Ex. 6am, 8pm, 9:30pm"
                     onChange={this.onChange}
-                    required
+                    value={this.state.endtime}
                   />
                 </div>
 

@@ -7,6 +7,7 @@ import '../../styles/ScheduleTest.css';
 import { deleteEvent } from '../../actions/schedule';
 import Moment from 'react-moment';
 import moment from 'moment';
+import '../../styles/ScheduleEvent.css';
 
 //material ui imports
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -83,6 +84,7 @@ const ScheduleTest = ({
               variant="contained"
               size="medium"
               color="primary"
+              style={{ backgroundColor: '#001f3f' }}
               onClick={() => deleteTriggeredEvent(scheduleId, id, history)}
             >
               Delete Plan
