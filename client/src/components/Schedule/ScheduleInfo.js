@@ -85,13 +85,12 @@ const ScheduleInfo = ({
           {events !== null && events.length && events !== undefined ? (
             events.map((currentEvent, index) => (
               <>
+                {console.log(events)}
                 <Divider />
                 <Typography key={index} id="single-event-typography">
                   <p>{currentEvent.title}</p>
                   {currentEvent.allDay ? (
-                    <p>
-                      This event is scheduled for {currentEvent.startString}
-                    </p>
+                    <p>This event runs all day</p>
                   ) : (
                     <p>
                       {formatTiming(
@@ -100,7 +99,8 @@ const ScheduleInfo = ({
                       )}
                     </p>
                   )}
-                  {currentEvent.memo !== null &&
+                  {currentEvent.memo !== undefined &&
+                  currentEvent.memo !== null &&
                   currentEvent.memo.length > 0 ? (
                     currentEvent.memo
                   ) : (
