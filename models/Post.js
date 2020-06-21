@@ -14,15 +14,18 @@ const PostSchema = new mongoose.Schema({
   },
   name: {
     type: String,
+    required: true,
   },
-  avatar: {
-    type: String,
+  schedule: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'schedule',
+    required: true,
   },
   likes: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
       },
     },
   ],
@@ -31,7 +34,7 @@ const PostSchema = new mongoose.Schema({
       // One comment template
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
       },
       text: {
         type: String,
@@ -39,9 +42,7 @@ const PostSchema = new mongoose.Schema({
       },
       name: {
         type: String,
-      },
-      avatar: {
-        type: String,
+        required: true,
       },
       date: {
         type: Date,
