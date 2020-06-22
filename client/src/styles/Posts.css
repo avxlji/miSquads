@@ -15,11 +15,41 @@
   align-items: center;
 }
 
+.post-date {
+  color: #aaaaaa;
+  font-size: 0.7rem;
+}
+
+.post-name {
+  font-size: 0.7rem;
+}
+
+.post-body {
+  margin: 0.7rem 0rem;
+}
+
+.like-button {
+  background-color: transparent;
+  border: none;
+  color: #ff4136; /* Fallback for older browsers */
+  color: rgba(255, 65, 54, 1);
+  outline: thick;
+}
+
+.like-button:focus {
+  color: #ff4136; /* Fallback for older browsers */
+  color: rgba(0, 0, 0, 1);
+}
+
+.number-of-likes-text {
+  color: #001f3f;
+}
+
 #delete-post-button {
   position: absolute;
   top: -10px;
   right: -10px;
-  background-color: #f44336;
+  background-color: #ff4136;
   color: white;
   border: none;
   border-radius: 50%;
@@ -28,11 +58,13 @@
   cursor: pointer;
 }
 
-.post-date {
-  color: #aaaaaa;
-  font-size: 0.7rem;
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.post-name {
+#comments-button {
+  background-color: #001f3f;
   font-size: 0.7rem;
 }
