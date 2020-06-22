@@ -30,3 +30,15 @@ export const LOGOUT = 'LOGOUT';
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const REMOVE_CURRENT_ALERT = 'REMOVE_CURRENT_ALERT';
+
+//GENERAL POST ACTIONS
+export const GET_POSTS = 'GET_POSTS';
+export const GET_POST = 'GET_POST';
+export const POST_ERROR = 'POST_ERROR';
+export const DELETE_POST = 'DELETE_POST';
+export const ADD_POST = 'ADD_POST';
+
+//POST LIKES & COMMENTS ACTIONS
+export const UPDATE_LIKES = 'UPDATE_LIKES';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const REMOVE_COMMENT = 'REMOVE_COMMENT';

@@ -22,6 +22,7 @@ import EditEvent from './EditEvent';
 import Spinner from '../layout/Spinner';
 import ScheduleEvent from './ScheduleEvent';
 import ScheduleInfo from './ScheduleInfo';
+import Posts from '../posts/Posts';
 import axios from 'axios';
 
 //import react reveal effects
@@ -31,6 +32,7 @@ import Fade from 'react-reveal/Fade';
 import TextField from '@material-ui/core/TextField';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+
 //materialUI imports
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -40,6 +42,9 @@ import Dialog from '@material-ui/core/Dialog';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LockIcon from '@material-ui/icons/Lock';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const localizer = momentLocalizer(moment);
 
@@ -87,6 +92,7 @@ class Schedule extends Component {
       editEventAllDay: false,
       editEventPrefill: null,
       incorrectEntry: false,
+      centeredTabsValue: 0,
     };
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
@@ -572,6 +578,14 @@ class Schedule extends Component {
 
   /* end button bar conditional form trigger */
 
+  /* conditional squad feature display */
+  handleCenteredTabsChange = (event, newValue) => {
+    console.log(newValue);
+    this.setState({
+      centeredTabsValue: newValue,
+    });
+  };
+
   render() {
     return (
       <>
@@ -586,254 +600,286 @@ class Schedule extends Component {
                   <h1 id="current-schedule-name">
                     {this.state.currentSchedule.scheduleName}
                   </h1>
-                  {/* start schedule form select */}
-                  <div id="schedule-button-group">
-                    <ButtonGroup
-                      variant="contained"
-                      color="primary"
-                      aria-label="contained primary button group"
-                      id="lg-schedule-buttons-group"
-                      style={{ backgroundColor: '#001f3f' }}
+                  {/* start squad select menu */}
+                  <Paper>
+                    <Tabs
+                      value={this.state.centeredTabsValue}
+                      onChange={this.handleCenteredTabsChange}
+                      indicatorColor="primary"
+                      id="centerd-tabs"
+                      centered
                     >
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        color="primary"
-                        onClick={this.onAddEventClick}
-                      >
-                        Add Plan
-                      </Button>
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        color="primary"
-                        onClick={this.onChangeScheduleNameClick}
-                      >
-                        Change Schedule Name
-                      </Button>
-                    </ButtonGroup>
-                  </div>
-                  {/* end schedule form select */}
-                  {/* start conditional form render */}
+                      <Tab label="Schedule" />
+                      <Tab label="Posts" />
+                      <Tab label="Polls" />
+                    </Tabs>
+                  </Paper>
                 </Fade>
-                {this.state.addEvent && (
-                  <Fade duration="400">
-                    <AddEvent
-                      scheduleId={this.state.currentSchedule._id}
-                      closeAndClearAddEvent={this.closeAndClearAddEvent}
-                    />
-                  </Fade>
-                )}
-                {this.state.changeSchedName && (
-                  <Fade duration="400">
-                    <div id="change-schedule-name-container">
-                      <TextField
-                        id="outlined-basic"
-                        label="Schedule Name"
-                        name="nameChange"
-                        onChange={(e) => {
-                          this.handleChange(e);
-                        }}
-                      />
-                      <Button
-                        variant="contained"
-                        size="small"
-                        color="primary"
-                        id="change-schedule-name-button"
-                        block
-                        onClick={this.changeName}
-                        style={{ backgroundColor: '#001f3f' }}
-                      >
-                        Change schedule name
-                      </Button>
-                    </div>
-                  </Fade>
-                )}
-                {/* end conditional form render */}
-                {/* start event/plan details modal */}
-                {this.state.selectedEvent !== null && (
+                {/* end squad select menu */}
+
+                {this.state.centeredTabsValue === 0 && (
                   <>
-                    <div id="event-dialog-container">
-                      <Dialog
-                        maxWidth="lg"
-                        aria-labelledby="simple-dialog-title"
-                        open={this.state.eventDetailsOpen}
-                        id="event-dialog-container"
-                      >
-                        <div id="event-content-container">
-                          <DialogTitle id="simple-dialog-title">
-                            <h1>{this.state.selectedEvent.title}</h1>
-                          </DialogTitle>
-                          <List>
-                            {this.state.selectedEvent.allDay ? (
-                              <ListItem>This event runs all day</ListItem>
-                            ) : (
-                              <>
-                                <ListItem>
-                                  Start Time:{' '}
-                                  {this.convertMilitaryToStandardMoment(
-                                    this.state.selectedEvent.start
-                                  )}
-                                </ListItem>
-                                <ListItem>
-                                  End Time:{' '}
-                                  {this.convertMilitaryToStandardMoment(
-                                    this.state.selectedEvent.end
-                                  )}
-                                </ListItem>
-                              </>
-                            )}
-                            <ListItem>
-                              Plan date: {this.getListedDateFromEvent()}
-                            </ListItem>
-                            <ListItem>{this.state.selectedEvent.memo}</ListItem>
-                          </List>
+                    {/* start schedule form select */}
+                    <Fade>
+                      <div id="schedule-button-group">
+                        <ButtonGroup
+                          variant="contained"
+                          color="primary"
+                          aria-label="contained primary button group"
+                          id="lg-schedule-buttons-group"
+                          style={{ backgroundColor: '#001f3f' }}
+                        >
                           <Button
                             variant="contained"
-                            size="small"
+                            size="medium"
                             color="primary"
-                            id="close-selected-event-button"
-                            style={{
-                              marginLeft: '.95rem',
-                              backgroundColor: '#001f3f',
-                            }}
-                            block
-                            onClick={this.toggleEditEventModal}
+                            onClick={this.onAddEventClick}
                           >
-                            Edit
+                            Add Plan
                           </Button>
                           <Button
                             variant="contained"
-                            size="small"
+                            size="medium"
                             color="primary"
-                            id="close-selected-event-button"
-                            style={{
-                              marginLeft: '.95rem',
-                              backgroundColor: '#001f3f',
-                            }}
-                            block
-                            onClick={this.deleteSelectedEvent}
+                            onClick={this.onChangeScheduleNameClick}
                           >
-                            Delete
+                            Change Schedule Name
                           </Button>
+                        </ButtonGroup>
+                      </div>
+                    </Fade>
+                    {/* end schedule form select */}
+                    {/* start conditional form render */}
+                    {this.state.addEvent && (
+                      <Fade duration="400">
+                        <AddEvent
+                          scheduleId={this.state.currentSchedule._id}
+                          closeAndClearAddEvent={this.closeAndClearAddEvent}
+                        />
+                      </Fade>
+                    )}
+                    {this.state.changeSchedName && (
+                      <Fade duration="400">
+                        <div id="change-schedule-name-container">
+                          <TextField
+                            id="outlined-basic"
+                            label="Schedule Name"
+                            name="nameChange"
+                            onChange={(e) => {
+                              this.handleChange(e);
+                            }}
+                          />
                           <Button
                             variant="contained"
                             size="small"
                             color="primary"
-                            id="close-selected-event-button"
-                            style={{
-                              marginLeft: '.95rem',
-                              backgroundColor: '#001f3f',
-                            }}
+                            id="change-schedule-name-button"
                             block
-                            onClick={this.closeSelectedEvent}
+                            onClick={this.changeName}
+                            style={{ backgroundColor: '#001f3f' }}
                           >
-                            Close
+                            Change schedule name
                           </Button>
                         </div>
-                      </Dialog>
-                    </div>
-
-                    {this.state.editEventDetailsOpen && (
-                      <div id="edit-event-dialog-container">
-                        <Dialog
-                          maxWidth="sm"
-                          aria-labelledby="simple-dialog-title"
-                          open={this.state.editEventDetailsOpen}
-                          id="event-dialog-container"
-                        >
-                          <div id="event-content-container">
-                            <DialogTitle id="simple-dialog-title">
-                              <h1>Edit</h1>
-                            </DialogTitle>
-                            <List>
-                              <EditEvent
-                                scheduleId={this.state.currentSchedule._id}
-                                eventId={this.state.selectedEvent.id}
-                                editEventPrefill={this.state.selectedEvent}
-                                sendData={this.getUpdatedEventData}
-                                setEventDetailsModal={this.setEventDetailsModal}
-                                closeEditModals={this.closeEditModals}
-                              />
-                            </List>
-                          </div>
-                        </Dialog>
-                      </div>
+                      </Fade>
                     )}
-                  </>
-                )}
-                {/* <Link to={`/schedule/${linkToSchedule}`}>{roomKey}</Link>
+                    {/* end conditional form render */}
+                    {/* start event/plan details modal */}
+                    {this.state.selectedEvent !== null && (
+                      <>
+                        <div id="event-dialog-container">
+                          <Dialog
+                            maxWidth="lg"
+                            aria-labelledby="simple-dialog-title"
+                            open={this.state.eventDetailsOpen}
+                            id="event-dialog-container"
+                          >
+                            <div id="event-content-container">
+                              <DialogTitle id="simple-dialog-title">
+                                <h1>{this.state.selectedEvent.title}</h1>
+                              </DialogTitle>
+                              <List>
+                                {this.state.selectedEvent.allDay ? (
+                                  <ListItem>This event runs all day</ListItem>
+                                ) : (
+                                  <>
+                                    <ListItem>
+                                      Start Time:{' '}
+                                      {this.convertMilitaryToStandardMoment(
+                                        this.state.selectedEvent.start
+                                      )}
+                                    </ListItem>
+                                    <ListItem>
+                                      End Time:{' '}
+                                      {this.convertMilitaryToStandardMoment(
+                                        this.state.selectedEvent.end
+                                      )}
+                                    </ListItem>
+                                  </>
+                                )}
+                                <ListItem>
+                                  Plan date: {this.getListedDateFromEvent()}
+                                </ListItem>
+                                <ListItem>
+                                  {this.state.selectedEvent.memo}
+                                </ListItem>
+                              </List>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                id="close-selected-event-button"
+                                style={{
+                                  marginLeft: '.95rem',
+                                  backgroundColor: '#001f3f',
+                                }}
+                                block
+                                onClick={this.toggleEditEventModal}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                id="close-selected-event-button"
+                                style={{
+                                  marginLeft: '.95rem',
+                                  backgroundColor: '#001f3f',
+                                }}
+                                block
+                                onClick={this.deleteSelectedEvent}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                id="close-selected-event-button"
+                                style={{
+                                  marginLeft: '.95rem',
+                                  backgroundColor: '#001f3f',
+                                }}
+                                block
+                                onClick={this.closeSelectedEvent}
+                              >
+                                Close
+                              </Button>
+                            </div>
+                          </Dialog>
+                        </div>
+
+                        {this.state.editEventDetailsOpen && (
+                          <div id="edit-event-dialog-container">
+                            <Dialog
+                              maxWidth="sm"
+                              aria-labelledby="simple-dialog-title"
+                              open={this.state.editEventDetailsOpen}
+                              id="event-dialog-container"
+                            >
+                              <div id="event-content-container">
+                                <DialogTitle id="simple-dialog-title">
+                                  <h1>Edit</h1>
+                                </DialogTitle>
+                                <List>
+                                  <EditEvent
+                                    scheduleId={this.state.currentSchedule._id}
+                                    eventId={this.state.selectedEvent.id}
+                                    editEventPrefill={this.state.selectedEvent}
+                                    sendData={this.getUpdatedEventData}
+                                    setEventDetailsModal={
+                                      this.setEventDetailsModal
+                                    }
+                                    closeEditModals={this.closeEditModals}
+                                  />
+                                </List>
+                              </div>
+                            </Dialog>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {/* <Link to={`/schedule/${linkToSchedule}`}>{roomKey}</Link>
       <br /> */}
-                {/* end event/plan details modal */}
+                    {/* end event/plan details modal */}
 
-                {/* start render display based on device size */}
-                <Fade duration="500">
-                  {' '}
-                  {/* Fade 2 */}
-                  <div id="large-display-calendar-container">
-                    <Calendar
-                      localizer={localizer}
-                      events={this.state.currentSchedule.events}
-                      onSelectEvent={this.toggleSelectedEvent}
-                      defaultView="week"
-                      startAccessor="start"
-                      endAccessor="end"
-                      style={{ height: 500, marginBottom: '3rem' }}
-                    />
-                  </div>
-                </Fade>
+                    {/* start render display based on device size */}
+                    <Fade duration="500">
+                      {' '}
+                      {/* Fade 2 */}
+                      <div id="large-display-calendar-container">
+                        <Calendar
+                          localizer={localizer}
+                          events={this.state.currentSchedule.events}
+                          onSelectEvent={this.toggleSelectedEvent}
+                          defaultView="week"
+                          startAccessor="start"
+                          endAccessor="end"
+                          style={{ height: 500, marginBottom: '3rem' }}
+                        />
+                      </div>
+                    </Fade>
 
-                {/* more info section for larger devices */}
+                    {/* more info section for larger devices */}
 
-                {/* need to display your events, schedule id, users (w number of users) */}
+                    {/* need to display your events, schedule id, users (w number of users) */}
 
-                {/* events section for smaller devices */}
-                <Fade duration="500">
-                  {' '}
-                  {/* Fade 3 */}
-                  <div id="events-list-container">
-                    <h3 id="mobile-your-plans-header">Your Plans</h3>
-                    {this.state.currentSchedule.events.length > 0 ? (
-                      <div id="events-list-content">
-                        {this.state.currentSchedule.events.map(
-                          (currentEvent, index) => (
-                            <ScheduleEvent
-                              key={index}
-                              currentIndex={index}
-                              event={currentEvent}
-                              deleteEventFromDisplay={this.deleteTriggeredEvent}
-                              scheduleId={this.state.currentSchedule._id}
-                              sendData={this.getUpdatedEventData}
-                            />
-                          )
+                    {/* events section for smaller devices */}
+                    <Fade duration="500">
+                      {' '}
+                      {/* Fade 3 */}
+                      <div id="events-list-container">
+                        <h3 id="mobile-your-plans-header">Your Plans</h3>
+                        {this.state.currentSchedule.events.length > 0 ? (
+                          <div id="events-list-content">
+                            {this.state.currentSchedule.events.map(
+                              (currentEvent, index) => (
+                                <ScheduleEvent
+                                  key={index}
+                                  currentIndex={index}
+                                  event={currentEvent}
+                                  deleteEventFromDisplay={
+                                    this.deleteTriggeredEvent
+                                  }
+                                  scheduleId={this.state.currentSchedule._id}
+                                  sendData={this.getUpdatedEventData}
+                                />
+                              )
+                            )}
+                          </div>
+                        ) : (
+                          <p id="mobile-your-plans-alt">
+                            Your squad hasn't scheduled any events yet
+                          </p>
                         )}
                       </div>
-                    ) : (
-                      <p id="mobile-your-plans-alt">
-                        Your squad hasn't scheduled any events yet
-                      </p>
-                    )}
-                  </div>
-                </Fade>
-                {/* end render display based on device size */}
+                    </Fade>
+                    {/* end render display based on device size */}
 
-                <Fade duration="500">
-                  {' '}
-                  {/* Fade 4 */}
-                  <div id="schedule-info-accordion">
-                    <h3 id="mobile-schedule-info-header">Schedule info</h3>
-                    <div id="schedule-info-content">
-                      {/* stops displaying events as an attached component on smaller devices */}
-                      <ScheduleInfo
-                        events={this.state.currentSchedule.events}
-                        users={this.state.currentSchedule.users}
-                        deleteEventFromDisplay={this.deleteTriggeredEvent}
-                        scheduleId={this.state.currentSchedule._id}
-                        roomKey={this.state.currentSchedule.roomKey}
-                      />
-                    </div>
-                  </div>
-                </Fade>
+                    <Fade duration="500">
+                      {' '}
+                      {/* Fade 4 */}
+                      <div id="schedule-info-accordion">
+                        <h3 id="mobile-schedule-info-header">Schedule info</h3>
+                        <div id="schedule-info-content">
+                          {/* stops displaying events as an attached component on smaller devices */}
+                          <ScheduleInfo
+                            events={this.state.currentSchedule.events}
+                            users={this.state.currentSchedule.users}
+                            deleteEventFromDisplay={this.deleteTriggeredEvent}
+                            scheduleId={this.state.currentSchedule._id}
+                            roomKey={this.state.currentSchedule.roomKey}
+                          />
+                        </div>
+                      </div>
+                    </Fade>
+                  </>
+                )}
+
+                {this.state.centeredTabsValue === 1 && <Posts />}
+
+                {this.state.centeredTabsValue === 2 && <p>polls</p>}
 
                 <Fade duration="500">
                   {' '}

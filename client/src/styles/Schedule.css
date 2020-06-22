@@ -20,6 +20,13 @@
   word-wrap: break-word;
 }
 
+#centerd-tabs {
+  margin-top: 1rem;
+  color: white;
+  background-color: #001f3f;
+  border-radius: 4px;
+}
+
 #schedule-button-group {
   padding: 2rem 0;
 }

@@ -7,13 +7,6 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Schedule = require('../../models/Schedule');
 
-router.get('/', async (req, res) => {
-  res.send({
-    message:
-      'This route is currently not in use and may be implemented in a future update',
-  });
-});
-
 // // @route    POST api/posts/:scheduleId
 // // @desc     Create a post
 // // @access   Private

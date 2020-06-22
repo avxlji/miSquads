@@ -7,6 +7,7 @@ import '../../styles/Spinner.css';
 const Spinner = () => {
   return (
     <div id="loading-container">
+      spinner
       {/* <img src={img} id="loading-gif"></img> */}
     </div>
   );
