@@ -1,0 +1,38 @@
+#posts {
+  width: 50%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.post {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#delete-post-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.post-date {
+  color: #aaaaaa;
+  font-size: 0.7rem;
+}
+
+.post-name {
+  font-size: 0.7rem;
+}

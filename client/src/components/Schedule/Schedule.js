@@ -92,7 +92,7 @@ class Schedule extends Component {
       editEventAllDay: false,
       editEventPrefill: null,
       incorrectEntry: false,
-      centeredTabsValue: 0,
+      centeredTabsValue: 1,
     };
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
@@ -877,7 +877,13 @@ class Schedule extends Component {
                   </>
                 )}
 
-                {this.state.centeredTabsValue === 1 && <Posts />}
+                {this.state.centeredTabsValue === 1 && (
+                  <>
+                    {this.state.currentSchedule !== null && (
+                      <Posts scheduleId={this.state.currentSchedule._id} />
+                    )}
+                  </>
+                )}
 
                 {this.state.centeredTabsValue === 2 && <p>polls</p>}
 

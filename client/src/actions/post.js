@@ -14,8 +14,7 @@ import {
 // Get posts
 export const getPosts = (scheduleId) => async (dispatch) => {
   try {
-    const res = await axios.get(`api/posts/${scheduleId}`);
-
+    const res = await axios.get(`/api/posts/${scheduleId}`);
     dispatch({
       type: GET_POSTS,
       payload: res.data,
@@ -111,9 +110,8 @@ export const addPost = (formData, scheduleId) => async (dispatch) => {
 // Get post
 export const getPost = (id) => async (dispatch) => {
   //id of the post
-  /* INCOMPLETE ACTION */
   try {
-    const res = await axios.get(`/api/posts/${id}`);
+    const res = await axios.get(`/api/posts/post/${id}`);
 
     dispatch({
       type: GET_POST,

@@ -42,23 +42,25 @@ router.post(
   }
 );
 
-// // @route    GET api/posts
+// // @route    GET api/posts/:scheduleId
 // // @desc     Get all posts of a specific schedule
 // // @access   Private
 router.get('/:scheduleId', auth, async (req, res) => {
   try {
-    const posts = await Post.find({ schedule: req.params.scheduleId });
-    res.json({ posts });
+    const posts = await Post.find({ schedule: req.params.scheduleId }).sort({
+      date: -1,
+    });
+    res.json(posts);
   } catch (err) {
     console.err(err.message);
     res.status(500).send('Server error');
   }
 });
 
-// @route    GET api/posts/:id
+// @route    GET api/posts/post/:id
 // @desc     Get post by ID
 // @access   Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/post/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -110,12 +112,23 @@ router.put('/like/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    // Check if the post has already been liked
+    // Check if the post has already been liked, unlike the post
     if (
       post.likes.filter((like) => like.user.toString() === req.user.id).length >
       0
     ) {
-      return res.status(400).json({ msg: 'Post already liked' });
+      // Get remove index
+      const removeIndex = post.likes
+        .map((like) => like.user.toString())
+        .indexOf(req.user.id);
+
+      //remove like at targeted index
+      post.likes.splice(removeIndex, 1);
+
+      //save updated post
+      await post.save();
+
+      return res.status(200).json(post.likes);
     }
 
     post.likes.unshift({ user: req.user.id });
