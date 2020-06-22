@@ -26,6 +26,7 @@ const PostSchema = new mongoose.Schema({
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
+        required: true,
       },
     },
   ],
@@ -35,6 +36,7 @@ const PostSchema = new mongoose.Schema({
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
+        required: true,
       },
       text: {
         type: String,
