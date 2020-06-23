@@ -1,0 +1,12 @@
+.post-form-container {
+  margin: 1rem 0rem;
+}
+
+.post-form {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#comment-form-text-field {
+  width: 100%;
+}

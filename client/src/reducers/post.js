@@ -64,14 +64,12 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REMOVE_COMMENT:
+      console.log(payload.id, payload.comments);
       return {
         ...state,
-        post: {
-          ...state.post,
-          comments: state.post.comments.filter(
-            (comment) => comment._id !== payload
-          ),
-        },
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.comments } : post
+        ),
         loading: false,
       };
     default:

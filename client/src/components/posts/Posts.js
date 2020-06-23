@@ -1,10 +1,12 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import PostForm from "./PostForm";
 import Spinner from '../layout/Spinner';
 import { getPosts, addLike, removeLike, deletePost } from '../../actions/post';
 import '../../styles/Posts.css';
+import CommentItem from './CommentItem';
+import CommentForm from './CommentForm';
 
 //Material UI import
 import Paper from '@material-ui/core/Paper';
@@ -26,6 +28,14 @@ const Posts = ({
   useEffect(() => {
     getPosts(scheduleId);
   }, [getPosts]);
+
+  /* start toggle comments display */
+  const [showComments, setShowComments] = useState(false);
+
+  const toggleCommentsDisplay = () => {
+    setShowComments(!showComments);
+  };
+  /* end toggle comments display */
 
   return loading ? (
     <Spinner />
@@ -64,6 +74,7 @@ const Posts = ({
                     size="medium"
                     color="primary"
                     id="comments-button"
+                    onClick={toggleCommentsDisplay}
                   >
                     Comments{' '}
                     <span className="comment-count">
@@ -72,6 +83,14 @@ const Posts = ({
                   </Button>
                 </div>
               </div>
+              {showComments && (
+                <>
+                  <CommentForm postId={post._id}></CommentForm>
+                  {post.comments.map((comment) => (
+                    <CommentItem comment={comment} postId={post._id} />
+                  ))}
+                </>
+              )}
             </div>
           </Paper>
         ))}
