@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-const CommentForm = ({ postId, addComment }) => {
+const CommentForm = ({ postId, addComment, user }) => {
   const [text, setText] = useState('');
 
   const onCommentSubmit = () => {
@@ -23,6 +23,7 @@ const CommentForm = ({ postId, addComment }) => {
     <div className="post-form-container">
       <Divider />
       <div className="post-form">
+        <h4>{user.name}</h4>
         <TextField
           id="comment-form-text-field"
           label="Leave a Comment"
@@ -30,18 +31,23 @@ const CommentForm = ({ postId, addComment }) => {
           rowsMax={5}
           placeholder="Comment the post"
           value={text}
+          fullWidth="true"
           onChange={(e) => setText(e.target.value)}
           required
         />
-        <Button
-          variant="contained"
-          size="medium"
-          color="primary"
-          onClick={onCommentSubmit}
-          id="comment-button"
-        >
-          <i className="fas fa-times" />
-        </Button>
+        <br />
+
+        <div className="comment-submit-button-container">
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            onClick={() => onCommentSubmit()}
+            id="comment-submit-button"
+          >
+            <i class="far fa-paper-plane"></i>
+          </Button>
+        </div>
       </div>
     </div>
   );

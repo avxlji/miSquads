@@ -64,14 +64,29 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REMOVE_COMMENT:
-      console.log(payload.id, payload.comments);
-      return {
+      console.log(payload.id, payload.commentId);
+      let selectedPost = null;
+      let postIndex = null;
+      let commentsArray = null;
+      let changedPost = state.posts.map((post, index) =>
+        post._id === payload.id ? (postIndex = index) : ''
+      );
+      selectedPost = state.posts[postIndex];
+      console.log(payload.id, payload.commentId);
+      commentsArray = selectedPost.comments.filter(
+        (comment) => comment._id !== payload.commentId.toString()
+      );
+      selectedPost.comments = commentsArray;
+      console.log(selectedPost);
+      const newState = {
         ...state,
-        posts: state.posts.map((post) =>
-          post._id === payload.id ? { ...post, likes: payload.comments } : post
-        ),
-        loading: false,
+        // posts: state.posts.map((post) =>
+        //   post._id === payload.id ? { ...post, likes: payload.comments } : post
+        // ),
+        // loading: false,
       };
+      console.log(newState);
+      return newState;
     default:
       return state;
   }

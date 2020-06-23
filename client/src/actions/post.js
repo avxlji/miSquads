@@ -161,14 +161,14 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
 
     dispatch({
       type: REMOVE_COMMENT,
-      payload: { comments: res.data, id: postId },
+      payload: { comments: res.data, id: postId, commentId },
     });
 
     dispatch(setAlert('Comment Removed', 'success'));
   } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+    // dispatch({
+    //   type: POST_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status },
+    // });
   }
 };

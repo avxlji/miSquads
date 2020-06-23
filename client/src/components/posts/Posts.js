@@ -85,7 +85,7 @@ const Posts = ({
               </div>
               {showComments && (
                 <>
-                  <CommentForm postId={post._id}></CommentForm>
+                  <CommentForm postId={post._id} user={auth.user}></CommentForm>
                   {post.comments.map((comment) => (
                     <CommentItem comment={comment} postId={post._id} />
                   ))}

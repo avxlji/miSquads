@@ -7,6 +7,17 @@
   margin-bottom: 0.5rem;
 }
 
-#comment-form-text-field {
-  width: 100%;
+.post-form h4 {
+  font-size: 0.7rem;
+  margin: 0.7rem 0rem;
+}
+
+.comment-submit-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+#comment-submit-button {
+  background-color: #001f3f;
 }
