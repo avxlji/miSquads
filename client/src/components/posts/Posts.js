@@ -30,11 +30,11 @@ const Posts = ({
   }, [getPosts]);
 
   /* start toggle comments display */
-  const [showComments, setShowComments] = useState(false);
+  // const [showCommentForm, setShowCommentForm] = useState(false);
 
-  const toggleCommentsDisplay = () => {
-    setShowComments(!showComments);
-  };
+  // const toggleCommentFormDisplay = () => {
+  //   setShowCommentForm(!showCommentForm);
+  // };
   /* end toggle comments display */
 
   return loading ? (
@@ -61,36 +61,33 @@ const Posts = ({
                 <button
                   onClick={() => addLike(post._id)}
                   type="button"
-                  class="like-button"
+                  className="like-button"
                 >
-                  <i class="fas fa-heart"></i>{' '}
+                  <i
+                    class="fas fa-heart"
+                    id={post.likes.map(
+                      (like) =>
+                        like.user.toString() === auth.user._id.toString() &&
+                        'number-of-likes'
+                    )}
+                  ></i>{' '}
                   <span className="number-of-likes-text">
                     {post.likes.length}
                   </span>
                 </button>
                 <div>
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    color="primary"
-                    id="comments-button"
-                    onClick={toggleCommentsDisplay}
-                  >
-                    Comments{' '}
-                    <span className="comment-count">
-                      &nbsp;({post.comments.length})
-                    </span>
-                  </Button>
+                  <i class="far fa-comments" id="number-of-comments"></i>
+                  <span className="number-of-comments-text">
+                    &nbsp;({post.comments.length})
+                  </span>
                 </div>
               </div>
-              {showComments && (
-                <>
-                  <CommentForm postId={post._id} user={auth.user}></CommentForm>
-                  {post.comments.map((comment) => (
-                    <CommentItem comment={comment} postId={post._id} />
-                  ))}
-                </>
-              )}
+              <CommentForm postId={post._id} user={auth.user}></CommentForm>
+              <>
+                {post.comments.map((comment) => (
+                  <CommentItem comment={comment} postId={post._id} />
+                ))}
+              </>
             </div>
           </Paper>
         ))}

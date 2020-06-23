@@ -31,14 +31,13 @@
 .like-button {
   background-color: transparent;
   border: none;
-  color: #ff4136; /* Fallback for older browsers */
-  color: rgba(255, 65, 54, 1);
+  color: #dddddd; /* Fallback for older browsers */
+  color: rgba(170, 170, 170, 0.5);
   outline: thick;
 }
 
-.like-button:focus {
-  color: #ff4136; /* Fallback for older browsers */
-  color: rgba(0, 0, 0, 1);
+.like-button i {
+  transition: 0.5s;
 }
 
 .number-of-likes-text {
@@ -67,4 +66,18 @@
 #comments-button {
   background-color: #001f3f;
   font-size: 0.7rem;
+}
+
+#number-of-comments {
+  font-size: 0.8rem;
+}
+
+.number-of-comments-text {
+  font-size: 0.8rem;
+}
+
+#number-of-likes {
+  color: #ff4136;
+  text-shadow: 1px 1px 2.5px black;
+  transition: 0.5s;
 }
