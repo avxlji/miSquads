@@ -483,7 +483,7 @@ class AddEvent extends Component {
                     style={{ backgroundColor: '#001f3f' }}
                     block
                   >
-                    Add Meeting
+                    Add Plan
                   </Button>
                 </div>
               </div>

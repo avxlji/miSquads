@@ -643,7 +643,7 @@ class Schedule extends Component {
                             color="primary"
                             onClick={this.onChangeScheduleNameClick}
                           >
-                            Change Schedule Name
+                            Change Squad Name
                           </Button>
                         </ButtonGroup>
                       </div>
@@ -678,7 +678,7 @@ class Schedule extends Component {
                             onClick={this.changeName}
                             style={{ backgroundColor: '#001f3f' }}
                           >
-                            Change schedule name
+                            Change squad name
                           </Button>
                         </div>
                       </Fade>

@@ -7,6 +7,7 @@ import { getPosts, addLike, removeLike, deletePost } from '../../actions/post';
 import '../../styles/Posts.css';
 import CommentItem from './CommentItem';
 import CommentForm from './CommentForm';
+import Paginate from './Paginate';
 
 //Material UI import
 import Paper from '@material-ui/core/Paper';
@@ -29,6 +30,21 @@ const Posts = ({
     getPosts(scheduleId);
   }, [getPosts]);
 
+  //default to starting page
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [postsPerPage] = useState(5);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (event, value) => {
+    setCurrentPage(value);
+  };
+
   /* start toggle comments display */
   // const [showCommentForm, setShowCommentForm] = useState(false);
 
@@ -44,7 +60,7 @@ const Posts = ({
       {console.log(posts)}
       {/* <PostForm /> */}
       <div id="posts">
-        {posts.map((post) => (
+        {currentPosts.map((post) => (
           <Paper elevation={2}>
             <div class="post" key={post._id}>
               <div class="post-header">
@@ -92,6 +108,11 @@ const Posts = ({
           </Paper>
         ))}
       </div>
+      <Paginate
+        postsPerPage={postsPerPage}
+        totalPosts={posts.length}
+        paginate={paginate}
+      />
     </Fragment>
   );
 };
