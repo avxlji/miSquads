@@ -6,6 +6,7 @@ import {
   CLEAR_SCHEDULE,
   CREATE_SCHEDULE,
 } from './types';
+import { clearPosts } from './post';
 import { setAlert } from './alert';
 import axios from 'axios';
 import { body } from 'express-validator';

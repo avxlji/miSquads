@@ -45,6 +45,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import PostForm from '../posts/PostForm';
 
 const localizer = momentLocalizer(moment);
 
@@ -879,6 +880,10 @@ class Schedule extends Component {
 
                 {this.state.centeredTabsValue === 1 && (
                   <>
+                    <PostForm
+                      user={this.props.auth.user}
+                      scheduleId={this.state.currentSchedule._id}
+                    ></PostForm>
                     {this.state.currentSchedule !== null && (
                       <Posts scheduleId={this.state.currentSchedule._id} />
                     )}

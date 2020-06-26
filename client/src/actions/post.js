@@ -9,6 +9,7 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  CLEAR_POSTS,
 } from './types';
 
 // Get posts
@@ -91,7 +92,8 @@ export const addPost = (formData, scheduleId) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post(`api/posts/${scheduleId}`, formData, config);
+    console.log(formData);
+    const res = await axios.post(`/api/posts/${scheduleId}`, formData, config);
 
     dispatch({
       type: ADD_POST,
@@ -171,4 +173,12 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
     //   payload: { msg: err.response.statusText, status: err.response.status },
     // });
   }
+};
+
+export const clearPosts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_POSTS,
+    });
+  } catch (err) {}
 };

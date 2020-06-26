@@ -5,6 +5,8 @@
 }
 
 .post {
+  /* position: relative needed to position delete button in top right of post */
+  position: relative;
   margin-top: 2rem;
   padding: 2rem;
 }
@@ -18,10 +20,15 @@
 .post-date {
   color: #aaaaaa;
   font-size: 0.7rem;
+  white-space: nowrap;
 }
 
 .post-name {
   font-size: 0.7rem;
+
+  /* prevents text overflow */
+  word-wrap: break-word;
+  min-width: 1%;
 }
 
 .post-body {
@@ -54,6 +61,7 @@
   border-radius: 50%;
   width: 20px;
   height: 20px;
+  font-size: 0.6rem;
   cursor: pointer;
 }
 
@@ -80,4 +88,28 @@
   color: #ff4136;
   text-shadow: 1px 1px 2.5px black;
   transition: 0.5s;
+}
+
+@media only screen and (max-width: 924px) {
+  #posts {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #posts {
+    width: 30rem;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  #posts {
+    width: 20rem;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  #posts {
+    width: 14rem;
+  }
 }

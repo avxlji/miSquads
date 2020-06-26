@@ -11,15 +11,27 @@
 
 .comment-header h4 {
   font-size: 0.7rem;
+
+  /* prevents text overflow */
+  word-wrap: break-word;
+  min-width: 1%;
 }
 
 .comment-header p {
   color: #aaaaaa;
   font-size: 0.7rem;
+
+  /* prevents text overflow */
+  word-wrap: break-word;
+  min-width: 1%;
 }
 
 .comment-body {
   margin: 0.7rem 0rem;
+
+  /* prevents text overflow */
+  word-wrap: break-word;
+  min-width: 1%;
 }
 
 .comment-button-container {

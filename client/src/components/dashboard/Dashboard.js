@@ -8,6 +8,7 @@ import {
   createSchedule,
   clearSchedule,
 } from '../../actions/schedule';
+import { clearPosts } from '../../actions/post';
 import { loadUser } from '../../actions/auth';
 import { logout } from '../../actions/auth';
 // import Spinner from "../layout/Spinner";
@@ -41,12 +42,14 @@ const Dashboard = ({
   history,
   clearSchedule,
   loadUser,
+  clearPosts,
 }) => {
   useEffect(() => {
     //clear schedule upon entering/returning to dashboard to prevent state lag
     clearSchedule();
+    clearPosts();
     loadUser(); //loads current user into dashboard
-  }, [clearSchedule, loadUser]);
+  }, [clearSchedule, loadUser, clearPosts]);
 
   /* start hooks */
   const [urlInput, setUrlInput] = useState({
@@ -179,7 +182,12 @@ const Dashboard = ({
         {user !== null && (
           <div id="dashboard-headers">
             <h1 id="hello-header">Hello</h1>
-            <h1 id="user-name-header"> {user.name}</h1>
+            <h1 id="user-name-header">
+              {' '}
+              {user.name.length > 19
+                ? user.name.substring(0, 20) + '...'
+                : user.name}
+            </h1>
           </div>
         )}
         {/* end dashboard headers */}
@@ -372,6 +380,7 @@ Dashboard.propTypes = {
   createSchedule: PropTypes.func,
   clearSchedule: PropTypes.func,
   loadUser: PropTypes.func,
+  clearPosts: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -385,4 +394,5 @@ export default connect(mapStateToProps, {
   createSchedule,
   clearSchedule,
   loadUser,
+  clearPosts,
 })(withRouter(Dashboard));

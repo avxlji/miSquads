@@ -1,0 +1,20 @@
+#create-post-form-container {
+  width: 70%;
+  margin: auto;
+}
+
+#create-post-form h4 {
+  margin-top: 2rem;
+}
+
+#create-post-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  #about-content-container p {
+    width: 70%;
+  }
+}

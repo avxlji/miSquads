@@ -7,6 +7,7 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  CLEAR_POSTS,
 } from '../actions/types';
 
 const initialState = {
@@ -76,6 +77,13 @@ export default function (state = initialState, action) {
       );
       return {
         ...state,
+      };
+    case CLEAR_POSTS:
+      return {
+        ...state,
+        posts: [],
+        post: null,
+        loading: false,
       };
     default:
       return state;

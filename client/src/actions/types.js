@@ -37,6 +37,7 @@ export const GET_POST = 'GET_POST';
 export const POST_ERROR = 'POST_ERROR';
 export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
+export const CLEAR_POSTS = 'CLEAR_POSTS';
 
 //POST LIKES & COMMENTS ACTIONS
 export const UPDATE_LIKES = 'UPDATE_LIKES';

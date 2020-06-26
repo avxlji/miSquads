@@ -63,6 +63,19 @@ const Posts = ({
         {currentPosts.map((post) => (
           <Paper elevation={2}>
             <div class="post" key={post._id}>
+              <button
+                id="delete-post-button"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you'd like to delete this post? This cannot be undone"
+                    )
+                  )
+                    deletePost(post._id);
+                }}
+              >
+                <i class="fas fa-trash"></i>
+              </button>
               <div class="post-header">
                 {/* <img class="round-img" src={avatar} alt="" /> */}
                 <h4 className="post-name">{post.name} says...</h4>

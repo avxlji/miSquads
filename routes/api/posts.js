@@ -20,9 +20,18 @@ router.post(
     }
 
     try {
+      console.log('reached');
       const user = await User.findById(req.user.id).select('-password');
 
       const schedule = await Schedule.findById(req.params.scheduleId);
+
+      var posts = await Post.find({ schedule: req.params.scheduleId });
+
+      /* create posts limit */
+      var postLimit = 99; /* 100 post limit per schedule */
+      if ((await posts.length) > postLimit) {
+        await posts[0].remove();
+      }
 
       const newPost = new Post({
         //name, user and avatar are fetched from db using req token
@@ -31,6 +40,8 @@ router.post(
         user: req.user.id,
         schedule: schedule._id,
       });
+
+      console.log(newPost);
 
       const post = await newPost.save();
 

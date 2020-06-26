@@ -1,5 +1,5 @@
 import React from 'react';
-// import img from "../assets/loading.gif";
+import img from '../assets/loading.gif';
 import '../../styles/Spinner.css';
 
 /* To be implemented in a future update */
@@ -7,8 +7,7 @@ import '../../styles/Spinner.css';
 const Spinner = () => {
   return (
     <div id="loading-container">
-      spinner
-      {/* <img src={img} id="loading-gif"></img> */}
+      <img src={img} id="loading-gif"></img>
     </div>
   );
 };
