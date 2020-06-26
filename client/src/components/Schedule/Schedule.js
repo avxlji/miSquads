@@ -94,6 +94,7 @@ class Schedule extends Component {
       editEventPrefill: null,
       incorrectEntry: false,
       centeredTabsValue: 1,
+      currentPostsPageNumber: 1,
     };
     //bind function to current component context
     this.getUpdatedEventData = this.getUpdatedEventData.bind(this);
@@ -101,6 +102,7 @@ class Schedule extends Component {
     this.closeEditModals = this.closeEditModals.bind(this);
     this.deleteTriggeredEvent = this.deleteTriggeredEvent.bind(this);
     this.closeAndClearAddEvent = this.closeAndClearAddEvent.bind(this);
+    this.getPageNumber = this.getPageNumber.bind(this);
   }
 
   componentDidMount() {
@@ -587,6 +589,14 @@ class Schedule extends Component {
     });
   };
 
+  /* show post form only on first page (arg from posts child component) */
+  getPageNumber(val) {
+    // do not forget to bind getData in constructor
+    this.setState({
+      currentPostsPageNumber: val,
+    });
+  }
+
   render() {
     return (
       <>
@@ -880,12 +890,17 @@ class Schedule extends Component {
 
                 {this.state.centeredTabsValue === 1 && (
                   <>
-                    <PostForm
-                      user={this.props.auth.user}
-                      scheduleId={this.state.currentSchedule._id}
-                    ></PostForm>
+                    {this.state.currentPostsPageNumber === 1 && (
+                      <PostForm
+                        user={this.props.auth.user}
+                        scheduleId={this.state.currentSchedule._id}
+                      ></PostForm>
+                    )}
                     {this.state.currentSchedule !== null && (
-                      <Posts scheduleId={this.state.currentSchedule._id} />
+                      <Posts
+                        scheduleId={this.state.currentSchedule._id}
+                        sendPageNumber={this.getPageNumber}
+                      />
                     )}
                   </>
                 )}

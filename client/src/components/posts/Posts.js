@@ -25,6 +25,7 @@ const Posts = ({
   deletePost,
   showActions,
   auth,
+  sendPageNumber,
 }) => {
   useEffect(() => {
     getPosts(scheduleId);
@@ -42,6 +43,7 @@ const Posts = ({
 
   // Change page
   const paginate = (event, value) => {
+    sendPageNumber(value);
     setCurrentPage(value);
   };
 
