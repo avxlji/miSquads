@@ -7,6 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const connectDB = async () => {
   try {
+    console.log(process.env.devMongoURI);
     await mongoose.connect(process.env.devMongoURI, {
       useNewUrlParser: true,
       useCreateIndex: true,
