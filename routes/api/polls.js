@@ -46,10 +46,8 @@ router.post(
           schedule: schedule._id,
         });
 
-        console.log(newPoll);
-
         for (var i = 0; i < req.body.choices.length; i++) {
-          console.log(req.body.choices[i], newPoll.pollName);
+          // console.log(req.body.choices[i], newPoll.pollName);
           newPoll.choices.push({ choiceName: req.body.choices[i] });
         }
 
@@ -60,7 +58,7 @@ router.post(
         throw Error('Please add in some choices');
       }
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message.red);
       res.status(500).send('Server Error');
     }
   }
@@ -151,16 +149,16 @@ router.delete('/:id', auth, async (req, res) => {
 
     await poll.remove();
 
-    res.json({ msg: 'Poll removed' });
+    res.send('Poll removed');
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message.red);
 
     res.status(500).send('Server Error');
   }
 });
 
 // // @route    PUT api/polls/vote/:pollId/:choiceId
-// // @desc     Vote for a choice on a poll
+// // @desc     Vote for a choice on a poll (removes existing vote on other choices)
 // // @access   Private
 router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
   //using put instead of post because we are updating the post
@@ -171,11 +169,13 @@ router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
 
     const user = await User.findById(req.user.id).select('-password');
 
-    //check to see if the user making the request is apart of the schedule
+    // define vote verification variables
     var verifiedUser = false;
     var choiceIndex = null;
-    var removedChoiceId = null;
+    var removedChoiceId = '';
     var newVote = true;
+
+    //check to see if the user making the request is apart of the schedule
     for (var i = 0; i < schedule.users.length; i++) {
       if (schedule.users[i].user_id.toString() === req.user.id.toString()) {
         verifiedUser = true;
@@ -186,8 +186,6 @@ router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
     if (!verifiedUser) {
       res.status(401).send('Unauthorized user');
     }
-
-    console.log(poll);
 
     // loop through choices in poll
     for (var i = 0; i < poll.choices.length; i++) {
@@ -202,18 +200,20 @@ router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
           // remove their vote
           removedChoiceId = poll.choices[i]._id;
           poll.choices[i].votes.splice(j, 1);
-          console.log(poll.choices[i].votes);
+          // console.log(poll.choices[i].votes);
           break;
         }
       }
     }
 
+    // if a valid choice exists and the vote wasn't just removed in the current call
     if (
-      choiceIndex !== null
-      //   &&
-      //   poll.choices[choiceIndex]._id.toString() !== removedChoiceId.toString()
+      choiceIndex !== null &&
+      poll.choices[choiceIndex]._id.toString() !== removedChoiceId.toString()
     ) {
-      //otherwise add their vote
+      // console.log(poll.choices[choiceIndex]._id, removedChoiceId);
+
+      //add their vote
       poll.choices[choiceIndex].votes.unshift({
         user_id: user._id,
         user_name: user.name,
@@ -224,7 +224,7 @@ router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
 
     res.json(poll);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message.red);
     res.status(500).send('Server Error');
   }
 });
@@ -233,7 +233,7 @@ router.put('/vote/:pollId/:choiceId', auth, async (req, res) => {
 // // @desc     Change choice
 // // @access   Private
 router.put(
-  '/choice/:pollId/:choiceName',
+  '/choice/:pollId/:choiceId',
   [auth, [check('choiceName', 'A choice name is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
@@ -248,16 +248,17 @@ router.put(
         throw Error('Poll not found');
       }
 
-      console.log(req.params.choiceId);
+      // console.log(req.params.choiceId);
+      // console.log(req.params.pollId);
 
+      // if the user who made the request is the same as the one who created the poll
       if (poll.createdBy.user.toString() === req.user.id.toString()) {
-        console.log('2');
+        //loop through choices and find choice passed in parameters
         for (var i = 0; i < poll.choices.length; i++) {
-          console.log(poll.choices[i]._id, req.params.choiceId);
+          // console.log(poll.choices[i]._id, req.params.choiceId);
           if (
             poll.choices[i]._id.toString() === req.params.choiceId.toString()
           ) {
-            console.log('3');
             poll.choices[i].choiceName = req.body.choiceName;
             break;
           }
@@ -270,47 +271,50 @@ router.put(
 
       res.json(poll);
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message.red);
       res.status(500).send('Server Error');
     }
   }
 );
 
-// // @route    DELETE api/posts/comment/:id/:comment_id
-// // @desc     Delete comment
+// // @route    PUT api/polls/choice/:pollId/:choiceId
+// // @desc     Change poll name
 // // @access   Private
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-
-    // Pull out comment
-    const comment = post.comments.find(
-      (comment) => comment.id === req.params.comment_id
-    );
-
-    // Make sure comment exists
-    if (!comment) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
+router.put(
+  '/:scheduleId/:pollId',
+  [auth, [check('pollName', 'A poll name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    //Check user authorization
-    if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+    try {
+      const poll = await Poll.findById(req.params.pollId);
+
+      if (!poll) {
+        throw Error('Poll not found');
+      }
+
+      if (poll.schedule.toString() !== req.params.scheduleId.toString()) {
+        throw Error('Incorrect data sent, please try again later');
+      }
+
+      // if the user who made the request is the same as the one who created the poll
+      if (poll.createdBy.user.toString() === req.user.id.toString()) {
+        poll.pollName = req.body.pollName;
+      } else {
+        throw Error('Unauthorized user');
+      }
+
+      await poll.save();
+
+      res.json(poll);
+    } catch (err) {
+      console.error(err.message.red);
+      res.status(500).send('Server Error');
     }
-
-    const removeIndex = post.comments
-      .map((comment) => comment.id)
-      .indexOf(req.params.comment_id);
-
-    post.comments.splice(removeIndex, 1);
-
-    await post.save();
-
-    res.json(post.comments);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
   }
-});
+);
 
 module.exports = router;
