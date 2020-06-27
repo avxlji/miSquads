@@ -23,6 +23,7 @@ import Spinner from '../layout/Spinner';
 import ScheduleEvent from './ScheduleEvent';
 import ScheduleInfo from './ScheduleInfo';
 import Posts from '../posts/Posts';
+import Polls from '../polls/Polls';
 import axios from 'axios';
 
 //import react reveal effects
@@ -93,7 +94,7 @@ class Schedule extends Component {
       editEventAllDay: false,
       editEventPrefill: null,
       incorrectEntry: false,
-      centeredTabsValue: 1,
+      centeredTabsValue: 2,
       currentPostsPageNumber: 1,
     };
     //bind function to current component context
@@ -898,6 +899,17 @@ class Schedule extends Component {
                     )}
                     {this.state.currentSchedule !== null && (
                       <Posts
+                        scheduleId={this.state.currentSchedule._id}
+                        sendPageNumber={this.getPageNumber}
+                      />
+                    )}
+                  </>
+                )}
+
+                {this.state.centeredTabsValue === 2 && (
+                  <>
+                    {this.state.currentSchedule !== null && (
+                      <Polls
                         scheduleId={this.state.currentSchedule._id}
                         sendPageNumber={this.getPageNumber}
                       />

@@ -59,7 +59,6 @@ const Posts = ({
     <Spinner />
   ) : (
     <Fragment>
-      {console.log(posts)}
       {/* <PostForm /> */}
       <div id="posts">
         {currentPosts.map((post) => (

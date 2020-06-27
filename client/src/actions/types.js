@@ -43,3 +43,14 @@ export const CLEAR_POSTS = 'CLEAR_POSTS';
 export const UPDATE_LIKES = 'UPDATE_LIKES';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+
+//POLL ACTIONS
+export const CREATE_POLL = 'CREATE_POLL';
+export const GET_POLLS = 'GET_POLLS';
+export const GET_POLL = 'GET_POLL';
+export const UPDATE_VOTE = 'UPDATE_VOTE';
+export const UPDATE_CHOICE = 'UPDATE_CHOICE';
+export const UPDATE_POLL_NAME = 'UPDATE_POLL_NAME';
+export const POLL_ERROR = 'POLL_ERROR';
+export const DELETE_POLL = 'DELETE_POLL';
+export const CLEAR_POLLS = 'CLEAR_POLLS';

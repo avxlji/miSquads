@@ -3,6 +3,7 @@ import schedule from './schedule';
 import auth from './auth';
 import alert from './alert';
 import post from './post';
+import poll from './poll';
 
 //main reducer
 export default combineReducers({
@@ -10,4 +11,5 @@ export default combineReducers({
   auth,
   alert,
   post,
+  poll,
 });

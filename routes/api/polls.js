@@ -9,7 +9,7 @@ const User = require('../../models/User');
 const Schedule = require('../../models/Schedule');
 
 // // @route    POST api/posts/:scheduleId
-// // @desc     Create a post
+// // @desc     Create a poll
 // // @access   Private
 router.post(
   '/:scheduleId',
@@ -64,8 +64,8 @@ router.post(
   }
 );
 
-// // @route    GET api/posts/:scheduleId
-// // @desc     Get all posts of a specific schedule
+// // @route    GET api/polls/:scheduleId
+// // @desc     Get all polls of a specific schedule
 // // @access   Private
 router.get('/:scheduleId', auth, async (req, res) => {
   try {
@@ -277,7 +277,7 @@ router.put(
   }
 );
 
-// // @route    PUT api/polls/choice/:pollId/:choiceId
+// // @route    PUT api/polls/:scheduleId/:pollId
 // // @desc     Change poll name
 // // @access   Private
 router.put(
