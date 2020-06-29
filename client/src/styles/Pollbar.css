@@ -1,0 +1,26 @@
+*:focus {
+  outline: 0 !important;
+}
+
+#poll-bar {
+  width: 40rem;
+  height: 3.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  background-color: #001f3f;
+  word-wrap: break-word;
+}
+
+#poll-tool-bar {
+  padding-top: 0.75rem;
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+}
+
+@media only screen and (max-width: 600px) {
+  /* reduced margin to prevent navbar from being pushed on to fixed register/login form */
+  #poll-bar {
+    margin-bottom: 2.5rem;
+  }
+}

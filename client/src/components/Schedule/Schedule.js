@@ -917,8 +917,6 @@ class Schedule extends Component {
                   </>
                 )}
 
-                {this.state.centeredTabsValue === 2 && <p>polls</p>}
-
                 <Fade duration="500">
                   {' '}
                   {/* Fade 5 */}
