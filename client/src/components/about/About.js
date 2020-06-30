@@ -184,7 +184,7 @@ const About = ({ removeCurrentAlert }) => {
               </Link>
             </div>
             <div>
-              <p>Current Release 1.0</p>
+              <p>Current Release 1.1</p>
             </div>
           </div>
         </div>

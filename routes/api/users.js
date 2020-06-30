@@ -92,6 +92,13 @@ router.delete('/', auth, async (req, res) => {
       users: { $elemMatch: { user_id: req.user.id } },
     });
 
+    // const posts = await Post.find({user: req.user.id, schedule: schedules[i]._id});
+    //   if (posts){
+    //     for (var j = 0; j < posts.length; j++) {
+    //       await posts[i].remove();
+    //     }
+    //   }
+
     //go through all schedules the user was apart of
     for (var i = 0; i < schedules.length; i++) {
       var usersArray = [];

@@ -30,7 +30,15 @@ const CommentItem = ({ comment, postId, auth, deleteComment }) => {
               variant="contained"
               size="medium"
               color="primary"
-              onClick={() => deleteComment(postId, comment._id)}
+              onClick={() => {
+                if (
+                  window.confirm(
+                    'Are you sure you would like to delete this comment? This cannot be undone'
+                  )
+                ) {
+                  deleteComment(postId, comment._id);
+                }
+              }}
               id="comment-button"
             >
               <i className="fas fa-times" />

@@ -23,6 +23,7 @@
 
   /* prevents text overflow */
   word-wrap: break-word;
+  white-space: nowrap;
   min-width: 1%;
 }
 

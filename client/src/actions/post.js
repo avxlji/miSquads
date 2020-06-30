@@ -75,7 +75,7 @@ export const deletePost = (id) => async (dispatch) => {
       payload: id,
     });
 
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(setAlert('Post Removed', 'error'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -92,7 +92,6 @@ export const addPost = (formData, scheduleId) => async (dispatch) => {
     },
   };
   try {
-    console.log(formData);
     const res = await axios.post(`/api/posts/${scheduleId}`, formData, config);
 
     dispatch({

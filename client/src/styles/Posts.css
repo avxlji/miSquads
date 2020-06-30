@@ -1,5 +1,6 @@
 #posts {
   width: 50%;
+  max-width: 100rem;
   margin: auto;
   margin-top: 2rem;
 }
@@ -21,6 +22,7 @@
   color: #aaaaaa;
   font-size: 0.7rem;
   white-space: nowrap;
+  margin-left: 0.5rem;
 }
 
 .post-name {
@@ -33,6 +35,7 @@
 
 .post-body {
   margin: 0.7rem 0rem;
+  word-wrap: break-word;
 }
 
 .like-button {
@@ -84,10 +87,9 @@
   font-size: 0.8rem;
 }
 
-#number-of-likes {
-  color: #ff4136;
-  text-shadow: 1px 1px 2.5px black;
-  transition: 0.5s;
+.number-of-likes {
+  color: #001f3f;
+  font-size: 0.7rem;
 }
 
 @media only screen and (max-width: 924px) {
@@ -104,12 +106,18 @@
 
 @media only screen and (max-width: 700px) {
   #posts {
+    width: 25rem;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  #posts {
     width: 20rem;
   }
 }
 
-@media only screen and (max-width: 460px) {
+@media only screen and (max-width: 420px) {
   #posts {
-    width: 14rem;
+    width: 80%;
   }
 }

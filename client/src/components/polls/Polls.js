@@ -103,11 +103,11 @@ const Polls = ({
                         <FormControlLabel
                           value={choice.choiceName}
                           control={<Radio />}
-                          defaultChecked={choice.votes.map((vote) =>
-                            vote.user_id.toString() === auth.user._id
-                              ? true
-                              : false
-                          )}
+                          // defaultChecked={choice.votes.map((vote) =>
+                          //   vote.user_id.toString() === auth.user._id
+                          //     ? true
+                          //     : false
+                          // )}
                           label={choice.choiceName}
                         />
                       ))}

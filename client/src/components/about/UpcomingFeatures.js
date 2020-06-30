@@ -49,7 +49,7 @@ const UpcomingFeatures = () => {
                 </TableCell>
                 <TableCell align="right"> Forget Password Email</TableCell>
               </TableRow>
-
+              {/* 
               <TableRow key="3">
                 <TableCell component="th" scope="row">
                   TBA
@@ -58,7 +58,7 @@ const UpcomingFeatures = () => {
                   {' '}
                   Leave personalized notes for squad-mates
                 </TableCell>
-              </TableRow>
+              </TableRow> */}
 
               <TableRow key="4">
                 <TableCell component="th" scope="row">

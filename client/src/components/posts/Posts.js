@@ -47,14 +47,6 @@ const Posts = ({
     setCurrentPage(value);
   };
 
-  /* start toggle comments display */
-  // const [showCommentForm, setShowCommentForm] = useState(false);
-
-  // const toggleCommentFormDisplay = () => {
-  //   setShowCommentForm(!showCommentForm);
-  // };
-  /* end toggle comments display */
-
   return loading ? (
     <Spinner />
   ) : (
@@ -98,14 +90,9 @@ const Posts = ({
                   type="button"
                   className="like-button"
                 >
-                  <i
-                    class="fas fa-heart"
-                    id={post.likes.map(
-                      (like) =>
-                        like.user.toString() === auth.user._id.toString() &&
-                        'number-of-likes'
-                    )}
-                  ></i>{' '}
+                  <span className="number-of-likes">
+                    <i class="fas fa-thumbs-up"></i>
+                  </span>{' '}
                   <span className="number-of-likes-text">
                     {post.likes.length}
                   </span>

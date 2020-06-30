@@ -92,7 +92,6 @@ const ScheduleInfo = ({
           {events !== null && events.length && events !== undefined ? (
             events.map((currentEvent, index) => (
               <>
-                {console.log(events)}
                 <Divider />
                 <Typography key={index} id="single-event-typography">
                   <p>{currentEvent.title}</p>

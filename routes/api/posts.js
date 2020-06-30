@@ -20,7 +20,6 @@ router.post(
     }
 
     try {
-      console.log('reached');
       const user = await User.findById(req.user.id).select('-password');
 
       const schedule = await Schedule.findById(req.params.scheduleId);
@@ -40,8 +39,6 @@ router.post(
         user: req.user.id,
         schedule: schedule._id,
       });
-
-      console.log(newPost);
 
       const post = await newPost.save();
 

@@ -185,28 +185,6 @@ class EditEvent extends Component {
   }
 
   convertToMilitaryTime = (time) => {
-    // var hour;
-    // var min;
-    // var militaryTime;
-
-    // time = time.toLowerCase();
-
-    // var isPm = time.includes("pm");
-
-    // var timeArray = time.split(":");
-
-    // if (isPm) {
-    //   hour = 12 + parseInt(timeArray[0], 10);
-    //   min = timeArray[1].replace("pm", "");
-    // } else {
-    //   hour = parseInt(timeArray[0], 10);
-    //   min = timeArray[1].replace("am", "");
-    // }
-
-    // militaryTime = hour.toString() + ":" + min + ":00";
-    // console.log("military time: " + militaryTime);
-    // return militaryTime;
-
     var militaryTime = moment(time, 'hh:mm a').format('HH:mm') + ':00';
     return militaryTime;
   };

@@ -94,7 +94,7 @@ class Schedule extends Component {
       editEventAllDay: false,
       editEventPrefill: null,
       incorrectEntry: false,
-      centeredTabsValue: 2,
+      centeredTabsValue: 0,
       currentPostsPageNumber: 1,
     };
     //bind function to current component context
@@ -623,7 +623,6 @@ class Schedule extends Component {
                     >
                       <Tab label="Schedule" />
                       <Tab label="Posts" />
-                      <Tab label="Polls" />
                     </Tabs>
                   </Paper>
                 </Fade>
@@ -906,7 +905,7 @@ class Schedule extends Component {
                   </>
                 )}
 
-                {this.state.centeredTabsValue === 2 && (
+                {/* {this.state.centeredTabsValue === 2 && (
                   <>
                     {this.state.currentSchedule !== null && (
                       <Polls
@@ -915,7 +914,7 @@ class Schedule extends Component {
                       />
                     )}
                   </>
-                )}
+                )} */}
 
                 <Fade duration="500">
                   {' '}

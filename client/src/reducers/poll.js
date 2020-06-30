@@ -21,7 +21,6 @@ export default function (state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case GET_POLLS:
-      console.log(payload);
       return {
         ...state,
         polls: payload,
