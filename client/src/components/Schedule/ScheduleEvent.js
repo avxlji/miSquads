@@ -83,6 +83,7 @@ const ScheduleTest = ({
               variant="contained"
               size="medium"
               color="primary"
+              style={{ backgroundColor: '#001f3f' }}
               onClick={() => deleteTriggeredEvent(scheduleId, id, history)}
             >
               Delete Plan
