@@ -12,6 +12,13 @@
   width: 50%;
 }
 
+#add-event-checkbox-container {
+  transform: translateX(-0.75rem);
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
 #add-event-container > div {
   margin: 0rem 2rem 2rem 0;
 }

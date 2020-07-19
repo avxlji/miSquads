@@ -14,6 +14,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class AddEvent extends Component {
   state = {
@@ -476,6 +477,16 @@ class AddEvent extends Component {
                     //required
                   />
                 </div>
+
+                {/* <div id="add-event-checkbox-container">
+                  <Checkbox
+                    // checked={this.state.allDaySelected}
+                    // onChange={this.toggleAllDay}
+                    style={{ color: '#001f3f' }}
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  ></Checkbox>
+                  <p>Switch to an all day event</p>
+                </div> */}
 
                 <div>
                   <Button
