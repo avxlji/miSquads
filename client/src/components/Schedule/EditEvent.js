@@ -14,6 +14,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class EditEvent extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class EditEvent extends Component {
       error: false,
       scheduleId: this.props.scheduleId,
       memo: this.props.editEventPrefill.memo,
+      allDaySelected: false,
     };
   }
 
@@ -143,6 +145,9 @@ class EditEvent extends Component {
 
     if (startTime.includes('pm')) {
       startTimeHours = parseInt(splitStartTime[0]) + timeOffset;
+    } else if (parseInt(splitStartTime[0]) === 12 && startTime.includes('am')) {
+      //midnight
+      startTimeHours = 0;
     } else {
       startTimeHours = parseInt(splitStartTime[0]);
     }
@@ -211,6 +216,12 @@ class EditEvent extends Component {
     return militaryTime;
   };
 
+  toggleAllDay = () => {
+    this.setState({
+      allDaySelected: !this.state.allDaySelected,
+    });
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
     if (this.checkYearFormat(this.state.year) == '20') {
@@ -221,7 +232,41 @@ class EditEvent extends Component {
           this.state.day
         )
       ) {
-        if (this.state.starttime) {
+        if (this.state.allDaySelected) {
+          /* testing allDay feature */
+
+          console.log(
+            'running targetrunning targetrunning targetrunning targetrunning targetrunning targetrunning target'
+          );
+
+          const formattedStartTime =
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
+
+          const formattedEndTime =
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
+
+          const newItem = {
+            title: this.state.name,
+            allDay: true,
+            start: formattedStartTime,
+            end: formattedEndTime,
+            memo: this.state.memo,
+          };
+
+          //add item via updateEvent action
+          this.props.updateEvent(
+            this.props.scheduleId,
+            this.props.eventId,
+            newItem,
+            this.props.history
+          );
+
+          this.demoMethod(newItem);
+        } else if (this.state.starttime) {
+          // console.log(this.state.starttime);
+          // console.log(
+          //   'running targetrunning targetrunning targetrunning targetrunning targetrunning targetrunning target'
+          // );
           if (this.isValidTime(this.state.starttime)) {
             if (this.state.endtime) {
               if (this.state.endtime !== '12:00am') {
@@ -295,36 +340,8 @@ class EditEvent extends Component {
             //3
             alert('Invalid start time format');
           }
-        } else if (this.state.starttime == '' && this.state.endtime == '') {
-          /* testing allDay feature */
-
-          const formattedStartTime =
-            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
-
-          const formattedEndTime =
-            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
-
-          const newItem = {
-            title: this.state.name,
-            allDay: true,
-            start: formattedStartTime,
-            end: formattedEndTime,
-          };
-
-          //add item via updateEvent action
-          this.props.updateEvent(
-            this.props.scheduleId,
-            this.props.eventId,
-            newItem,
-            this.props.history
-          );
-
-          this.demoMethod(newItem);
-
-          //closes modal
-          this.toggle();
         } else {
-          alert('Invalid Time Entry');
+          alert('Invalid entry');
         }
       }
     }
@@ -459,30 +476,33 @@ class EditEvent extends Component {
                 Leave Both the Start Time and End Time empty if the booking is a
                 full day event
               </label> */}
+                {!this.state.allDaySelected && (
+                  <>
+                    <div>
+                      <TextField
+                        id="outlined-basic"
+                        label="Start Time"
+                        type="text"
+                        name="starttime"
+                        placeholder="Ex. 8:00am, 9:30pm"
+                        onChange={this.onChange}
+                        required
+                      />
+                    </div>
 
-                <div>
-                  <TextField
-                    id="outlined-basic"
-                    label="Start Time"
-                    type="text"
-                    name="starttime"
-                    placeholder="Ex. 8:00am, 9:30pm"
-                    onChange={this.onChange}
-                    required
-                  />
-                </div>
-
-                <div id="yeet">
-                  <TextField
-                    id="outlined-basic"
-                    label="End Time"
-                    type="text"
-                    name="endtime"
-                    placeholder="Ex. 6am, 8pm, 9:30pm"
-                    onChange={this.onChange}
-                    required
-                  />
-                </div>
+                    <div>
+                      <TextField
+                        id="outlined-basic"
+                        label="End Time"
+                        type="text"
+                        name="endtime"
+                        placeholder="Ex. 6am, 8pm, 9:30pm"
+                        onChange={this.onChange}
+                        required
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div>
                   <TextField
@@ -497,6 +517,16 @@ class EditEvent extends Component {
                     onChange={this.onChange}
                     //required
                   />
+                </div>
+
+                <div id="edit-event-checkbox-container">
+                  <Checkbox
+                    checked={this.state.allDaySelected}
+                    onChange={this.toggleAllDay}
+                    style={{ color: '#001f3f' }}
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  ></Checkbox>
+                  <p>Switch to an all day event</p>
                 </div>
 
                 <div id="edit-event-buttons-container">

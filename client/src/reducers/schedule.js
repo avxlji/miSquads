@@ -20,6 +20,7 @@ export default function (state = initialState, action) {
     case GET_SCHEDULE:
     case ADD_EVENT:
     case CREATE_SCHEDULE:
+      console.log(payload);
       return {
         ...state,
         schedule: payload,

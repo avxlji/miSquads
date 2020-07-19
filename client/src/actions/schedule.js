@@ -12,14 +12,16 @@ import { body } from 'express-validator';
 import { loadUser } from './auth';
 
 export const getSchedule = (id) => (dispatch) => {
+  console.log(id);
   axios
     .get(`/api/schedule/${id}`)
-    .then((res) =>
+    .then(function (res) {
+      console.log(res.data);
       dispatch({
         type: GET_SCHEDULE,
         payload: res.data, //sending schedule as payload to reducer
-      })
-    )
+      });
+    })
     .catch((err) => {
       console.log(err.message);
     });
