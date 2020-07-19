@@ -131,6 +131,9 @@ class AddEvent extends Component {
 
     if (startTime.includes('pm')) {
       startTimeHours = parseInt(splitStartTime[0]) + timeOffset;
+    } else if (parseInt(splitStartTime[0]) === 12 && startTime.includes('am')) {
+      //midnight
+      startTimeHours = 0;
     } else {
       startTimeHours = parseInt(splitStartTime[0]);
     }
