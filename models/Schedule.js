@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ScheduleSchema = new mongoose.Schema({
   scheduleName: {
@@ -9,11 +9,16 @@ const ScheduleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  admin_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: false,
+  },
   users: [
     {
       user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: 'user',
       },
       user_name: {
         type: String,
@@ -55,6 +60,6 @@ const ScheduleSchema = new mongoose.Schema({
   },
 });
 
-const Schedule = mongoose.model("schedule", ScheduleSchema);
+const Schedule = mongoose.model('schedule', ScheduleSchema);
 
 module.exports = Schedule;

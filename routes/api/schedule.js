@@ -105,6 +105,7 @@ router.post(
       //create a new schedule and set the user sending the request as the first user
       const newSchedule = new Schedule({
         roomKey: req.body.roomKey,
+        // adminId: req.user.id,
         scheduleName: req.body.scheduleName,
         users: [{ user_id: req.user.id, user_name: promptedUser.name }],
       });
