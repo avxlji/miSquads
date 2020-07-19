@@ -28,6 +28,7 @@ class AddEvent extends Component {
     submitting: false,
     error: false,
     memo: '',
+    allDaySelected: false,
   };
 
   toggle = () => {
@@ -203,6 +204,12 @@ class AddEvent extends Component {
     return militaryTime;
   };
 
+  toggleAllDay = () => {
+    this.setState({
+      allDaySelected: !this.state.allDaySelected,
+    });
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
     if (this.checkYearFormat(this.state.year) == '20') {
@@ -213,7 +220,34 @@ class AddEvent extends Component {
           this.state.day
         )
       ) {
-        if (this.state.starttime) {
+        if (this.state.allDaySelected) {
+          const formattedStartTime =
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
+
+          const formattedEndTime =
+            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
+
+          const newItem = {
+            title: this.state.name,
+            allDay: true,
+            start: formattedStartTime,
+            end: formattedEndTime,
+            memo: this.state.memo,
+          };
+
+          //add item via addEvent action
+          this.props.addEvent(
+            this.props.scheduleId,
+            newItem,
+            this.props.history
+          );
+
+          //function in Schedule.js
+          this.props.closeAndClearAddEvent();
+
+          //closes modal
+          this.toggle();
+        } else if (this.state.starttime) {
           if (this.isValidTime(this.state.starttime)) {
             if (this.state.endtime) {
               if (this.state.endtime !== '12:00am') {
@@ -291,38 +325,9 @@ class AddEvent extends Component {
             //3
             alert('Invalid start time format');
           }
-        } else if (this.state.starttime === '' && this.state.endtime === '') {
-          const formattedStartTime =
-            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
-
-          const formattedEndTime =
-            this.state.month + ' ' + this.state.day + ', ' + this.state.year;
-
-          const newItem = {
-            title: this.state.name,
-            allDay: true,
-            start: formattedStartTime,
-            end: formattedEndTime,
-            memo: this.state.memo,
-          };
-
-          //add item via addEvent action
-          this.props.addEvent(
-            this.props.scheduleId,
-            newItem,
-            this.props.history
-          );
-
-          //function in Schedule.js
-          this.props.closeAndClearAddEvent();
-
-          //closes modal
-          this.toggle();
-        } else {
-          alert('Invalid Time Entry');
         }
       } else {
-        this.props.setAlert('invalid date', 'error');
+        this.props.setAlert('Invalid date', 'error');
       }
     }
   };
@@ -440,29 +445,33 @@ class AddEvent extends Component {
                 full day event
               </label> */}
 
-                <div>
-                  <TextField
-                    id="outlined-basic"
-                    label="Start Time"
-                    type="text"
-                    name="starttime"
-                    placeholder="Ex. 8:00am, 9:30pm"
-                    onChange={this.onChange}
-                    //required
-                  />
-                </div>
+                {!this.state.allDaySelected && (
+                  <>
+                    <div>
+                      <TextField
+                        id="outlined-basic"
+                        label="Start Time"
+                        type="text"
+                        name="starttime"
+                        placeholder="Ex. 8:00am, 9:30pm"
+                        onChange={this.onChange}
+                        required
+                      />
+                    </div>
 
-                <div>
-                  <TextField
-                    id="outlined-basic"
-                    label="End Time"
-                    type="text"
-                    name="endtime"
-                    placeholder="Ex. 6am, 8pm, 9:30pm"
-                    onChange={this.onChange}
-                    //required
-                  />
-                </div>
+                    <div>
+                      <TextField
+                        id="outlined-basic"
+                        label="End Time"
+                        type="text"
+                        name="endtime"
+                        placeholder="Ex. 6am, 8pm, 9:30pm"
+                        onChange={this.onChange}
+                        required
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div>
                   <TextField
@@ -478,15 +487,15 @@ class AddEvent extends Component {
                   />
                 </div>
 
-                {/* <div id="add-event-checkbox-container">
+                <div id="add-event-checkbox-container">
                   <Checkbox
-                    // checked={this.state.allDaySelected}
-                    // onChange={this.toggleAllDay}
+                    checked={this.state.allDaySelected}
+                    onChange={this.toggleAllDay}
                     style={{ color: '#001f3f' }}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                   ></Checkbox>
                   <p>Switch to an all day event</p>
-                </div> */}
+                </div>
 
                 <div>
                   <Button
