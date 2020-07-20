@@ -483,6 +483,7 @@ class EditEvent extends Component {
                         id="outlined-basic"
                         label="Start Time"
                         type="text"
+                        value={this.state.starttime}
                         name="starttime"
                         placeholder="Ex. 8:00am, 9:30pm"
                         onChange={this.onChange}
@@ -495,6 +496,7 @@ class EditEvent extends Component {
                         id="outlined-basic"
                         label="End Time"
                         type="text"
+                        value={this.state.endtime}
                         name="endtime"
                         placeholder="Ex. 6am, 8pm, 9:30pm"
                         onChange={this.onChange}

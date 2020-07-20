@@ -208,6 +208,18 @@ class AddEvent extends Component {
     this.setState({
       allDaySelected: !this.state.allDaySelected,
     });
+
+    if (this.state.starttime) {
+      this.setState({
+        starttime: !this.state.starttime,
+      });
+    }
+
+    if (this.state.endtime) {
+      this.setState({
+        endttime: !this.state.endtime,
+      });
+    }
   };
 
   onSubmit = (e) => {
