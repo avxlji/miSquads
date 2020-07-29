@@ -2,9 +2,11 @@
 
 > Tool that keeps everyone on your team on the same page.
 
-## Usage
+![](read_me_assets/landing.png) ![](read_me_assets/schedule.png)
 
-Upcoming features: Creating interactive posts within your squad (likes, comments, polls), customizable team colors, and more!
+## Upcoming features
+
+Creating interactive posts within your squad (likes, comments, polls), customizable team colors, and more!
 
 ## Usage
 
