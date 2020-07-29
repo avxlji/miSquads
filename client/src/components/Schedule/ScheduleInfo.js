@@ -82,7 +82,6 @@ const ScheduleInfo = ({
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails id="expansion-events-panel">
-          {console.log(events, 'from schedule info')}
           {events !== null && events.length && events !== undefined ? (
             events.map((currentEvent, index) => (
               <>

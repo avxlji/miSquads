@@ -235,10 +235,6 @@ class EditEvent extends Component {
         if (this.state.allDaySelected) {
           /* testing allDay feature */
 
-          console.log(
-            'running targetrunning targetrunning targetrunning targetrunning targetrunning targetrunning target'
-          );
-
           const formattedStartTime =
             this.state.month + ' ' + this.state.day + ', ' + this.state.year;
 

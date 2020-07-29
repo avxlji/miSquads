@@ -29,7 +29,6 @@ router.get('/:schedule_id', auth, async (req, res) => {
     }
 
     if (verifiedUser) {
-      console.log(schedule, 'from server');
       res.json(schedule);
     } else {
       console.log('unverified');
