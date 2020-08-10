@@ -1,4 +1,4 @@
 node_modules/
 .history/
 .env
-**/.DS_Store
+client/.DS_Store
