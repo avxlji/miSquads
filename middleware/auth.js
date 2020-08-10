@@ -21,7 +21,7 @@ module.exports = function (req, res, next) {
     req.user = decoded.user; //set user id equal to decoded jwt user id
     next();
   } catch (err) {
-    console.error('something wrong with auth middleware');
+    console.error('Invalid auth');
     res.status(401).json({ msg: 'Token is not valid' });
   }
 };
